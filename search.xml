@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>%2F2018%2F02%2F26%2F%E9%9A%8F%E7%AC%94%2F</url>
+    <content type="text"><![CDATA[随笔两则 故里・故人 在远方的一方，树底坐着一位故人，她在树底眺望，她把目光投向远方的远方。她把爱裁剪成最契合的模样，嵌进了最平凡的话语。在远方的一方，羊肠小径上站着一位故人。她在小径凝望，她把目光投向远方的远方。她把温暖缝进衣衫，埋进最深的心底。 在远方的一方，住着我的故人。那远方的远方，是我的故里。那故里的故人，是我的故人。 初心 捡起一段坚韧的丝线，串起断线的曾经。抓住夏的尾巴，将时钟拨到最初。夏花灿烂那时，是我们的开始。贪念着空气里的丝丝香甜，就这样静静地，静静地望着你。截一段甜到发稠的岁月，缓缓流淌在时光里。折一只小船，轻轻飘荡到你的心房。小船轻触你内心的柔软，扒开你坚硬的外壳。 原来你是最初的心动，是夏日最绵软的清风。我想如果我爱你，可是我发现不是如果，我一直都在爱你。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[Hello World]]></title>
     <url>%2F2018%2F02%2F26%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+    <content type="text"><![CDATA[Welcome to taoist’s blog! Hello,World!]]></content>
   </entry>
 </search>

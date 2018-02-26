@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>XiaoTaoist&#39;s Blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2018-02-26T12:01:09.661Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>taoist</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2018/02/26/%E9%9A%8F%E7%AC%94/"/>
+    <id>http://yoursite.com/2018/02/26/随笔/</id>
+    <published>2018-02-26T12:01:09.664Z</published>
+    <updated>2018-02-26T12:01:09.661Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;随笔两则&quot;&gt;&lt;a href=&quot;#随笔两则&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2018/02/26/hello-world/"/>
+    <id>http://yoursite.com/2018/02/26/hello-world/</id>
+    <published>2018-02-26T11:59:03.722Z</published>
+    <updated>2018-02-26T11:59:03.709Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Welcome to taoist’s blog!
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
