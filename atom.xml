@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-02-26T12:01:09.661Z</updated>
+  <updated>2018-02-28T10:20:15.834Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/02/26/%E9%9A%8F%E7%AC%94/"/>
-    <id>http://yoursite.com/2018/02/26/随笔/</id>
-    <published>2018-02-26T12:01:09.664Z</published>
-    <updated>2018-02-26T12:01:09.661Z</updated>
+    <title>Vimium 入门</title>
+    <link href="http://yoursite.com/2018/02/28/Vimium-use/"/>
+    <id>http://yoursite.com/2018/02/28/Vimium-use/</id>
+    <published>2018-02-28T09:09:00.000Z</published>
+    <updated>2018-02-28T10:20:15.834Z</updated>
     
     <summary type="html">
     
@@ -29,21 +29,28 @@
       
         
         
-          &lt;h1 id=&quot;随笔两则&quot;&gt;&lt;a href=&quot;#随笔两则&quot; class=&quot;headerlink&quot;
+          &lt;p&gt;========================&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/vimium.png&quot; alt=&quot;vim&quot;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;页内浏览
         
       
     
     </summary>
     
+      <category term="Tools" scheme="http://yoursite.com/categories/Tools/"/>
+    
+    
+      <category term="基础" scheme="http://yoursite.com/tags/%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2018/02/26/hello-world/"/>
-    <id>http://yoursite.com/2018/02/26/hello-world/</id>
-    <published>2018-02-26T11:59:03.722Z</published>
-    <updated>2018-02-26T11:59:03.709Z</updated>
+    <title>随笔・一</title>
+    <link href="http://yoursite.com/2018/02/16/suinian/"/>
+    <id>http://yoursite.com/2018/02/16/suinian/</id>
+    <published>2018-02-15T17:09:01.000Z</published>
+    <updated>2018-02-28T10:19:44.590Z</updated>
     
     <summary type="html">
     
@@ -51,12 +58,18 @@
       
         
         
-          &lt;p&gt;Welcome to taoist’s blog!
+          &lt;p&gt;===========================&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/suisuinian.png&quot; alt=&quot;love&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;初心&lt;/strong&gt; 
         
       
     
     </summary>
     
+      <category term="生活" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="随笔" scheme="http://yoursite.com/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
