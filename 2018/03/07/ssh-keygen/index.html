@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Category: 生活 | XiaoTaoist&#39;s Blog</title>
+  <title>SSH免密登录 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/categories/生活/index.html">
+  <meta name="description" content="========================  SSH单密钥配置 生成ssh密钥文件 ssh-keygen -t ecdsa -b 521 1234-t 为指定加密算法类型，支持rsa，dsa，ecdsa-b 指定密钥大小，ecdsa算法默认大小为256位ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高    如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车ssh-ke">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH免密登录">
+<meta property="og:url" content="http://yoursite.com/2018/03/07/ssh-keygen/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="========================  SSH单密钥配置 生成ssh密钥文件 ssh-keygen -t ecdsa -b 521 1234-t 为指定加密算法类型，支持rsa，dsa，ecdsa-b 指定密钥大小，ecdsa算法默认大小为256位ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高    如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车ssh-ke">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-07T06:16:48.047Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="SSH免密登录">
+<meta name="twitter:description" content="========================  SSH单密钥配置 生成ssh密钥文件 ssh-keygen -t ecdsa -b 521 1234-t 为指定加密算法类型，支持rsa，dsa，ecdsa-b 指定密钥大小，ecdsa算法默认大小为256位ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高    如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车ssh-ke">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -152,71 +157,213 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ssh-keygen" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/16/suinian/" class="archive-article-date">
-  	<time datetime="2018-02-15T17:09:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-16</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/16/suinian/">随笔・一</a>
+    <h1 class="article-title" itemprop="name">
+      SSH免密登录
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/03/07/ssh-keygen/" class="archive-article-date">
+  	<time datetime="2018-03-07T01:37:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>========================</p>
+<hr>
+<h2 id="SSH单密钥配置"><a href="#SSH单密钥配置" class="headerlink" title="SSH单密钥配置"></a>SSH单密钥配置</h2><ul>
+<li>生成ssh密钥文件<blockquote>
+<p>ssh-keygen -t ecdsa -b 521</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t 为指定加密算法类型，支持rsa，dsa，ecdsa</span><br><span class="line">-b 指定密钥大小，ecdsa算法默认大小为256位</span><br><span class="line"></span><br><span class="line">ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<p>如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车<br>ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。</p>
+<ul>
+<li>将公钥上传到远程服务器<blockquote>
+<p>ssh-copy-id  username@remote_ip</p>
+</blockquote>
+</li>
+</ul>
+<p>ssh-copy-id会将你的刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中</p>
+<ul>
+<li>测试<blockquote>
+<p>ssh username@remote_ip</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="SSH多密钥配置"><a href="#SSH多密钥配置" class="headerlink" title="SSH多密钥配置"></a>SSH多密钥配置</h2><ul>
+<li><p>生成密钥</p>
+<blockquote>
+<p>ssh-keygen -t ecdsa -b 521 -f  ~/.ssh/one   -C “remote_ip”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-f 指定生成密钥保存位置与名称 建议放到 $HOME/.ssh/目录下</span><br><span class="line">-C 添加注释，类如邮箱，远程主机IP，用户名之类，默认为本机主机名和用户</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>将公钥上传到远程服务器</p>
+<blockquote>
+<p>ssh-copy-id  -i ~/.ssh/one.pub username@remote_ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-i 指定上传公钥名称</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>创建SSH配置文件来管理多组密钥</p>
+<blockquote>
+<p>vim ~/.ssh/config </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host remote_ip1</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/one</span><br><span class="line">Host remote_ip2</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/two</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>Host后面写: 远程主机ip地址<br>IdentityFile后面写 你创建的密钥位置与名称</p>
+</blockquote>
+<ul>
+<li>测试<blockquote>
+<p>ssh username@remote_ip</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p>将本地文件上传到远程主机</p>
+<blockquote>
+<p>scp local_file remote_username@remote_ip:remote_folder  </p>
+</blockquote>
+</li>
+<li><p>将远程主机中的文件下载到本地</p>
+<blockquote>
+<p>scp remote_username@remote_ip:remote_file   local_folder</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://wiki.archlinux.org/index.php/SSH_keys" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/SSH_keys</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/生活//" class="article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/03/07/ssh-keygen/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/03/02/backdoor-apk/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">生成apk后门实现msf控制安卓手机</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -239,10 +386,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
@@ -315,6 +462,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">效率</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Web</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -365,7 +528,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="https://MiniFullC.github.io" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>MiniFullC</a>
             </li>
           
         </ul>

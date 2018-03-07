@@ -154,6 +154,147 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-ssh-keygen" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/07/ssh-keygen/">SSH免密登录</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/07/ssh-keygen/" class="archive-article-date">
+  	<time datetime="2018-03-07T01:37:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>========================</p>
+<hr>
+<h2 id="SSH单密钥配置"><a href="#SSH单密钥配置" class="headerlink" title="SSH单密钥配置"></a>SSH单密钥配置</h2><ul>
+<li>生成ssh密钥文件<blockquote>
+<p>ssh-keygen -t ecdsa -b 521</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t 为指定加密算法类型，支持rsa，dsa，ecdsa</span><br><span class="line">-b 指定密钥大小，ecdsa算法默认大小为256位</span><br><span class="line"></span><br><span class="line">ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<p>如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车<br>ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。</p>
+<ul>
+<li>将公钥上传到远程服务器<blockquote>
+<p>ssh-copy-id  username@remote_ip</p>
+</blockquote>
+</li>
+</ul>
+<p>ssh-copy-id会将你的刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中</p>
+<ul>
+<li>测试<blockquote>
+<p>ssh username@remote_ip</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="SSH多密钥配置"><a href="#SSH多密钥配置" class="headerlink" title="SSH多密钥配置"></a>SSH多密钥配置</h2><ul>
+<li><p>生成密钥</p>
+<blockquote>
+<p>ssh-keygen -t ecdsa -b 521 -f  ~/.ssh/one   -C “remote_ip”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-f 指定生成密钥保存位置与名称 建议放到 $HOME/.ssh/目录下</span><br><span class="line">-C 添加注释，类如邮箱，远程主机IP，用户名之类，默认为本机主机名和用户</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>将公钥上传到远程服务器</p>
+<blockquote>
+<p>ssh-copy-id  -i ~/.ssh/one.pub username@remote_ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-i 指定上传公钥名称</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>创建SSH配置文件来管理多组密钥</p>
+<blockquote>
+<p>vim ~/.ssh/config </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host remote_ip1</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/one</span><br><span class="line">Host remote_ip2</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/two</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>Host后面写: 远程主机ip地址<br>IdentityFile后面写 你创建的密钥位置与名称</p>
+</blockquote>
+<ul>
+<li>测试<blockquote>
+<p>ssh username@remote_ip</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p>将本地文件上传到远程主机</p>
+<blockquote>
+<p>scp local_file remote_username@remote_ip:remote_folder  </p>
+</blockquote>
+</li>
+<li><p>将远程主机中的文件下载到本地</p>
+<blockquote>
+<p>scp remote_username@remote_ip:remote_file   local_folder</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://wiki.archlinux.org/index.php/SSH_keys" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/SSH_keys</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/07/ssh-keygen/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-backdoor-apk" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -237,6 +378,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -363,24 +515,13 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Tools</a>
         		</li>
       		
 		</ul>
 	</div>
 
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Tools//" class="article-tag-list-link color1">Tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
         <p class="article-more-link">
@@ -461,17 +602,6 @@
 	</div>
 
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/生活//" class="article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
         <p class="article-more-link">
@@ -604,6 +734,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">效率</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Web</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -654,7 +800,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="https://MiniFullC.github.io" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>MiniFullC</a>
             </li>
           
         </ul>
