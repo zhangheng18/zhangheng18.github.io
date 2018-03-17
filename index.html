@@ -154,6 +154,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-aircrack-hashcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/15/aircrack-hashcat/">使用Aircrack&amp;hashcat破解WPA/WPA2</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/15/aircrack-hashcat/" class="archive-article-date">
+  	<time datetime="2018-03-15T11:45:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>====================</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
+<ul>
+<li>aircrack-ng:<br><a href="https://www.aircrack-ng.org/doku.php" target="_blank" rel="noopener">aircrack-ng</a>是目前最热门的WiFi破解领域的软件。Aircrack-ng 套件包含的工具能够捕捉数据包和握手包，生成通信数据，或进行暴力破解攻击以及字典攻击。</li>
+<li>hashcat:<br><a href="https://hashcat.net/wiki/" target="_blank" rel="noopener">hashcat</a>支持N多种算法，充分利用GPU性能，是目前最快的利用GPU破解Hash的软件。</li>
+<li>USB无线网卡:<br>推荐3070，8187，便宜好用（某宝十几块钱就能买到）,当然笔记本自带的无线网卡也可以。</li>
+</ul>
+<p>由于hashcat使用GPU破解，因此需要安装依赖，<code>sudo pacman -S ocl-icd opencl-nvidia</code>,执行<br><code>sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; ON</code>以让CUDA程序使用英伟达独立显卡。</p>
+        
+          <a class="article-more-a" href="/2018/03/15/aircrack-hashcat/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">WiFi</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/15/aircrack-hashcat/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-oh-my-zsh" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -785,7 +868,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -798,6 +881,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
