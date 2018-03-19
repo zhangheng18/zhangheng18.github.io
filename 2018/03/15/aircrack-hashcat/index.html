@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>使用Aircrack&amp;hashcat破解WPA/WPA2 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
+  <meta name="description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡_settings_and_load_them_on_Startup)，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircr">
 <meta name="keywords" content="WiFi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Aircrack&amp;hashcat破解WPA&#x2F;WPA2">
 <meta property="og:url" content="http://yoursite.com/2018/03/15/aircrack-hashcat/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
+<meta property="og:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡_settings_and_load_them_on_Startup)，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircr">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/img/hashcat.png">
 <meta property="og:image" content="http://yoursite.com/img/aircrack_mon.png">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="http://yoursite.com/img/cap2hccapx.png">
 <meta property="og:image" content="http://yoursite.com/img/hashcat_gpu.png">
 <meta property="og:image" content="http://yoursite.com/img/hashcat_pro.png">
-<meta property="og:updated_time" content="2018-03-17T12:55:29.453Z">
+<meta property="og:updated_time" content="2018-03-19T10:06:29.061Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Aircrack&amp;hashcat破解WPA&#x2F;WPA2">
-<meta name="twitter:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
+<meta name="twitter:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡_settings_and_load_them_on_Startup)，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircr">
 <meta name="twitter:image" content="http://yoursite.com/img/hashcat.png">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
@@ -188,7 +188,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>====================</p>
-<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这里假定你用的是Manjaro Linux 系统，<a href="https://wiki.manjaro.org/index.php?title=Configure_NVIDIA_(non-free" target="_blank" rel="noopener">配置好独立显卡</a>_settings_and_load_them_on_Startup)，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
 <ul>
 <li>aircrack-ng:<br><a href="https://www.aircrack-ng.org/doku.php" target="_blank" rel="noopener">aircrack-ng</a>是目前最热门的WiFi破解领域的软件。Aircrack-ng 套件包含的工具能够捕捉数据包和握手包，生成通信数据，或进行暴力破解攻击以及字典攻击。</li>
 <li>hashcat:<br><a href="https://hashcat.net/wiki/" target="_blank" rel="noopener">hashcat</a>支持N多种算法，充分利用GPU性能，是目前最快的利用GPU破解Hash的软件。</li>
@@ -254,11 +254,11 @@
 <blockquote>
 <p>cat ～/.hashcat/hashcat.porifle<br><img src="/img/hashcat_pro.png" alt="result"><br>最后即为WiFi密码，关于hashcat高级使用方式，见<a href="http://wps2015.org/drops/drops/GPU%E7%A0%B4%E8%A7%A3%E7%A5%9E%E5%99%A8Hashcat%E4%BD%BF%E7%94%A8%E7%AE%80%E4%BB%8B.html" target="_blank" rel="noopener">wooyun</a></p>
 </blockquote>
-<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>可以看到，整个过程无非两步，第一步抓取<code>WPA handshake</code>数据包，第二步暴力破解数据文件。因此<br>可以使用更强大的工具<code>wlandump-ng</code>：一次性从附近的网络上抓取所有的 handshake 信息，而实现快速破解WiFi,详情见<a href="https://github.com/brannondorsey/wifi-cracking/blob/master/appendix.zh.md" target="_blank" rel="noopener">wifi-cracking</a><br>和<a href="https://github.com/ZerBea/hcxtools" target="_blank" rel="noopener">hcxtools</a></p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>可以看到，整个过程无非两步，第一步抓取<code>WPA handshake</code>数据包，第二步暴力破解数据文件。因此<br>可以使用更强大的工具<code>wlandump-ng</code>：一次性从附近的网络上抓取所有的 handshake 信息，而实现快速破解WiFi,详情见<a href="https://github.com/brannondorsey/wifi-cracking/blob/master/appendix.zh.md" target="_blank" rel="noopener">wifi-cracking</a>和<a href="https://github.com/ZerBea/hcxtools" target="_blank" rel="noopener">hcxtools</a></p>
 <p><strong>最大的安全隐患永远是人</strong>，优先使用WiFi万能钥匙也许会有意外惊喜(配合手机自带的WiFi分享功能，可以直接得到密码)。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://klionsec.github.io/2015/04/14/aircrack-hascat/" target="_blank" rel="noopener">https://klionsec.github.io/2015/04/14/aircrack-hascat/</a></li>
 <li><a href="https://www.bennythink.com/wifi-cracking.html" target="_blank" rel="noopener">https://www.bennythink.com/wifi-cracking.html</a></li>
+<li><a href="https://klionsec.github.io/2015/04/14/aircrack-hascat/" target="_blank" rel="noopener">https://klionsec.github.io/2015/04/14/aircrack-hascat/</a></li>
 <li><a href="http://byd.dropsec.xyz/2016/08/10/HashCat%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" target="_blank" rel="noopener">http://byd.dropsec.xyz/2016/08/10/HashCat%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</a></li>
 <li><a href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=21342&amp;highlight=wifi" target="_blank" rel="noopener">https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=21342&amp;highlight=wifi</a></li>
 </ul>
@@ -344,6 +344,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/03/19/Bumblebee/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Manjaro Linux 配置Intel与Nvidia双显卡切换
+        
+      </div>
+    </a>
   
   
     <a href="/2018/03/14/oh-my-zsh/" id="article-nav-older" class="article-nav-link-wrap">
@@ -497,15 +506,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Tools</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
