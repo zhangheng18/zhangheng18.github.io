@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
 <meta property="og:description" content="========================  SSH单密钥配置 生成ssh密钥文件 ssh-keygen -t ecdsa -b 521 1234-t 为指定加密算法类型，支持rsa，dsa，ecdsa-b 指定密钥大小，ecdsa算法默认大小为256位ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高    如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车ssh-ke">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-14T01:19:53.000Z">
+<meta property="og:updated_time" content="2018-03-31T02:21:41.844Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSH免密登录">
 <meta name="twitter:description" content="========================  SSH单密钥配置 生成ssh密钥文件 ssh-keygen -t ecdsa -b 521 1234-t 为指定加密算法类型，支持rsa，dsa，ecdsa-b 指定密钥大小，ecdsa算法默认大小为256位ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高    如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车ssh-ke">
@@ -62,7 +62,7 @@
 	        
 				<li><a href="/archives">归档</a></li>
 	        
-				<li><a href="/about">关于</a></li>
+				<li><a href="/about">关于我</a></li>
 	        
 			</ul>
 		</nav>
@@ -77,7 +77,7 @@
     			
             
     			
-    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于</a>
     			
             
 		</nav>
@@ -85,8 +85,6 @@
 			<div class="social">
 				
 					<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
-		        
-					<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
 		        
 					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 		        
@@ -127,8 +125,6 @@
 					
 						<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
-			        
 						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 			        
 				</div>
@@ -142,7 +138,7 @@
 		        
 					<li style="width: 33.333333333333336%"><a href="/archives">归档</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/about">关于</a></li>
+					<li style="width: 33.333333333333336%"><a href="/about">关于我</a></li>
 		        
 				</ul>
 			</nav>
@@ -194,13 +190,13 @@
 </li>
 </ul>
 <p>ssh-copy-id会将你刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中</p>
+<a id="more"></a>
 <ul>
 <li>测试<blockquote>
 <p>ssh username@remote_ip</p>
 </blockquote>
 </li>
 </ul>
-<a id="more"></a>
 <h2 id="SSH多密钥配置"><a href="#SSH多密钥配置" class="headerlink" title="SSH多密钥配置"></a>SSH多密钥配置</h2><ul>
 <li><p>生成密钥</p>
 <blockquote>
@@ -474,7 +470,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于</a></li>
       
         
     </ul>
@@ -495,6 +491,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">safe</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
               </li>
              
@@ -503,15 +515,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Safe</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+                <a href="javascript:void(0)" class="js-tag color3">Privacy</a>
               </li>
             
             <div class="clearfix"></div>
@@ -578,7 +586,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，专心练剑&lt;br&gt;&lt;br&gt;taoist@protonmail.com&lt;br&gt;</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，专心练剑&lt;br&gt;</div>
   	  	
     	</section>
     

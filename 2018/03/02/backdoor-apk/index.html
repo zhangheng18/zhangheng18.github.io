@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>生成apk后门实现msf控制安卓手机 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git  下">
+  <meta name="description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git">
 <meta name="keywords" content="Web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="生成apk后门实现msf控制安卓手机">
 <meta property="og:url" content="http://yoursite.com/2018/03/02/backdoor-apk/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git  下">
+<meta property="og:description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/img/apk_1.png">
 <meta property="og:image" content="http://yoursite.com/img/apk_msf.png">
-<meta property="og:updated_time" content="2018-03-14T01:25:17.760Z">
+<meta property="og:updated_time" content="2018-03-31T02:32:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="生成apk后门实现msf控制安卓手机">
-<meta name="twitter:description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git  下">
+<meta name="twitter:description" content="========================  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https://github.com/dana-at-cp/backdoor-apk.git">
 <meta name="twitter:image" content="http://yoursite.com/img/apk_1.png">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
@@ -65,7 +65,7 @@
 	        
 				<li><a href="/archives">归档</a></li>
 	        
-				<li><a href="/about">关于</a></li>
+				<li><a href="/about">关于我</a></li>
 	        
 			</ul>
 		</nav>
@@ -80,7 +80,7 @@
     			
             
     			
-    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于</a>
     			
             
 		</nav>
@@ -88,8 +88,6 @@
 			<div class="social">
 				
 					<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
-		        
-					<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
 		        
 					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 		        
@@ -130,8 +128,6 @@
 					
 						<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
-			        
 						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 			        
 				</div>
@@ -145,7 +141,7 @@
 		        
 					<li style="width: 33.333333333333336%"><a href="/archives">归档</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/about">关于</a></li>
+					<li style="width: 33.333333333333336%"><a href="/about">关于我</a></li>
 		        
 				</ul>
 			</nav>
@@ -195,11 +191,11 @@
 <blockquote>
 <p>git clone <a href="https://github.com/dana-at-cp/backdoor-apk.git" target="_blank" rel="noopener">https://github.com/dana-at-cp/backdoor-apk.git</a></p>
 </blockquote>
+<a id="more"></a>
 <p>下载完成后进入文件目录</p>
 <blockquote>
 <p>cd backdoor-apk/backdoor-apk</p>
 </blockquote>
-<a id="more"></a>
 <p>将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行</p>
 <blockquote>
 <p>./backdoor-apk.sh test.apk<br>PS:test.apk 为事先准备好的正常apk应用名</p>
@@ -451,7 +447,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于</a></li>
       
         
     </ul>
@@ -472,6 +468,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">safe</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
               </li>
              
@@ -480,15 +492,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Safe</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+                <a href="javascript:void(0)" class="js-tag color3">Privacy</a>
               </li>
             
             <div class="clearfix"></div>
@@ -555,7 +563,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，专心练剑&lt;br&gt;&lt;br&gt;taoist@protonmail.com&lt;br&gt;</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，专心练剑&lt;br&gt;</div>
   	  	
     	</section>
     

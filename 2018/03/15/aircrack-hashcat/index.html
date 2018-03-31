@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>使用Aircrack&amp;hashcat破解WPA/WPA2 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡_settings_and_load_them_on_Startup)，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircr">
+  <meta name="description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
 <meta name="keywords" content="WiFi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Aircrack&amp;hashcat破解WPA&#x2F;WPA2">
 <meta property="og:url" content="http://yoursite.com/2018/03/15/aircrack-hashcat/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡_settings_and_load_them_on_Startup)，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircr">
+<meta property="og:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/img/hashcat.png">
 <meta property="og:image" content="http://yoursite.com/img/aircrack_mon.png">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="http://yoursite.com/img/cap2hccapx.png">
 <meta property="og:image" content="http://yoursite.com/img/hashcat_gpu.png">
 <meta property="og:image" content="http://yoursite.com/img/hashcat_pro.png">
-<meta property="og:updated_time" content="2018-03-19T10:06:29.061Z">
+<meta property="og:updated_time" content="2018-03-20T08:00:21.317Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Aircrack&amp;hashcat破解WPA&#x2F;WPA2">
-<meta name="twitter:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡_settings_and_load_them_on_Startup)，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircr">
+<meta name="twitter:description" content="==================== 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
 <meta name="twitter:image" content="http://yoursite.com/img/hashcat.png">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
@@ -72,7 +72,7 @@
 	        
 				<li><a href="/archives">归档</a></li>
 	        
-				<li><a href="/about">关于</a></li>
+				<li><a href="/about">关于我</a></li>
 	        
 			</ul>
 		</nav>
@@ -87,7 +87,7 @@
     			
             
     			
-    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于</a>
     			
             
 		</nav>
@@ -95,8 +95,6 @@
 			<div class="social">
 				
 					<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
-		        
-					<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
 		        
 					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 		        
@@ -137,8 +135,6 @@
 					
 						<a class="github" target="_blank" href="https://github.com/xiaoTaoist" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="mail" target="_blank" href="mailto:taoist@protonmail.com" title="mail"><i class="icon-mail"></i></a>
-			        
 						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
 			        
 				</div>
@@ -152,7 +148,7 @@
 		        
 					<li style="width: 33.333333333333336%"><a href="/archives">归档</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/about">关于</a></li>
+					<li style="width: 33.333333333333336%"><a href="/about">关于我</a></li>
 		        
 				</ul>
 			</nav>
@@ -188,7 +184,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>====================</p>
-<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这里假定你用的是Manjaro Linux 系统，<a href="https://wiki.manjaro.org/index.php?title=Configure_NVIDIA_(non-free" target="_blank" rel="noopener">配置好独立显卡</a>_settings_and_load_them_on_Startup)，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这里假定你用的是Manjaro Linux 系统，<a href="/2018/03/19/Bumblebee/">配置好独立显卡</a>，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
 <ul>
 <li>aircrack-ng:<br><a href="https://www.aircrack-ng.org/doku.php" target="_blank" rel="noopener">aircrack-ng</a>是目前最热门的WiFi破解领域的软件。Aircrack-ng 套件包含的工具能够捕捉数据包和握手包，生成通信数据，或进行暴力破解攻击以及字典攻击。</li>
 <li>hashcat:<br><a href="https://hashcat.net/wiki/" target="_blank" rel="noopener">hashcat</a>支持N多种算法，充分利用GPU性能，是目前最快的利用GPU破解Hash的软件。</li>
@@ -477,7 +473,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于</a></li>
       
         
     </ul>
@@ -498,6 +494,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">safe</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
               </li>
              
@@ -506,15 +518,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Safe</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+                <a href="javascript:void(0)" class="js-tag color3">Privacy</a>
               </li>
             
             <div class="clearfix"></div>
@@ -581,7 +589,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，专心练剑&lt;br&gt;&lt;br&gt;taoist@protonmail.com&lt;br&gt;</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">人若无名，专心练剑&lt;br&gt;</div>
   	  	
     	</section>
     

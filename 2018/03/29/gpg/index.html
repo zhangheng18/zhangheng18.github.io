@@ -6,16 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>文章分类 | XiaoTaoist&#39;s Blog</title>
+  <title>保护你的邮件通信——Mailvelope（GPG） | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="文章分类">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+  <meta name="description" content="前言谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。”   爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为">
+<meta name="keywords" content="Privacy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="保护你的邮件通信——Mailvelope（GPG）">
+<meta property="og:url" content="http://yoursite.com/2018/03/29/gpg/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="前言谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。”   爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-28T08:07:32.145Z">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope.png">
+<meta property="og:image" content="http://yoursite.com/img/maillvelope_genkey.png">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope_pub.png">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope_import.png">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope_send.png">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope_add.png">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope_write.png">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope_gpg.png">
+<meta property="og:image" content="http://yoursite.com/img/mailvelope_rev.png">
+<meta property="og:updated_time" content="2018-03-31T14:26:41.836Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="文章分类">
+<meta name="twitter:title" content="保护你的邮件通信——Mailvelope（GPG）">
+<meta name="twitter:description" content="前言谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。”   爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为">
+<meta name="twitter:image" content="http://yoursite.com/img/mailvelope.png">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -149,27 +163,61 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-gpg" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      文章分类
+      保护你的邮件通信——Mailvelope（GPG）
     </h1>
   
 
         
-        <a href="/categories/index.html" class="archive-article-date">
-  	<time datetime="2018-02-26T06:11:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-26</time>
+        <a href="/2018/03/29/gpg/" class="archive-article-date">
+  	<time datetime="2018-03-29T00:41:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。” </p>
+<blockquote>
+<p>爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为我无法为我的权利辩解”，而对权利的正确解读应该是“政府侵犯你的权利，政府才应该辩解”。[1]</p>
+</blockquote>
+<p>虽然在大数据时代我们很难做到完全匿名，但我们依然可以通过加密手段在一定程度上保护自己的隐私。</p>
+<a id="more"></a>
+<blockquote>
+<p>加密可以保护我们的数据。无论数据是正存放在我们自己的计算机上，还是位于数据中心，或者正在通过互联网传送的途中，加密都可以提供防护。加密可以保护我们的聊天，不管是视频、语音还是文字。加密可以保护我们的隐私，可以隐藏我们的踪迹，甚至有时候，它会保护我们的性命。</p>
+<p>这种保护是攸关我们每个人的。不需要太多解释就可以明白，加密对于活动于威权国家中的记者与人权或政治活动家的重要性。但加密同样也会保护不属于这些群体的其他人。加密抵御犯罪分子的入侵，抵御竞争对手的窃密，防止家庭成员或者邻居偷窥。加密防御的不只是有意的攻击者，还包括没有预料到的意外情况。[2]</p>
+</blockquote>
+<p>下面介绍用Mailvelope在网页端上加密自己的电子邮件。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>Mailvelope是一种浏览器扩展，允许您使用OpenPGP[3]对电子邮件和文件进行加密，解密，签名和认证。它不需要您下载或安装其他邮件客户端，为WebMail用户提供端到端加密的最简单方法。<br>下载地址：<br><a href="https://chrome.google.com/webstore/detail/mailvelope/kajibbejlbohfaggdiogboambcijhkke?hl=zh-CN" target="_blank" rel="noopener">Chrome版</a><br><a href="https://addons.mozilla.org/zh-CN/firefox/addon/mailvelope/" target="_blank" rel="noopener">Firefox版</a></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul>
+<li>安装完成后，点击Mailvelope的插件图标，点设置图标进入设置页面。<br><img src="/img/mailvelope.png" alt="Mailvelope"></li>
+<li>这里我们生成一个新的密钥,如果你已经有GPG密钥,可以直接导入。<br><img src="/img/maillvelope_genkey.png" alt="genkey"></li>
+<li>导出你的公钥，文本框中的内容即为你的公钥，任何可以获得你公钥的人都可以给你发加密邮件<br><img src="/img/mailvelope_pub.png" alt="pub"></li>
+<li>导入别人的公钥，有对方的公钥才能给它发送加密邮件。<br><img src="/img/mailvelope_import.png" alt="import"></li>
+<li>进入你的网页邮箱，如果你的邮件服务商在mailvelope默认支持列表中，在写信框中会出现一个小图标。<br><img src="/img/mailvelope_send.png" alt="send"><br>如果没有发现，请添加网站支持后，刷新页面生效。<br><img src="/img/mailvelope_add.png" alt="add"></li>
+<li>点击小图标，会弹出对话框（这里貌似有一个bug，在弹出窗口<strong>右键单击</strong>才会<strong>显示内容</strong>）开始写内容。<br><img src="/img/mailvelope_write.png" alt="write"></li>
+<li>撰写完成后点加密。发现已经变成了密文，即可发送给对方。(如果开启了签名，还需要输入你创建密钥时设置的密码才可以加密内容)<br><img src="/img/mailvelope_gpg.png" alt="gpg"></li>
+<li>收到加密邮件，点一下，在弹出窗口输入你的私钥密码即可成功解密。<br><img src="/img/mailvelope_rev.png" alt="inbox"></li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>Mailvelope 不会加密你的邮箱地址和对方的邮箱地址以及主题名，请不要使用真实姓名注册邮箱，如果可以尽量单独申请一个隐私性较好的邮箱服务商（比如<a href="https://mail.protonmail.com" target="_blank" rel="noopener">ProtonMail</a>）。</li>
+<li>请妥善保存你的私钥，做好备份，以防丢失后无法解密数据</li>
+<li>第一次给对方发送加密电子邮件时，可以放心的将你的公钥一并附上，以方便对方给你回复加密邮件。[4]</li>
+</ul>
+<h3 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h3><ul>
+<li>GPG原理：<a href="https://xeodou.me/2015/09/13/how-pgp-works/" target="_blank" rel="noopener">https://xeodou.me/2015/09/13/how-pgp-works/</a></li>
+<li>隐私工具介绍：<a href="https://cybermagicsec.github.io/privacytools-zh/" target="_blank" rel="noopener">https://cybermagicsec.github.io/privacytools-zh/</a></li>
+<li>安全工具箱指南：<a href="https://securityinabox.org/zh/" target="_blank" rel="noopener">https://securityinabox.org/zh/</a></li>
+<li>编程随想的隐私保护技巧：<a href="https://program-think.blogspot.com/2013/06/privacy-protection-0.html" target="_blank" rel="noopener">https://program-think.blogspot.com/2013/06/privacy-protection-0.html</a></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] 维基百科：无所隐瞒论 <a href="https://zh.wikipedia.org/zh-sg/%E6%97%A0%E6%89%80%E9%9A%90%E7%9E%92%E8%AE%BA" target="_blank" rel="noopener">https://zh.wikipedia.org/zh-sg/%E6%97%A0%E6%89%80%E9%9A%90%E7%9E%92%E8%AE%BA</a><br>[2] 为什么要加密：<a href="https://www.neoatlantis.org/%E7%94%B5%E5%B7%A5%E7%94%B5%E5%AD%90%E5%8F%8A%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF/2016/11/18/why-encrypt.html" target="_blank" rel="noopener">https://www.neoatlantis.org/%E7%94%B5%E5%B7%A5%E7%94%B5%E5%AD%90%E5%8F%8A%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF/2016/11/18/why-encrypt.html</a><br>[3] OpenPGP标准：<a href="https://tools.ietf.org/html/rfc4880" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc4880</a><br>[4] Mailvelope指南：<a href="https://securityinabox.org/en/guide/mailvelope/web/" target="_blank" rel="noopener">https://securityinabox.org/en/guide/mailvelope/web/</a></p>
+
       
 
       
@@ -177,6 +225,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Privacy</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -227,7 +286,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/categories/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/03/29/gpg/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -239,6 +298,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/19/Bumblebee/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Manjaro Linux 配置Intel与Nvidia双显卡切换</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -272,7 +341,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://yoursite.com/categories/index.html",
+  id: "http://yoursite.com/2018/03/29/gpg/",
   owner: 'xiaoTaoist',
   repo: 'xiaotaoist.github.io',
   oauth: {
@@ -305,7 +374,7 @@ gitment.render('gitment-ctn')
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
