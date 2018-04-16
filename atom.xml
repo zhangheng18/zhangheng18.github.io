@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-08T11:22:58.597Z</updated>
+  <updated>2018-04-16T08:35:41.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Pcap_DNS搭建本地防污染DNS服务器</title>
+    <link href="http://yoursite.com/2018/04/14/Pcap-DNSProxy-md/"/>
+    <id>http://yoursite.com/2018/04/14/Pcap-DNSProxy-md/</id>
+    <published>2018-04-14T13:42:48.000Z</published>
+    <updated>2018-04-16T08:35:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>========================</p><h2 id="DNS介绍"><a href="#DNS介绍" class="headerlink" title="DNS介绍"></a>DNS介绍</h2><p> 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p> <a id="more"></a><p> <img src="/img/dns_dig.png" alt="dig"></p><h2 id="DNS的问题"><a href="#DNS的问题" class="headerlink" title="DNS的问题"></a>DNS的问题</h2><p>一般运营商（联通，电信，移动）都会搭建自己的DNS服务器，以提高响应速度，但是运营商会为了为了某些目的，会对DNS做一些手脚，导致我们无法通过域名解析出正确的IP地址。常用的手段有：DNS劫持和DNS污染。网上很多文章建议将DNS设为公共DNS（如阿里的<code>223.5.5.5</code>,谷歌的<code>8.8.8.8</code>,腾讯的<code>119.29.29.29</code>），但是你们也太小看运营商了，以移动为例：他们会对UDP53（DNS默认向53端口用UDP包发送查询请求）进行抢答。随便输入一个IP地址（8.1.2.3不是任何公共DNS服务器地址），都能给你返回查询结果。<br><img src="/img/dns_fake.png" alt="dns_fake"></p><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里介绍使用<a href="https://github.com/chengr28/Pcap_DNSProxy" target="_blank" rel="noopener">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win/MacOS都有编译好的二进制文件，可以直接<a href="https://github.com/chengr28/Pcap_DNSProxy/releases" target="_blank" rel="noopener">下载</a>使用。</p><p>下文介绍Arch Linux下的Pcap_DNSProxy的编译与使用，其他环境请参考chengr28的<a href="https://github.com/chengr28/Pcap_DNSProxy/tree/master/Documents" target="_blank" rel="noopener">官方文档</a></p><ul><li><p>安装编译环境</p><blockquote><p>sudo pacman -S gcc cmake libpcap libsodium openssl git bind-tools</p></blockquote></li><li><p>下载源码</p><blockquote><p>git clone <a href="https://github.com/chengr28/Pcap_DNSProxy.git" target="_blank" rel="noopener">https://github.com/chengr28/Pcap_DNSProxy.git</a></p></blockquote></li><li><p>编译生成可执行文件</p><blockquote><p>cd Pcap_DNSProxy/Source/Auxiliary/Scripts #进入指定目录<br>chmod 755 CMake_Build.sh #赋予脚本执行权限<br>./CMake_Build.sh         #执行编译程序</p></blockquote></li><li><p>编译成功后，<code>Pcap_DNSProxy/Source/Release</code> 目录下的文件即目标程序和配置文件，我们先来测试一下。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line">sudo ./Pcap_DNSProxy --<span class="built_in">disable</span>-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure></li></ul><h2 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h2><ul><li>进入<code>Release</code>目录并编辑 Pcap_DNSProxy.service 文件，编辑完成后保存： </li></ul><blockquote><p>WorkingDirectory= 项为程序所在目录的绝对路径(例如:/home/my/Pcap_DNSProxy/Source/Release)<br>ExecStart= 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：/home/my/Pcap_DNSProxy/Source/Release/Pcap_DNSProxy)</p></blockquote><ul><li><p>自动安装到系统，并设为开机自启</p><blockquote><p>sudo ./Linux_Install.Systemd.sh</p></blockquote></li><li><p>修改系统DNS设置</p><blockquote><p>echo “nameserver 127.0.0.1” | sudo tee /etc/resolv.conf.head</p></blockquote></li><li><p>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></p></li></ul><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul><li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4 + IPv6 + UDP <span class="comment">#根据网络环境选择IPv4 还是 IPv6 </span></span><br><span class="line">Cache Parameter = 86400 <span class="comment"># 这个是DNS结果缓存的时间，推荐一天以上，单位为秒  </span></span><br><span class="line">Default TTL = 86400 </span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#可开启Sock 代理，以转发DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure></li></ul><p>更详细配置请阅读<a href="https://github.com/chengr28/Pcap_DNSProxy/blob/master/Documents/ReadMe.zh-Hans.txt" target="_blank" rel="noopener">文档</a></p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F</a></li><li><a href="https://www.v2ex.com/t/442340#reply15" target="_blank" rel="noopener">https://www.v2ex.com/t/442340#reply15</a></li><li><a href="https://www.v2ex.com/t/360775" target="_blank" rel="noopener">https://www.v2ex.com/t/360775</a></li><li><a href="https://wiki.archlinux.org/index.php/Resolv.conf" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/Resolv.conf</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;========================&lt;/p&gt;
+&lt;h2 id=&quot;DNS介绍&quot;&gt;&lt;a href=&quot;#DNS介绍&quot; class=&quot;headerlink&quot; title=&quot;DNS介绍&quot;&gt;&lt;/a&gt;DNS介绍&lt;/h2&gt;&lt;p&gt; 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例&lt;code&gt;www.baidu.com&lt;/code&gt;，系统会向DNS服务器（如&lt;code&gt;8.8.8.8&lt;/code&gt;）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Python爬取某站科学上网帐号</title>

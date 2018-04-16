@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: WiFi | XiaoTaoist&#39;s Blog</title>
+  <title>使用Pcap_DNS搭建本地防污染DNS服务器 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/WiFi/index.html">
+  <meta name="description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
+<meta property="og:url" content="http://yoursite.com/2018/04/14/Pcap-DNSProxy-md/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/dns_dig.png">
+<meta property="og:image" content="http://yoursite.com/img/dns_fake.png">
+<meta property="og:image" content="http://yoursite.com/img/dns_suc.png">
+<meta property="og:updated_time" content="2018-04-16T08:35:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
+<meta name="twitter:description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
+<meta name="twitter:image" content="http://yoursite.com/img/dns_dig.png">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -148,60 +157,219 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Pcap-DNSProxy-md" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/15/aircrack-hashcat/" class="archive-article-date">
-  	<time datetime="2018-03-15T11:45:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/15/aircrack-hashcat/">使用Aircrack&amp;hashcat破解WPA/WPA2</a>
+    <h1 class="article-title" itemprop="name">
+      使用Pcap_DNS搭建本地防污染DNS服务器
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/04/14/Pcap-DNSProxy-md/" class="archive-article-date">
+  	<time datetime="2018-04-14T13:42:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>========================</p>
+<h2 id="DNS介绍"><a href="#DNS介绍" class="headerlink" title="DNS介绍"></a>DNS介绍</h2><p> 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p>
+ <a id="more"></a>
+<p> <img src="/img/dns_dig.png" alt="dig"></p>
+<h2 id="DNS的问题"><a href="#DNS的问题" class="headerlink" title="DNS的问题"></a>DNS的问题</h2><p>一般运营商（联通，电信，移动）都会搭建自己的DNS服务器，以提高响应速度，但是运营商会为了为了某些目的，会对DNS做一些手脚，导致我们无法通过域名解析出正确的IP地址。常用的手段有：DNS劫持和DNS污染。网上很多文章建议将DNS设为公共DNS（如阿里的<code>223.5.5.5</code>,谷歌的<code>8.8.8.8</code>,腾讯的<code>119.29.29.29</code>），但是你们也太小看运营商了，以移动为例：他们会对UDP53（DNS默认向53端口用UDP包发送查询请求）进行抢答。随便输入一个IP地址（8.1.2.3不是任何公共DNS服务器地址），都能给你返回查询结果。<br><img src="/img/dns_fake.png" alt="dns_fake"></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里介绍使用<a href="https://github.com/chengr28/Pcap_DNSProxy" target="_blank" rel="noopener">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win/MacOS都有编译好的二进制文件，可以直接<a href="https://github.com/chengr28/Pcap_DNSProxy/releases" target="_blank" rel="noopener">下载</a>使用。</p>
+<p>下文介绍Arch Linux下的Pcap_DNSProxy的编译与使用，其他环境请参考chengr28的<a href="https://github.com/chengr28/Pcap_DNSProxy/tree/master/Documents" target="_blank" rel="noopener">官方文档</a></p>
+<ul>
+<li><p>安装编译环境</p>
+<blockquote>
+<p>sudo pacman -S gcc cmake libpcap libsodium openssl git bind-tools</p>
+</blockquote>
+</li>
+<li><p>下载源码</p>
+<blockquote>
+<p>git clone <a href="https://github.com/chengr28/Pcap_DNSProxy.git" target="_blank" rel="noopener">https://github.com/chengr28/Pcap_DNSProxy.git</a></p>
+</blockquote>
+</li>
+<li><p>编译生成可执行文件</p>
+<blockquote>
+<p>cd Pcap_DNSProxy/Source/Auxiliary/Scripts #进入指定目录<br>chmod 755 CMake_Build.sh #赋予脚本执行权限<br>./CMake_Build.sh         #执行编译程序</p>
+</blockquote>
+</li>
+<li><p>编译成功后，<code>Pcap_DNSProxy/Source/Release</code> 目录下的文件即目标程序和配置文件，我们先来测试一下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line">sudo ./Pcap_DNSProxy --<span class="built_in">disable</span>-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h2><ul>
+<li>进入<code>Release</code>目录并编辑 Pcap_DNSProxy.service 文件，编辑完成后保存： </li>
+</ul>
+<blockquote>
+<p>WorkingDirectory= 项为程序所在目录的绝对路径(例如:/home/my/Pcap_DNSProxy/Source/Release)<br>ExecStart= 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：/home/my/Pcap_DNSProxy/Source/Release/Pcap_DNSProxy)</p>
+</blockquote>
+<ul>
+<li><p>自动安装到系统，并设为开机自启</p>
+<blockquote>
+<p>sudo ./Linux_Install.Systemd.sh</p>
+</blockquote>
+</li>
+<li><p>修改系统DNS设置</p>
+<blockquote>
+<p>echo “nameserver 127.0.0.1” | sudo tee /etc/resolv.conf.head</p>
+</blockquote>
+</li>
+<li><p>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></p>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4 + IPv6 + UDP <span class="comment">#根据网络环境选择IPv4 还是 IPv6 </span></span><br><span class="line">Cache Parameter = 86400 <span class="comment"># 这个是DNS结果缓存的时间，推荐一天以上，单位为秒  </span></span><br><span class="line">Default TTL = 86400 </span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#可开启Sock 代理，以转发DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>更详细配置请阅读<a href="https://github.com/chengr28/Pcap_DNSProxy/blob/master/Documents/ReadMe.zh-Hans.txt" target="_blank" rel="noopener">文档</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F</a></li>
+<li><a href="https://www.v2ex.com/t/442340#reply15" target="_blank" rel="noopener">https://www.v2ex.com/t/442340#reply15</a></li>
+<li><a href="https://www.v2ex.com/t/360775" target="_blank" rel="noopener">https://www.v2ex.com/t/360775</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Resolv.conf" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/Resolv.conf</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">WiFi</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/04/14/Pcap-DNSProxy-md/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/04/07/python-getss/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python爬取某站科学上网帐号</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://yoursite.com/2018/04/14/Pcap-DNSProxy-md/",
+  owner: 'xiaoTaoist',
+  repo: 'xiaotaoist.github.io',
+  oauth: {
+    client_id: 'db56b34f79769b86de3d',
+    client_secret: 'b6be612255a771e8d1685cc94ebc31516e693454',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
 
 
           </div>
@@ -224,9 +392,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
