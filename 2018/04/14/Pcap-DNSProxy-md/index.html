@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://yoursite.com/img/dns_dig.png">
 <meta property="og:image" content="http://yoursite.com/img/dns_fake.png">
 <meta property="og:image" content="http://yoursite.com/img/dns_suc.png">
-<meta property="og:updated_time" content="2018-04-16T08:35:41.000Z">
+<meta property="og:updated_time" content="2018-05-07T05:43:23.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
 <meta name="twitter:description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
@@ -217,15 +217,13 @@
 </blockquote>
 </li>
 <li><p>修改系统DNS设置</p>
-<blockquote>
-<p>echo “nameserver 127.0.0.1” | sudo tee /etc/resolv.conf.head</p>
-</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">"nameserver 127.0.0.1\n"</span> | sudo tee /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;sudo chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></p>
 </li>
 </ul>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4 + IPv6 + UDP <span class="comment">#根据网络环境选择IPv4 还是 IPv6 </span></span><br><span class="line">Cache Parameter = 86400 <span class="comment"># 这个是DNS结果缓存的时间，推荐一天以上，单位为秒  </span></span><br><span class="line">Default TTL = 86400 </span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#可开启Sock 代理，以转发DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4  + UDP + TCP <span class="comment">#优先使用UDP，提高解析速度</span></span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#允许使用Sock5代理，以远程解析DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>更详细配置请阅读<a href="https://github.com/chengr28/Pcap_DNSProxy/blob/master/Documents/ReadMe.zh-Hans.txt" target="_blank" rel="noopener">文档</a></p>
