@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
 <meta property="og:description" content="==================== Manjaro简介Manjaro Linux是一款基于Arch Linux、对用户友好、全球排名第2的Linux发行版。（数据来自DistroWatch），它的一些显著特性包括：简化、用户友好的安装过程，自动检测计算机的硬件（例如显卡），为系统自动安装必要的软件（例如显卡驱动程序），它有自己的专用软件仓库和更稳定的软件包、可以轻松安装和使用多个内核。 无法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-19T14:53:48.380Z">
+<meta property="og:updated_time" content="2018-05-08T08:51:38.851Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="笔记本安装 Manjaro Linux">
 <meta name="twitter:description" content="==================== Manjaro简介Manjaro Linux是一款基于Arch Linux、对用户友好、全球排名第2的Linux发行版。（数据来自DistroWatch），它的一些显著特性包括：简化、用户友好的安装过程，自动检测计算机的硬件（例如显卡），为系统自动安装必要的软件（例如显卡驱动程序），它有自己的专用软件仓库和更稳定的软件包、可以轻松安装和使用多个内核。 无法">
@@ -190,6 +190,10 @@
 <a id="more"></a>
 <h2 id="配置-archlinuxcn-源"><a href="#配置-archlinuxcn-源" class="headerlink" title="配置 archlinuxcn 源"></a>配置 archlinuxcn 源</h2><h3 id="archlinuxcn-简介"><a href="#archlinuxcn-简介" class="headerlink" title="archlinuxcn 简介"></a>archlinuxcn 简介</h3><p>Arch Linux <a href="https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/" target="_blank" rel="noopener">中文社区仓库</a> 是由 Arch Linux 中文社区驱动的非官方用户仓库。包含大量中文用户常用软件、工具、字体/美化包等。</p>
 <h3 id="启用archlinuxcn库"><a href="#启用archlinuxcn库" class="headerlink" title="启用archlinuxcn库"></a>启用archlinuxcn库</h3><ul>
+<li>先换一下国内源，加快下载速度<blockquote>
+<p>sudo pacman-mirrors -lc</p>
+</blockquote>
+</li>
 <li>修改配置文件<blockquote>
 <p>sudo nano /etc/pacman.conf</p>
 </blockquote>
