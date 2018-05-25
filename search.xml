@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0001]]></title>
+    <url>%2F2018%2F05%2F25%2Fpython-exercise-0001%2F</url>
+    <content type="text"><![CDATA[======================== 题目做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？ 分析激活码，一般是随机生成的一串字符，需要确保唯一性。 代码 使用secrets库 1234567891011121314151617import secretsdef Generate_Key(counts,length=20): key_list = [] for i in range(counts): key = str(secrets.token_hex(length))[:length] if key not in key_list: #五个字符一组，添加－作为连字符 for j in range(5,length,6): key = key[:j] + '-' + key[j:] key_list.append(key) return key_listprint(Generate_Key(200,20)) 使用uuid库 1234567891011121314import uuiddef Generate_Code(counts,length=20): key_list = [] for i in range(counts): key = str(uuid.uuid4())[length] if key not in key_list: key_list.append(key) return key_listprint(Generate_Code(200,20)) 参考 https://gist.github.com/geoffalday/202151 https://www.cnblogs.com/hellojesson/p/6410445.html]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0000]]></title>
     <url>%2F2018%2F05%2F24%2Fpython-exercise-0000%2F</url>
     <content type="text"><![CDATA[======================== 题目将你的 QQ 头像（或者微博头像）右上角加上红色的数字，类似于微信未读信息数量那种提示效果。 类似于图中效果 分析这里需要给图片添加文字信息，这里使用图像处理的相关库——PIL pip install pillow 代码12345678910111213141516171819202122from PIL import Image,ImageDraw,ImageFont #导入所需库def add_num(img,num_text,num_size): #获取一个Image可以直接操作的对象 img = Image.open(img) draw = ImageDraw.Draw(img) #设置字体文件，大小，颜色 font = ImageFont.truetype("consolab.ttf",size=num_size) fillcolor = "#ff0000" width,height = img.size #绘制 draw.text( (width - 40,10),num_text,font=font,fill=fillcolor) #保存结果 img.save("num.png","png")if __name__ == "__main__": img = "1.png" add_num(img,"99",30) 扩展 Windows/Linux 字体文件不一样，如何让其具有通用性？ 如何让代码有更高的复用性（图片类型，指定字体属性）？ 参考 https://github.com/jobbole/awesome-python-cn https://stackoverflow.com/questions/16373425/add-text-on-image-using-pil]]></content>

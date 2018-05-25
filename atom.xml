@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-05-24T09:03:57.164Z</updated>
+  <updated>2018-05-25T12:19:16.703Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python练习册：0001</title>
+    <link href="http://yoursite.com/2018/05/25/python-exercise-0001/"/>
+    <id>http://yoursite.com/2018/05/25/python-exercise-0001/</id>
+    <published>2018-05-25T07:11:39.000Z</published>
+    <updated>2018-05-25T12:19:16.703Z</updated>
+    
+    <content type="html"><![CDATA[<p>========================</p><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？</code></pre><a id="more"></a><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>激活码，一般是随机生成的一串字符，需要确保唯一性。</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul><li><p>使用<a href="https://docs.python.org/3/library/secrets.html" target="_blank" rel="noopener">secrets</a>库</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> secrets</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Generate_Key</span><span class="params">(counts,length=<span class="number">20</span>)</span>:</span></span><br><span class="line">    key_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(counts):</span><br><span class="line">        key = str(secrets.token_hex(length))[:length]</span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> key_list:</span><br><span class="line">            <span class="comment">#五个字符一组，添加－作为连字符</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">5</span>,length,<span class="number">6</span>):</span><br><span class="line">                key = key[:j] + <span class="string">'-'</span> + key[j:]</span><br><span class="line"></span><br><span class="line">            key_list.append(key)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> key_list</span><br><span class="line"></span><br><span class="line">print(Generate_Key(<span class="number">200</span>,<span class="number">20</span>))</span><br></pre></td></tr></table></figure></li><li><p>使用<a href="https://docs.python.org/3/library/uuid.html" target="_blank" rel="noopener">uuid</a>库</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Generate_Code</span><span class="params">(counts,length=<span class="number">20</span>)</span>:</span></span><br><span class="line">    key_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(counts):</span><br><span class="line">        key = str(uuid.uuid4())[length]</span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> key_list:</span><br><span class="line">            key_list.append(key)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> key_list</span><br><span class="line"></span><br><span class="line">print(Generate_Code(<span class="number">200</span>,<span class="number">20</span>))</span><br></pre></td></tr></table></figure></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://gist.github.com/geoffalday/202151" target="_blank" rel="noopener">https://gist.github.com/geoffalday/202151</a></li><li><a href="https://www.cnblogs.com/hellojesson/p/6410445.html" target="_blank" rel="noopener">https://www.cnblogs.com/hellojesson/p/6410445.html</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;========================&lt;/p&gt;
+&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Python练习册：0000</title>
