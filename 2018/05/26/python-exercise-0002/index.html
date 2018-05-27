@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | XiaoTaoist&#39;s Blog</title>
+  <title>Python练习册：0002 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="======================== 题目将 0001 题生成的 200 个激活码（或者优惠券）保存到 MySQL 关系型数据库中。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python练习册：0002">
+<meta property="og:url" content="http://yoursite.com/2018/05/26/python-exercise-0002/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="======================== 题目将 0001 题生成的 200 个激活码（或者优惠券）保存到 MySQL 关系型数据库中。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-27T03:58:19.343Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="Python练习册：0002">
+<meta name="twitter:description" content="======================== 题目将 0001 题生成的 200 个激活码（或者优惠券）保存到 MySQL 关系型数据库中。">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -148,177 +153,180 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-python-exercise-0002" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python练习册：0002
+    </h1>
+  
+
+        
+        <a href="/2018/05/26/python-exercise-0002/" class="archive-article-date">
+  	<time datetime="2018-05-26T02:17:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-26</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>========================</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>将 0001 题生成的 200 个激活码（或者优惠券）保存到 MySQL 关系型数据库中。
+</code></pre><a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这里考察的是对数据库的基本操作，这里使用<a href="https://github.com/PyMySQL/PyMySQL" target="_blank" rel="noopener">PyMySQL</a>库。</p>
+<blockquote>
+<p>pip install pymysql</p>
+</blockquote>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
+<li>目前Linux 的Mysql软件为MariaDB，它是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。以Arch Linux下安装MariaDB数据库为例：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S mariadb <span class="comment">#安装</span></span><br><span class="line">sudo  mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql <span class="comment">#初始化mysql库</span></span><br><span class="line">sudo systemctl start mariadb <span class="comment">#启动MariaDB数据库</span></span><br><span class="line">mysql -u root mysql <span class="comment">#用root用户登录到mysql数据库，默认密码为空。</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>关于Mysql的常用操作可<a href="https://www.jianshu.com/p/24afa0e637cc" target="_blank" rel="noopener">参见</a></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成激活码的函数</span></span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Generate_Code</span><span class="params">(counts,length=<span class="number">20</span>)</span>:</span></span><br><span class="line">    key_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(counts):</span><br><span class="line">        key = str(uuid.uuid4())[:length]</span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> key_list:</span><br><span class="line">            key_list.append(key)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> key_list</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    </span><br><span class="line">    key = Generate_Code(<span class="number">200</span>,<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#创建数据库连接</span></span><br><span class="line">    conn = pymysql.connect( </span><br><span class="line">        host = <span class="string">"127.0.0.1"</span>, </span><br><span class="line">        user = <span class="string">"root"</span>, </span><br><span class="line">        password = <span class="string">""</span>, </span><br><span class="line">        database = <span class="string">"test"</span>, </span><br><span class="line">        charset = <span class="string">'utf8'</span>,</span><br><span class="line">        cursorclass=pymysql.cursors.DictCursor)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment">#创建一个游标对象 cursor</span></span><br><span class="line">        <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">    </span><br><span class="line">            <span class="comment">#执行 SQL，如果code表存在则删除</span></span><br><span class="line">            cursor.execute(<span class="string">"DROP TABLE IF EXISTS code"</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">#创建code数据表</span></span><br><span class="line">            sql = <span class="string">"""CREATE TABLE code(</span></span><br><span class="line"><span class="string">                id INT UNSIGNED AUTO_INCREMENT,</span></span><br><span class="line"><span class="string">                code VARCHAR(32) NOT NULL,</span></span><br><span class="line"><span class="string">                PRIMARY KEY(id)</span></span><br><span class="line"><span class="string">            )ENGINE=InnoDB DEFAULT CHARSET=utf8;</span></span><br><span class="line"><span class="string">            """</span></span><br><span class="line">            cursor.execute(sql)</span><br><span class="line"></span><br><span class="line">            <span class="comment">#批量插入数据</span></span><br><span class="line">            cursor.executemany(<span class="string">"INSERT INTO code(code) VALUES(%s);"</span>,key)</span><br><span class="line">        <span class="comment">#提交更改</span></span><br><span class="line">        conn.commit()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">            <span class="comment">#查询结果</span></span><br><span class="line">            cursor.execute(<span class="string">"SELECT * FROM code;"</span>)</span><br><span class="line">            print( cursor.fetchall() )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        conn.close()</span><br></pre></td></tr></table></figure>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>日常写个小玩具可以用更轻量级的<a href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">SQLite3</a>，它是一个小巧的储存在本地的数据库。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Generate_Code</span><span class="params">(counts,length=<span class="number">20</span>)</span>:</span></span><br><span class="line">    key_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(counts):</span><br><span class="line">        key = str(uuid.uuid4())[:length]</span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> key_list:</span><br><span class="line">            <span class="comment">#sqlite3 需要的[('afsd'),('feaf'),('fasd')]形式的数据</span></span><br><span class="line">            key_list.append( (key,)) </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> key_list</span><br><span class="line">key = Generate_Code(<span class="number">200</span>,<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sqlite3</span><br><span class="line"></span><br><span class="line"><span class="comment">#连接到数据库，并创建游标</span></span><br><span class="line">conn = sqlite3.connect(<span class="string">"test.db"</span>)</span><br><span class="line">c = conn.cursor()</span><br><span class="line"></span><br><span class="line"><span class="comment">#如果KEY表已经存在则先删除</span></span><br><span class="line"><span class="comment">#c.execute("DROP TABLE IF EXISTS KEY;")</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建KEY表</span></span><br><span class="line">sql = <span class="string">"""CREATE TABLE KEY(</span></span><br><span class="line"><span class="string">    ID INTEGER PRIMARY KEY autoincrement,</span></span><br><span class="line"><span class="string">    CODE   TEXT NOT NULL</span></span><br><span class="line"><span class="string">);"""</span></span><br><span class="line">c.execute(sql)</span><br><span class="line"></span><br><span class="line"><span class="comment">#批量插入数据</span></span><br><span class="line">c.executemany(<span class="string">"INSERT INTO KEY VALUES(NULL,?);"</span>,key)</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新数据库</span></span><br><span class="line">conn.commit()</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询KEY表内容</span></span><br><span class="line">c.execute(<span class="string">"SELECT * FROM KEY;"</span>)</span><br><span class="line">print( c.fetchall() )</span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭</span></span><br><span class="line">c.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://wiki.archlinux.org/index.php/MySQL_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E9.87.8D.E7.BD.AE_root_.E5.AF.86.E7.A0.81" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/MySQL_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E9.87.8D.E7.BD.AE_root_.E5.AF.86.E7.A0.81</a></li>
+<li><a href="https://www.jianshu.com/p/4490957e29ad" target="_blank" rel="noopener">https://www.jianshu.com/p/4490957e29ad</a></li>
+<li><a href="https://github.com/PyMySQL/PyMySQL" target="_blank" rel="noopener">https://github.com/PyMySQL/PyMySQL</a></li>
+<li><a href="http://www.runoob.com/sqlite/sqlite-python.html" target="_blank" rel="noopener">http://www.runoob.com/sqlite/sqlite-python.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/07/ssh-keygen/" class="archive-article-date">
-  	<time datetime="2018-03-07T01:37:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/07/ssh-keygen/">SSH免密登录</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/26/python-exercise-0002/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/02/backdoor-apk/" class="archive-article-date">
-  	<time datetime="2018-03-02T10:00:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/25/python-exercise-0001/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0001</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/02/backdoor-apk/">生成apk后门实现msf控制安卓手机</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/28/vimium/" class="archive-article-date">
-  	<time datetime="2018-02-28T09:09:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/28/vimium/">Vimium 入门</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/16/poetry/" class="archive-article-date">
-  	<time datetime="2018-02-15T17:09:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/16/poetry/">随笔・一</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://yoursite.com/2018/05/26/python-exercise-0002/",
+  owner: 'xiaoTaoist',
+  repo: 'xiaotaoist.github.io',
+  oauth: {
+    client_id: 'db56b34f79769b86de3d',
+    client_secret: 'b6be612255a771e8d1685cc94ebc31516e693454',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -342,8 +350,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
