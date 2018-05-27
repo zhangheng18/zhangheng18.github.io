@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-05-27T03:58:19.343Z</updated>
+  <updated>2018-05-27T09:40:05.222Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python练习册：0003</title>
+    <link href="http://yoursite.com/2018/05/27/python-exercise-0003/"/>
+    <id>http://yoursite.com/2018/05/27/python-exercise-0003/</id>
+    <published>2018-05-27T08:41:12.000Z</published>
+    <updated>2018-05-27T09:40:05.222Z</updated>
+    
+    <content type="html"><![CDATA[<p>========================</p><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>将 0001 题生成的 200 个激活码（或者优惠券）保存到 Redis 关系型数据库中。</code></pre><a id="more"></a><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>对Redis的介绍可以看<a href="http://www.runoob.com/redis/redis-intro.html" target="_blank" rel="noopener">菜鸟教程</a>，这里使用<a href="https://github.com/andymccurdy/redis-py" target="_blank" rel="noopener">redis-py</a>库。</p><blockquote><p>pip install redis</p></blockquote><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul><li>Arch Linux 安装Redis<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S redis <span class="comment">#安装</span></span><br><span class="line">sudo systemctl start redis <span class="comment">#启动Redis数据库 或者使用  redis-server</span></span><br></pre></td></tr></table></figure></li></ul><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成激活码的函数</span></span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Generate_Code</span><span class="params">(counts,length=<span class="number">20</span>)</span>:</span></span><br><span class="line">    key_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(counts):</span><br><span class="line">        key = str(uuid.uuid4())[:length]</span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> key_list:</span><br><span class="line">            key_list.append(key)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> key_list</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建数据库连接</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">redis_conn</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment">#用线程池的方式减少性能开销</span></span><br><span class="line">    pool = redis.ConnectionPool(host=<span class="string">'localhost'</span>, port=<span class="number">6379</span>, db=<span class="number">0</span>)</span><br><span class="line">    r = redis.Redis(connection_pool=pool)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> r</span><br><span class="line"></span><br><span class="line"><span class="comment">#将激活码用List方式储存到Redis数据库</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">updata_redis</span><span class="params">()</span>:</span></span><br><span class="line">    r = redis_conn()</span><br><span class="line">    key = Generate_Code(<span class="number">200</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> key:</span><br><span class="line">        r.rpush(<span class="string">"Code"</span>,i)</span><br><span class="line">    r.save()</span><br><span class="line"></span><br><span class="line"><span class="comment">#从Redis读取数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getdata</span><span class="params">()</span>:</span></span><br><span class="line">    r = redis_conn()</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> r.lrange(<span class="string">"Code"</span>,<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line">        print(key)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    updata_redis()</span><br><span class="line">    getdata()</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://www.jianshu.com/p/2639549bedc8" target="_blank" rel="noopener">https://www.jianshu.com/p/2639549bedc8</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;========================&lt;/p&gt;
+&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;将 0001 题生成的 200 个激活码（或者优惠券）保存到 Redis 关系型数据库中。
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Python练习册：0002</title>
