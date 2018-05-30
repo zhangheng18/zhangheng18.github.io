@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0006]]></title>
+    <url>%2F2018%2F05%2F29%2Fpython-exercise-0006%2F</url>
+    <content type="text"><![CDATA[题目你有一个目录，放了你一个月的日记，都是 txt，为了避免分词的问题，假设内容都是英文，请统计出你认为每篇日记最重要的词。 分析 这里可以复用0004的代码统计每篇中最重要的词，这里需要注意排除常见高频词(the,are,of，to…)，这里只做一个简单的实现，若想真正进行词频分析需要使用NLTK模块。 代码123456789101112131415161718192021222324252627282930313233343536"""你有一个目录，放了你一个月的日记，都是 txt，为了避免分词的问题，假设内容都是英文，请统计出你认为每篇日记最重要的词。"""import refrom collections import Counterimport osdef most_common(filename): #读取文件，并全部转化为小写排除干扰 with open(filename,"r") as f: text = f.read().lower() #将标点等干扰全部替换成空格 text = re.sub(r'[,.!?:"]',' ',text) text = re.sub(r'-','',text) #统计词频 counts = Counter(text.split()) #过滤常见高频词 ignore_words=['a','at','an','and','as','by','be','of','said','for','i','it','after',"it's",'in','on','is','she','us','to','not','has','the','that','this','with','have'] for word in ignore_words: if word in counts: counts[word] = 0 #输出最重要的1个词 print("&#123;&#125; the most word is &#123;&#125;".format(filename,counts.most_common(1)[0][0]) )if __name__ == '__main__': dirary_dir = 'dirary' #遍历dirary目录的文件 for file in os.listdir(dirary_dir): filename = os.path.join(dirary_dir,file) most_common(filename) 参考 https://github.com/Show-Me-the-Code/python]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0005]]></title>
     <url>%2F2018%2F05%2F29%2Fpython-exercise-0005%2F</url>
     <content type="text"><![CDATA[题目你有一个目录，装了很多照片，把它们的尺寸变成都不大于 iPhone5 分辨率的大小。 分析这里需要用OS模块中的一些函数对文件和目录进行操作，然后使用PIL库对图片进行调整，注意路径问题。 代码123456789101112131415161718192021222324252627282930import osfrom PIL import Imagedef resize(img_dir,MAX_RESIZE,out_dir): try: for file in os.listdir(img_dir): #读取文件 img_file = os.path.join(img_dir,file) img = Image.open(img_file) #调整大小 out = img.resize(MAX_RESIZE) #如果out文件夹不存在则新建一个 if not os.path.exists(out_dir): os.mkdir(out_dir) #保存结果 out_img = os.path.join(out_dir,file) out.save(out_img) except Exception as e: print("操作失败！",e)if __name__ == '__main__': img_dir = 'img' out_dir = 'out' MAX_RESIZE = (640,1130) resize(img_dir,MAX_RESIZE,out_dir) 参考 http://baimoz.me/1399/]]></content>
