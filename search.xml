@@ -4,6 +4,9 @@
     <title><![CDATA[Python练习册：0007]]></title>
     <url>%2F2018%2F05%2F31%2Fpython-exercise-0007%2F</url>
     <content type="text"><![CDATA[题目有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。 分析首先遍历文件夹内容，之前已经做过好多了，接着对空行(’\n’),注释(‘#’，‘’’多行注释’’’ / “””多行注释”””),代码(剩下的内容)分别计数即可。这里用到字符串的一些内置函数。值得注意的是如何统计多行注释，这里我用的是设置一个开关，遇到第一个注释符作为开始，第二个注释符作为结束，中间的内容全算注释。 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152"""有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。"""import osdef count_lines(code_dir): code_lines = 0 blank_lines = 0 comment_lines = 0 comment = False for file in os.listdir(code_dir): filename = os.path.join(code_dir,file) with open(filename,"r") as f: text = f.readlines() for line in text: #排除左边空格的干扰 line = line.lstrip(' ') #单行注释 if(line.startswith('#')): comment_lines += 1 #这里设置一个comment 作为开关 elif(line.startswith("'''") or line.startswith('"""')): comment_lines += 1 comment = not comment #“”“内的换行也算作注释”“” elif(line.startswith('\n')): if comment: comment_lines += 1 else: blank_lines += 1 #非注释内的内容算作代码 else: if comment: comment_lines += 1 else: code_lines +=1 total = code_lines + blank_lines + comment_lines print("共有代码:&#123;&#125;行".format(total)) print("代码:&#123;&#125;行".format(code_lines)) print("注释:&#123;&#125;行".format(comment_lines)) print("空行:&#123;&#125;行".format(blank_lines))if __name__ == '__main__': code_dir = 'code' count_lines(code_dir) 参考 https://github.com/Show-Me-the-Code/python]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -12,6 +15,9 @@
     <title><![CDATA[Python练习册：0006]]></title>
     <url>%2F2018%2F05%2F30%2Fpython-exercise-0006%2F</url>
     <content type="text"><![CDATA[题目你有一个目录，放了你一个月的日记，都是 txt，为了避免分词的问题，假设内容都是英文，请统计出你认为每篇日记最重要的词。 分析 这里可以复用0004的代码统计每篇中最重要的词，这里需要注意排除常见高频词(the,are,of，to…)，这里只做一个简单的实现，若想真正进行词频分析需要使用NLTK模块。 代码123456789101112131415161718192021222324252627282930313233343536"""你有一个目录，放了你一个月的日记，都是 txt，为了避免分词的问题，假设内容都是英文，请统计出你认为每篇日记最重要的词。"""import refrom collections import Counterimport osdef most_common(filename): #读取文件，并全部转化为小写排除干扰 with open(filename,"r") as f: text = f.read().lower() #将标点等干扰全部替换成空格 text = re.sub(r'[,.!?:"]',' ',text) text = re.sub(r'-','',text) #统计词频 counts = Counter(text.split()) #过滤常见高频词 ignore_words=['a','at','an','and','as','by','be','of','said','for','i','it','after',"it's",'in','on','is','she','us','to','not','has','the','that','this','with','have'] for word in ignore_words: if word in counts: counts[word] = 0 #输出最重要的1个词 print("&#123;&#125; the most word is &#123;&#125;".format(filename,counts.most_common(1)[0][0]) )if __name__ == '__main__': dirary_dir = 'dirary' #遍历dirary目录的文件 for file in os.listdir(dirary_dir): filename = os.path.join(dirary_dir,file) most_common(filename) 参考 https://github.com/Show-Me-the-Code/python]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -20,6 +26,9 @@
     <title><![CDATA[Python练习册：0005]]></title>
     <url>%2F2018%2F05%2F29%2Fpython-exercise-0005%2F</url>
     <content type="text"><![CDATA[题目你有一个目录，装了很多照片，把它们的尺寸变成都不大于 iPhone5 分辨率的大小。 分析这里需要用OS模块中的一些函数对文件和目录进行操作，然后使用PIL库对图片进行调整，注意路径问题。 代码123456789101112131415161718192021222324252627282930import osfrom PIL import Imagedef resize(img_dir,MAX_RESIZE,out_dir): try: for file in os.listdir(img_dir): #读取文件 img_file = os.path.join(img_dir,file) img = Image.open(img_file) #调整大小 out = img.resize(MAX_RESIZE) #如果out文件夹不存在则新建一个 if not os.path.exists(out_dir): os.mkdir(out_dir) #保存结果 out_img = os.path.join(out_dir,file) out.save(out_img) except Exception as e: print("操作失败！",e)if __name__ == '__main__': img_dir = 'img' out_dir = 'out' MAX_RESIZE = (640,1130) resize(img_dir,MAX_RESIZE,out_dir) 参考 http://baimoz.me/1399/]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -28,6 +37,9 @@
     <title><![CDATA[Python练习册：0004]]></title>
     <url>%2F2018%2F05%2F28%2Fpython-exercise-0004%2F</url>
     <content type="text"><![CDATA[======================== 题目任一个英文的纯文本文件，统计其中的单词出现的个数。 分析这里可以先从文件中读取内容，然后考虑到大小写问题（Text和text作为一个单词）,缩写问题(I’m 作为一个一个单词),连字符（末尾没写完新开一行te-xt）,标点符号（.,?:”）等问题后，把单词分割好，最后进行个数统计。这里主要使用正则表达式 代码 用 Dict 统计词频 123456789101112131415161718192021222324import rewith open("text.txt","r") as f: #读取文本内容并全部转换为小写字母 text = f.read().lower()#将标点符号替换成空格text = re.sub(r'[,.!?:"]',' ',text)#去掉连字符text = re.sub(r'-','',text)#将计次放入以单词为key的value中counts = &#123;&#125;for word in text.split(): if word not in counts: counts[word] = 1 counts[word] += 1#按词频从大到小排序result = sorted(counts.items(),key=lambda item:item[1],reverse=True)#输出统计结果for i in result: print(i) 用collections库中的Counter计数 1234567891011import refrom collections import Counterwith open("test.txt","r") as f: text = f.read().lower()text = re.sub(r'[,.!?:"]',' ',text)text = re.sub(r'-','',text)#统计词频counts = Counter(text.split())#按顺序输出结果print(counts.most_common()) 参考 https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431953239820157155d21c494e5786fce303f3018c86000 http://www.runoob.com/python/python-strings.html]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -36,6 +48,9 @@
     <title><![CDATA[Python练习册：0003]]></title>
     <url>%2F2018%2F05%2F27%2Fpython-exercise-0003%2F</url>
     <content type="text"><![CDATA[======================== 题目将 0001 题生成的 200 个激活码（或者优惠券）保存到 Redis 关系型数据库中。 分析对Redis的介绍可以看菜鸟教程，这里使用redis-py库。 pip install redis 准备 Arch Linux 安装Redis12sudo pacman -S redis #安装sudo systemctl start redis #启动Redis数据库 或者使用 redis-server 代码123456789101112131415161718192021222324252627282930313233343536373839# 生成激活码的函数import uuiddef Generate_Code(counts,length=20): key_list = [] for i in range(counts): key = str(uuid.uuid4())[:length] if key not in key_list: key_list.append(key) return key_listimport redis#创建数据库连接def redis_conn(): #用线程池的方式减少性能开销 pool = redis.ConnectionPool(host='localhost', port=6379, db=0) r = redis.Redis(connection_pool=pool) return r#将激活码用List方式储存到Redis数据库def updata_redis(): r = redis_conn() key = Generate_Code(200) for i in key: r.rpush("Code",i) r.save()#从Redis读取数据def getdata(): r = redis_conn() for key in r.lrange("Code",0,-1): print(key)if __name__ == "__main__": updata_redis() getdata() 参考 https://www.jianshu.com/p/2639549bedc8]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -44,6 +59,9 @@
     <title><![CDATA[Python练习册：0002]]></title>
     <url>%2F2018%2F05%2F26%2Fpython-exercise-0002%2F</url>
     <content type="text"><![CDATA[======================== 题目将 0001 题生成的 200 个激活码（或者优惠券）保存到 MySQL 关系型数据库中。 分析这里考察的是对数据库的基本操作，这里使用PyMySQL库。 pip install pymysql 准备 目前Linux 的Mysql软件为MariaDB，它是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。以Arch Linux下安装MariaDB数据库为例：1234sudo pacman -S mariadb #安装sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql #初始化mysql库sudo systemctl start mariadb #启动MariaDB数据库mysql -u root mysql #用root用户登录到mysql数据库，默认密码为空。 关于Mysql的常用操作可参见 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455# 生成激活码的函数import uuiddef Generate_Code(counts,length=20): key_list = [] for i in range(counts): key = str(uuid.uuid4())[:length] if key not in key_list: key_list.append(key) return key_listimport pymysqlif __name__ == "__main__": key = Generate_Code(200,20) #创建数据库连接 conn = pymysql.connect( host = "127.0.0.1", user = "root", password = "", database = "test", charset = 'utf8', cursorclass=pymysql.cursors.DictCursor) try: #创建一个游标对象 cursor with conn.cursor() as cursor: #执行 SQL，如果code表存在则删除 cursor.execute("DROP TABLE IF EXISTS code") #创建code数据表 sql = """CREATE TABLE code( id INT UNSIGNED AUTO_INCREMENT, code VARCHAR(32) NOT NULL, PRIMARY KEY(id) )ENGINE=InnoDB DEFAULT CHARSET=utf8; """ cursor.execute(sql) #批量插入数据 cursor.executemany("INSERT INTO code(code) VALUES(%s);",key) #提交更改 conn.commit() with conn.cursor() as cursor: #查询结果 cursor.execute("SELECT * FROM code;") print( cursor.fetchall() ) finally: conn.close() 扩展日常写个小玩具可以用更轻量级的SQLite3，它是一个小巧的储存在本地的数据库。1234567891011121314151617181920212223242526272829303132333435363738394041424344import uuiddef Generate_Code(counts,length=20): key_list = [] for i in range(counts): key = str(uuid.uuid4())[:length] if key not in key_list: #sqlite3 需要的[('afsd'),('feaf'),('fasd')]形式的数据 key_list.append( (key,)) return key_listkey = Generate_Code(200,20)import sqlite3#连接到数据库，并创建游标conn = sqlite3.connect("test.db")c = conn.cursor()#如果KEY表已经存在则先删除#c.execute("DROP TABLE IF EXISTS KEY;")#创建KEY表sql = """CREATE TABLE KEY( ID INTEGER PRIMARY KEY autoincrement, CODE TEXT NOT NULL);"""c.execute(sql)#批量插入数据c.executemany("INSERT INTO KEY VALUES(NULL,?);",key)#更新数据库conn.commit()#查询KEY表内容c.execute("SELECT * FROM KEY;")print( c.fetchall() )#关闭c.close()conn.close() 参考 https://wiki.archlinux.org/index.php/MySQL_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E9.87.8D.E7.BD.AE_root_.E5.AF.86.E7.A0.81 https://www.jianshu.com/p/4490957e29ad https://github.com/PyMySQL/PyMySQL http://www.runoob.com/sqlite/sqlite-python.html]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -52,6 +70,9 @@
     <title><![CDATA[Python练习册：0001]]></title>
     <url>%2F2018%2F05%2F25%2Fpython-exercise-0001%2F</url>
     <content type="text"><![CDATA[======================== 题目做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？ 分析激活码，一般是随机生成的一串字符，需要确保唯一性。 代码 使用secrets库 1234567891011121314151617import secretsdef Generate_Key(counts,length=20): key_list = [] for i in range(counts): key = str(secrets.token_hex(length))[:length] if key not in key_list: #五个字符一组，添加－作为连字符 for j in range(5,length,6): key = key[:j] + '-' + key[j:] key_list.append(key) return key_listprint(Generate_Key(200,20)) 使用uuid库 1234567891011121314import uuiddef Generate_Code(counts,length=20): key_list = [] for i in range(counts): key = str(uuid.uuid4())[:length] if key not in key_list: key_list.append(key) return key_listprint(Generate_Code(200,20)) 参考 https://gist.github.com/geoffalday/202151 https://www.cnblogs.com/hellojesson/p/6410445.html]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
@@ -60,6 +81,9 @@
     <title><![CDATA[Python练习册：0000]]></title>
     <url>%2F2018%2F05%2F24%2Fpython-exercise-0000%2F</url>
     <content type="text"><![CDATA[======================== 题目将你的 QQ 头像（或者微博头像）右上角加上红色的数字，类似于微信未读信息数量那种提示效果。 类似于图中效果 分析这里需要给图片添加文字信息，这里使用图像处理的相关库——PIL pip install pillow 代码12345678910111213141516171819202122from PIL import Image,ImageDraw,ImageFont #导入所需库def add_num(img,num_text,num_size): #获取一个Image可以直接操作的对象 img = Image.open(img) draw = ImageDraw.Draw(img) #设置字体文件，大小，颜色 font = ImageFont.truetype("consolab.ttf",size=num_size) fillcolor = "#ff0000" width,height = img.size #绘制 draw.text( (width - 40,10),num_text,font=font,fill=fillcolor) #保存结果 img.save("num.png","png")if __name__ == "__main__": img = "1.png" add_num(img,"99",30) 扩展 Windows/Linux 字体文件不一样，如何让其具有通用性？ 如何让代码有更高的复用性（图片类型，指定字体属性）？ 参考 https://github.com/jobbole/awesome-python-cn https://stackoverflow.com/questions/16373425/add-text-on-image-using-pil]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
       <tags>
         <tag>Python</tag>
       </tags>
