@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Python练习册：0004 | XiaoTaoist&#39;s Blog</title>
+  <title>Python练习册：0007 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="======================== 题目任一个英文的纯文本文件，统计其中的单词出现的个数。">
+  <meta name="description" content="题目有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。">
 <meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python练习册：0004">
-<meta property="og:url" content="http://yoursite.com/2018/05/28/python-exercise-0004/index.html">
+<meta property="og:title" content="Python练习册：0007">
+<meta property="og:url" content="http://yoursite.com/2018/05/31/python-exercise-0007/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="======================== 题目任一个英文的纯文本文件，统计其中的单词出现的个数。">
+<meta property="og:description" content="题目有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-28T07:13:46.466Z">
+<meta property="og:updated_time" content="2018-05-31T02:55:05.090Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python练习册：0004">
-<meta name="twitter:description" content="======================== 题目任一个英文的纯文本文件，统计其中的单词出现的个数。">
+<meta name="twitter:title" content="Python练习册：0007">
+<meta name="twitter:description" content="题目有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -153,41 +153,32 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-python-exercise-0004" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-python-exercise-0007" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python练习册：0004
+      Python练习册：0007
     </h1>
   
 
         
-        <a href="/2018/05/28/python-exercise-0004/" class="archive-article-date">
-  	<time datetime="2018-05-28T06:01:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-28</time>
+        <a href="/2018/05/31/python-exercise-0007/" class="archive-article-date">
+  	<time datetime="2018-05-31T00:27:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>========================</p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>任一个英文的纯文本文件，统计其中的单词出现的个数。
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。
 </code></pre><a id="more"></a>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这里可以先从文件中读取内容，然后考虑到大小写问题（Text和text作为一个单词）,缩写问题(I’m 作为一个一个单词),连字符（末尾没写完新开一行te-xt）,标点符号（.,?:”）等问题后，把单词分割好，最后进行个数统计。<br>这里主要使用<a href="http://www.runoob.com/python/python-reg-expressions.html" target="_blank" rel="noopener">正则表达式</a></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
-<li><p>用 Dict 统计词频</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"text.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment">#读取文本内容并全部转换为小写字母</span></span><br><span class="line">    text = f.read().lower()</span><br><span class="line"></span><br><span class="line"><span class="comment">#将标点符号替换成空格</span></span><br><span class="line">text = re.sub(<span class="string">r'[,.!?:"]'</span>,<span class="string">' '</span>,text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#去掉连字符</span></span><br><span class="line">text = re.sub(<span class="string">r'-'</span>,<span class="string">''</span>,text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#将计次放入以单词为key的value中</span></span><br><span class="line">counts = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> text.split():</span><br><span class="line">    <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> counts:</span><br><span class="line">        counts[word] = <span class="number">1</span></span><br><span class="line">    counts[word] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#按词频从大到小排序</span></span><br><span class="line">result = sorted(counts.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>],reverse=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出统计结果</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>用<a href="https://docs.python.org/3/library/collections.html#collections.Counter" target="_blank" rel="noopener">collections</a>库中的Counter计数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"test.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    text = f.read().lower()</span><br><span class="line">text = re.sub(<span class="string">r'[,.!?:"]'</span>,<span class="string">' '</span>,text)</span><br><span class="line">text = re.sub(<span class="string">r'-'</span>,<span class="string">''</span>,text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#统计词频</span></span><br><span class="line">counts = Counter(text.split())</span><br><span class="line"><span class="comment">#按顺序输出结果</span></span><br><span class="line">print(counts.most_common())</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>首先遍历文件夹内容，之前已经做过好多了，接着对空行(’\n’),注释(‘#’，‘’’多行注释’’’ / “””多行注释”””),代码(剩下的内容)分别计数即可。这里用到<a href="http://www.runoob.com/python3/python3-string.html" target="_blank" rel="noopener">字符串</a>的一些内置函数。值得注意的是如何统计多行注释，这里我用的是设置一个开关，遇到第一个注释符作为开始，第二个注释符作为结束，中间的内容全算注释。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_lines</span><span class="params">(code_dir)</span>:</span></span><br><span class="line">    code_lines = <span class="number">0</span></span><br><span class="line">    blank_lines = <span class="number">0</span></span><br><span class="line">    comment_lines = <span class="number">0</span></span><br><span class="line">    comment = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(code_dir):</span><br><span class="line">        filename = os.path.join(code_dir,file)</span><br><span class="line">        <span class="keyword">with</span> open(filename,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">            text = f.readlines()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> text:</span><br><span class="line">            <span class="comment">#排除左边空格的干扰</span></span><br><span class="line">            line = line.lstrip(<span class="string">' '</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment">#单行注释</span></span><br><span class="line">            <span class="keyword">if</span>(line.startswith(<span class="string">'#'</span>)):</span><br><span class="line">                comment_lines += <span class="number">1</span>  </span><br><span class="line">            </span><br><span class="line">            <span class="comment">#这里设置一个comment 作为开关</span></span><br><span class="line">            <span class="keyword">elif</span>(line.startswith(<span class="string">"'''"</span>) <span class="keyword">or</span> line.startswith(<span class="string">'"""'</span>)):</span><br><span class="line">                comment_lines += <span class="number">1</span></span><br><span class="line">                comment = <span class="keyword">not</span> comment  </span><br><span class="line">            </span><br><span class="line">            <span class="comment">#“”“内的换行也算作注释”“”</span></span><br><span class="line">            <span class="keyword">elif</span>(line.startswith(<span class="string">'\n'</span>)):</span><br><span class="line">                <span class="keyword">if</span> comment:</span><br><span class="line">                    comment_lines += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    blank_lines += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">#非注释内的内容算作代码</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> comment:</span><br><span class="line">                    comment_lines += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    code_lines +=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    total = code_lines + blank_lines + comment_lines</span><br><span class="line">    print(<span class="string">"共有代码:&#123;&#125;行"</span>.format(total))</span><br><span class="line">    print(<span class="string">"代码:&#123;&#125;行"</span>.format(code_lines))</span><br><span class="line">    print(<span class="string">"注释:&#123;&#125;行"</span>.format(comment_lines))</span><br><span class="line">    print(<span class="string">"空行:&#123;&#125;行"</span>.format(blank_lines))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    code_dir = <span class="string">'code'</span></span><br><span class="line">    count_lines(code_dir)</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431953239820157155d21c494e5786fce303f3018c86000" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431953239820157155d21c494e5786fce303f3018c86000</a></li>
-<li><a href="http://www.runoob.com/python/python-strings.html" target="_blank" rel="noopener">http://www.runoob.com/python/python-strings.html</a></li>
+<li><a href="https://github.com/Show-Me-the-Code/python" target="_blank" rel="noopener">https://github.com/Show-Me-the-Code/python</a></li>
 </ul>
 
       
@@ -258,7 +249,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/28/python-exercise-0004/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/05/31/python-exercise-0007/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -272,18 +263,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/05/29/python-exercise-0005/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python练习册：0005
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/05/27/python-exercise-0003/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python练习册：0003</div>
+    <a href="/2018/05/30/python-exercise-0006/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0006</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -322,7 +304,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://yoursite.com/2018/05/28/python-exercise-0004/",
+  id: "http://yoursite.com/2018/05/31/python-exercise-0007/",
   owner: 'xiaoTaoist',
   repo: 'xiaotaoist.github.io',
   oauth: {

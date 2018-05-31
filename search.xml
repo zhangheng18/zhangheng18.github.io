@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0007]]></title>
+    <url>%2F2018%2F05%2F31%2Fpython-exercise-0007%2F</url>
+    <content type="text"><![CDATA[题目有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。 分析首先遍历文件夹内容，之前已经做过好多了，接着对空行(’\n’),注释(‘#’，‘’’多行注释’’’ / “””多行注释”””),代码(剩下的内容)分别计数即可。这里用到字符串的一些内置函数。值得注意的是如何统计多行注释，这里我用的是设置一个开关，遇到第一个注释符作为开始，第二个注释符作为结束，中间的内容全算注释。 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152"""有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。"""import osdef count_lines(code_dir): code_lines = 0 blank_lines = 0 comment_lines = 0 comment = False for file in os.listdir(code_dir): filename = os.path.join(code_dir,file) with open(filename,"r") as f: text = f.readlines() for line in text: #排除左边空格的干扰 line = line.lstrip(' ') #单行注释 if(line.startswith('#')): comment_lines += 1 #这里设置一个comment 作为开关 elif(line.startswith("'''") or line.startswith('"""')): comment_lines += 1 comment = not comment #“”“内的换行也算作注释”“” elif(line.startswith('\n')): if comment: comment_lines += 1 else: blank_lines += 1 #非注释内的内容算作代码 else: if comment: comment_lines += 1 else: code_lines +=1 total = code_lines + blank_lines + comment_lines print("共有代码:&#123;&#125;行".format(total)) print("代码:&#123;&#125;行".format(code_lines)) print("注释:&#123;&#125;行".format(comment_lines)) print("空行:&#123;&#125;行".format(blank_lines))if __name__ == '__main__': code_dir = 'code' count_lines(code_dir) 参考 https://github.com/Show-Me-the-Code/python]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0006]]></title>
-    <url>%2F2018%2F05%2F29%2Fpython-exercise-0006%2F</url>
+    <url>%2F2018%2F05%2F30%2Fpython-exercise-0006%2F</url>
     <content type="text"><![CDATA[题目你有一个目录，放了你一个月的日记，都是 txt，为了避免分词的问题，假设内容都是英文，请统计出你认为每篇日记最重要的词。 分析 这里可以复用0004的代码统计每篇中最重要的词，这里需要注意排除常见高频词(the,are,of，to…)，这里只做一个简单的实现，若想真正进行词频分析需要使用NLTK模块。 代码123456789101112131415161718192021222324252627282930313233343536"""你有一个目录，放了你一个月的日记，都是 txt，为了避免分词的问题，假设内容都是英文，请统计出你认为每篇日记最重要的词。"""import refrom collections import Counterimport osdef most_common(filename): #读取文件，并全部转化为小写排除干扰 with open(filename,"r") as f: text = f.read().lower() #将标点等干扰全部替换成空格 text = re.sub(r'[,.!?:"]',' ',text) text = re.sub(r'-','',text) #统计词频 counts = Counter(text.split()) #过滤常见高频词 ignore_words=['a','at','an','and','as','by','be','of','said','for','i','it','after',"it's",'in','on','is','she','us','to','not','has','the','that','this','with','have'] for word in ignore_words: if word in counts: counts[word] = 0 #输出最重要的1个词 print("&#123;&#125; the most word is &#123;&#125;".format(filename,counts.most_common(1)[0][0]) )if __name__ == '__main__': dirary_dir = 'dirary' #遍历dirary目录的文件 for file in os.listdir(dirary_dir): filename = os.path.join(dirary_dir,file) most_common(filename) 参考 https://github.com/Show-Me-the-Code/python]]></content>
       <tags>
         <tag>Python</tag>
