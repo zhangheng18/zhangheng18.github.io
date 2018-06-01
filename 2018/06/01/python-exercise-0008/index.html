@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | XiaoTaoist&#39;s Blog</title>
+  <title>Python练习册：0008 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="题目一个HTML文件，找出里面的正文。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python练习册：0008">
+<meta property="og:url" content="http://yoursite.com/2018/06/01/python-exercise-0008/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="题目一个HTML文件，找出里面的正文。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T01:05:26.327Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="Python练习册：0008">
+<meta name="twitter:description" content="题目一个HTML文件，找出里面的正文。">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -148,36 +153,50 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-python-exercise-0008" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/07/python-getss/" class="archive-article-date">
-  	<time datetime="2018-04-07T10:31:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/07/python-getss/">Python爬取某站科学上网帐号(5.15更新)</a>
+    <h1 class="article-title" itemprop="name">
+      Python练习册：0008
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/06/01/python-exercise-0008/" class="archive-article-date">
+  	<time datetime="2018-05-31T23:32:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>一个HTML文件，找出里面的正文。
+</code></pre><a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>我们可以用<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html" target="_blank" rel="noopener">BeautifulSoup</a>库去解析<a href="http://www.w3school.com.cn/html/html_jianjie.asp" target="_blank" rel="noopener">HTML</a>，的结构获取内容,手册提供的实例中就有这个内容，只需要使用<code>get_text()</code>函数即可获取里面的文字内容。</p>
+<blockquote>
+<p>pip install beautifulsoup4 lxml</p>
+</blockquote>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">一个HTML文件，找出里面的正文。</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="keyword">as</span> BS</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造一个BeautifulSoup对象</span></span><br><span class="line">soup = BS(open(<span class="string">'show-me-the-code.html'</span>),<span class="string">'lxml'</span>)</span><br><span class="line"><span class="comment">#获取正文</span></span><br><span class="line">print(soup.get_text())</span><br></pre></td></tr></table></figure>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>实际上这只是简单的获取标签内容，真正使用的时候，遇到复杂的网页,效果就不是很好了。这时需要一些算法来优化结果。</p>
+<ul>
+<li>基于行块分布函数的cx-extractor：<a href="https://github.com/chrislinan/cx-extractor-python" target="_blank" rel="noopener">https://github.com/chrislinan/cx-extractor-python</a></li>
+<li>使用NLTK的Gooe：(<a href="https://github.com/grangier/python-goose" target="_blank" rel="noopener">https://github.com/grangier/python-goose</a></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.cnblogs.com/jasondan/p/3497757.html" target="_blank" rel="noopener">https://www.cnblogs.com/jasondan/p/3497757.html</a></li>
+<li><a href="https://piaosanlang.gitbooks.io/spiders/10day/section10.1.html" target="_blank" rel="noopener">https://piaosanlang.gitbooks.io/spiders/10day/section10.1.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -189,364 +208,132 @@
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/29/gpg/" class="archive-article-date">
-  	<time datetime="2018-03-29T00:41:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/29/gpg/">保护你的邮件通信——Mailvelope（GPG）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Privacy</a>
+        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/06/01/python-exercise-0008/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/19/Bumblebee/" class="archive-article-date">
-  	<time datetime="2018-03-19T10:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/31/python-exercise-0007/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0007</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/19/Bumblebee/">Manjaro Linux 配置Intel与Nvidia双显卡切换</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/15/aircrack-hashcat/" class="archive-article-date">
-  	<time datetime="2018-03-15T11:45:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/15/aircrack-hashcat/">使用Aircrack&amp;hashcat破解WPA/WPA2</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">WiFi</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/oh-my-zsh/" class="archive-article-date">
-  	<time datetime="2018-03-14T01:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/oh-my-zsh/">终端环境之Zsh＆oh-my-zsh</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/09/archlinuxcn/" class="archive-article-date">
-  	<time datetime="2018-03-09T08:07:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/09/archlinuxcn/">笔记本安装 Manjaro Linux</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/07/ssh-keygen/" class="archive-article-date">
-  	<time datetime="2018-03-07T01:37:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/07/ssh-keygen/">SSH免密登录</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/02/backdoor-apk/" class="archive-article-date">
-  	<time datetime="2018-03-02T10:00:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/02/backdoor-apk/">生成apk后门实现msf控制安卓手机</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/28/vimium/" class="archive-article-date">
-  	<time datetime="2018-02-28T09:09:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/28/vimium/">Vimium 入门</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/16/poetry/" class="archive-article-date">
-  	<time datetime="2018-02-15T17:09:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/16/poetry/">随笔・一</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://yoursite.com/2018/06/01/python-exercise-0008/",
+  owner: 'xiaoTaoist',
+  repo: 'xiaotaoist.github.io',
+  oauth: {
+    client_id: 'db56b34f79769b86de3d',
+    client_secret: 'b6be612255a771e8d1685cc94ebc31516e693454',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -570,8 +357,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
