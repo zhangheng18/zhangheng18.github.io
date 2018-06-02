@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0009]]></title>
+    <url>%2F2018%2F06%2F02%2Fpython-exercise-0009%2F</url>
+    <content type="text"><![CDATA[题目一个HTML文件，找出里面的链接。 分析先用urlib获取html内容，接着用BeautifulSoup库去解析HTML的a标签,官方文档中就有这个获取链接的示例。 pip install beautifulsoup4 lxml 代码 使用BeautifulSoup库 123456789101112131415161718192021222324252627"""一个HTML文件，找出里面的链接。"""from urllib import requestfrom bs4 import BeautifulSoup as BSurl = "https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432688314740a0aed473a39f47b09c8c7274c9ab6aee000"req = request.Request(url)req.add_header('User-Agent','Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0')#读取网页内容以utf-8解码html = request.urlopen(req).read().decode('utf-8')soup = BS(html,'lxml')#查找所有&lt;a&gt;a = soup.find_all('a')for link in a: #找href属性的内容 href = link.get('href') try: #排除一些#或./之类的干扰链接 if href.startswith('http'): print(href) except: pass 使用正则表达式有一些链接是不在a标签里的，可以简单粗暴的匹配所有href里的内容。 1234567891011121314from urllib import requestimport reurl = "https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432688314740a0aed473a39f47b09c8c7274c9ab6aee000"req = request.Request(url)req.add_header('User-Agent','Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0')#读取网页内容以utf-8解码html = request.urlopen(req).read().decode('utf-8')href = re.findall(r'href="(http.*?)"',html)for link in href: print(link) 参考 https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/ https://stackoverflow.com/questions/6883049/regex-to-find-urls-in-string-in-python]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0008]]></title>
     <url>%2F2018%2F06%2F01%2Fpython-exercise-0008%2F</url>
     <content type="text"><![CDATA[题目一个HTML文件，找出里面的正文。 分析我们可以用BeautifulSoup库去解析HTML，的结构获取内容,手册提供的实例中就有这个内容，只需要使用get_text()函数即可获取里面的文字内容。 pip install beautifulsoup4 lxml 代码12345678910"""一个HTML文件，找出里面的正文。"""from bs4 import BeautifulSoup as BS#构造一个BeautifulSoup对象soup = BS(open('show-me-the-code.html'),'lxml')#获取正文print(soup.get_text()) 扩展实际上这只是简单的获取标签内容，真正使用的时候，遇到复杂的网页,效果就不是很好了。这时需要一些算法来优化结果。 基于行块分布函数的cx-extractor：https://github.com/chrislinan/cx-extractor-python 使用NLTK的Gooe：(https://github.com/grangier/python-goose 参考 https://www.cnblogs.com/jasondan/p/3497757.html https://piaosanlang.gitbooks.io/spiders/10day/section10.1.html]]></content>
