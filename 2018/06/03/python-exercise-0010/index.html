@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Python练习册：0009 | XiaoTaoist&#39;s Blog</title>
+  <title>Python练习册：0010 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题目一个HTML文件，找出里面的链接。">
+  <meta name="description" content="题目使用 Python 生成类似于下图中的字母验证码图片。">
 <meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python练习册：0009">
-<meta property="og:url" content="http://yoursite.com/2018/06/02/python-exercise-0009/index.html">
+<meta property="og:title" content="Python练习册：0010">
+<meta property="og:url" content="http://yoursite.com/2018/06/03/python-exercise-0010/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="题目一个HTML文件，找出里面的链接。">
+<meta property="og:description" content="题目使用 Python 生成类似于下图中的字母验证码图片。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-02T13:13:22.916Z">
+<meta property="og:image" content="https://camo.githubusercontent.com/f80e7aa0d43b3685657b4d329f2809a28c82e12a/687474703a2f2f692e696d6775722e636f6d2f615668626567562e6a7067">
+<meta property="og:updated_time" content="2018-06-03T03:42:11.973Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python练习册：0009">
-<meta name="twitter:description" content="题目一个HTML文件，找出里面的链接。">
+<meta name="twitter:title" content="Python练习册：0010">
+<meta name="twitter:description" content="题目使用 Python 生成类似于下图中的字母验证码图片。">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/f80e7aa0d43b3685657b4d329f2809a28c82e12a/687474703a2f2f692e696d6775722e636f6d2f615668626567562e6a7067">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -153,43 +155,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-python-exercise-0009" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-python-exercise-0010" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python练习册：0009
+      Python练习册：0010
     </h1>
   
 
         
-        <a href="/2018/06/02/python-exercise-0009/" class="archive-article-date">
-  	<time datetime="2018-06-02T11:36:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-02</time>
+        <a href="/2018/06/03/python-exercise-0010/" class="archive-article-date">
+  	<time datetime="2018-06-03T02:57:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>一个HTML文件，找出里面的链接。
-</code></pre><a id="more"></a>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>先用<a href="https://docs.python.org/3/library/urllib.request.html" target="_blank" rel="noopener">urlib</a>获取html内容，接着用<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html" target="_blank" rel="noopener">BeautifulSoup</a>库去解析<a href="http://www.w3school.com.cn/html/html_jianjie.asp" target="_blank" rel="noopener">HTML</a>的a标签,官方文档中就有这个获取链接的示例。</p>
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>使用 Python 生成类似于下图中的字母验证码图片。
+</code></pre><p><img src="https://camo.githubusercontent.com/f80e7aa0d43b3685657b4d329f2809a28c82e12a/687474703a2f2f692e696d6775722e636f6d2f615668626567562e6a7067" alt="img"><br><a id="more"></a></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p><a href="http://stackoverflow.com/questions/2823316/generate-a-random-letter-in-python" target="_blank" rel="noopener">阅读资料</a>内容是如何生成随机字母，还需要使用<a href="https://pillow-zh-cn.readthedocs.io/zh_CN/latest/handbook/index.html" target="_blank" rel="noopener">pillow</a>库建立画布，填充背景颜色和字母，模糊处理，显示结果，这里主要参考廖雪峰Python 教程中的<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014320027235877860c87af5544f25a8deeb55141d60c5000" target="_blank" rel="noopener">Pillow</a>部分的示例。</p>
 <blockquote>
-<p>pip install beautifulsoup4 lxml</p>
+<p>pip install pillow</p>
 </blockquote>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
-<li><p>使用BeautifulSoup库</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">一个HTML文件，找出里面的链接。</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup <span class="keyword">as</span> BS</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432688314740a0aed473a39f47b09c8c7274c9ab6aee000"</span></span><br><span class="line"></span><br><span class="line">req = request.Request(url)</span><br><span class="line">req.add_header(<span class="string">'User-Agent'</span>,<span class="string">'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'</span>)</span><br><span class="line"><span class="comment">#读取网页内容以utf-8解码</span></span><br><span class="line">html = request.urlopen(req).read().decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">soup = BS(html,<span class="string">'lxml'</span>)</span><br><span class="line"><span class="comment">#查找所有&lt;a&gt;</span></span><br><span class="line">a = soup.find_all(<span class="string">'a'</span>)</span><br><span class="line"><span class="keyword">for</span> link <span class="keyword">in</span> a:</span><br><span class="line">    <span class="comment">#找href属性的内容</span></span><br><span class="line">    href = link.get(<span class="string">'href'</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment">#排除一些#或./之类的干扰链接</span></span><br><span class="line">        <span class="keyword">if</span>  href.startswith(<span class="string">'http'</span>):</span><br><span class="line">            print(href)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用正则表达式<br>有一些链接是不在a标签里的，可以简单粗暴的匹配所有href里的内容。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432688314740a0aed473a39f47b09c8c7274c9ab6aee000"</span></span><br><span class="line"></span><br><span class="line">req = request.Request(url)</span><br><span class="line">req.add_header(<span class="string">'User-Agent'</span>,<span class="string">'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'</span>)</span><br><span class="line"><span class="comment">#读取网页内容以utf-8解码</span></span><br><span class="line">html = request.urlopen(req).read().decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">href = re.findall(<span class="string">r'href="(http.*?)"'</span>,html)</span><br><span class="line"><span class="keyword">for</span> link <span class="keyword">in</span> href:</span><br><span class="line">        print(link)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">使用 Python 生成类似于下图中的字母验证码图片。</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image, ImageDraw, ImageFont, ImageFilter</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机字母:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rndChar</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> random.choice(string.ascii_letters)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机背景色:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bkgColor</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (random.randint(<span class="number">64</span>, <span class="number">255</span>), random.randint(<span class="number">64</span>, <span class="number">255</span>), random.randint(<span class="number">64</span>, <span class="number">255</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机字母色:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">charColor</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (random.randint(<span class="number">32</span>, <span class="number">127</span>), random.randint(<span class="number">32</span>, <span class="number">127</span>), random.randint(<span class="number">32</span>, <span class="number">127</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 容纳4个字符的宽度 240:</span></span><br><span class="line">width = <span class="number">60</span> * <span class="number">4</span></span><br><span class="line">height = <span class="number">60</span></span><br><span class="line">image = Image.new(<span class="string">'RGB'</span>, (width, height), (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>))</span><br><span class="line"><span class="comment"># 创建Font对象:</span></span><br><span class="line">font = ImageFont.truetype(<span class="string">'consolab.ttf'</span>, <span class="number">42</span>)</span><br><span class="line"><span class="comment"># 创建Draw对象:</span></span><br><span class="line">draw = ImageDraw.Draw(image)</span><br><span class="line"><span class="comment"># 填充每个像素:</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(width):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(height):</span><br><span class="line">        draw.point((x, y), fill=bkgColor())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出文字:</span></span><br><span class="line">letters = []</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">        char = rndChar()</span><br><span class="line">        letters.append(char)</span><br><span class="line">        <span class="comment">#随机偏移位置</span></span><br><span class="line">        draw.text((<span class="number">60</span> * t + random.randint(<span class="number">10</span>,<span class="number">20</span>), random.randint(<span class="number">10</span>,<span class="number">20</span>)),char, font=font, fill=charColor())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模糊:</span></span><br><span class="line">image = image.filter(ImageFilter.BLUR)</span><br><span class="line">image.save(<span class="string">'code.png'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#显示</span></span><br><span class="line">print(letters)</span><br><span class="line">image.show()</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/</a></li>
-<li><a href="https://stackoverflow.com/questions/6883049/regex-to-find-urls-in-string-in-python" target="_blank" rel="noopener">https://stackoverflow.com/questions/6883049/regex-to-find-urls-in-string-in-python</a></li>
+<li><a href="https://stackoverflow.com/questions/2823316/generate-a-random-letter-in-python" target="_blank" rel="noopener">https://stackoverflow.com/questions/2823316/generate-a-random-letter-in-python</a></li>
 </ul>
 
       
@@ -271,7 +266,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/06/02/python-exercise-0009/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/06/03/python-exercise-0010/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -285,18 +280,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/06/03/python-exercise-0010/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python练习册：0010
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/06/01/python-exercise-0008/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python练习册：0008</div>
+    <a href="/2018/06/02/python-exercise-0009/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0009</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -335,7 +321,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://yoursite.com/2018/06/02/python-exercise-0009/",
+  id: "http://yoursite.com/2018/06/03/python-exercise-0010/",
   owner: 'xiaoTaoist',
   repo: 'xiaotaoist.github.io',
   oauth: {
