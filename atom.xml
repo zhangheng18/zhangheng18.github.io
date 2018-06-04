@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-06-03T03:42:11.973Z</updated>
+  <updated>2018-06-04T06:38:57.697Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python练习册：0011</title>
+    <link href="http://yoursite.com/2018/06/04/python-exercise-0011/"/>
+    <id>http://yoursite.com/2018/06/04/python-exercise-0011/</id>
+    <published>2018-06-04T05:04:13.000Z</published>
+    <updated>2018-06-04T06:38:57.697Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>敏感词文本文件 filtered_words.txt，里面的内容为以下内容，当用户输入敏感词语时，则打印出 Freedom，否则打印出 Human Rights。</code></pre><a id="more"></a><blockquote><p>北京<br>程序员<br>公务员<br>领导<br>牛比<br>牛逼<br>你娘<br>你妈<br>love<br>sex<br>jiangge</p></blockquote><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>读取文本内容，添加到列表，获取输入，匹配即可。</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'filtered_words.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="comment">#读取内容到一个列表，并过滤每项中的'\n'</span></span><br><span class="line">        text = <span class="string">''</span>.join(f.readlines()).strip(<span class="string">'\n'</span>).split()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="comment">#读取输入</span></span><br><span class="line">        line = input(<span class="string">"&gt; "</span>)</span><br><span class="line">        <span class="comment">#判断输入内容是否含有敏感词</span></span><br><span class="line">        <span class="keyword">if</span> any( [words <span class="keyword">in</span> line <span class="keyword">for</span> words <span class="keyword">in</span> text]):</span><br><span class="line">                print(<span class="string">'Freedom'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">'Human Rights'</span>)</span><br></pre></td></tr></table></figure><h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>当敏感词列表非常多的时候这示例就不是那么好用了，主要原因在于字符匹配算法太低效，可以尝试：</p><ul><li>AC自动机： <a href="https://github.com/gongchangpy/ahocorasick-python" target="_blank" rel="noopener">https://github.com/gongchangpy/ahocorasick-python</a></li><li>DFA算法：<a href="https://github.com/iistrate/DFA" target="_blank" rel="noopener">https://github.com/iistrate/DFA</a></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://www.topjishu.com/1826.html" target="_blank" rel="noopener">https://www.topjishu.com/1826.html</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;敏感词文本文件 filtered_words.txt，里面的内容为以下内容，当用户输入敏感词语时，则打印出 Freedom，否则打印出 Human Rights。
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="Python练习册" scheme="http://yoursite.com/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Python练习册：0010</title>
