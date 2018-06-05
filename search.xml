@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0012]]></title>
+    <url>%2F2018%2F06%2F05%2Fpython-exercise-0012%2F</url>
+    <content type="text"><![CDATA[题目敏感词文本文件 filtered_words.txt，里面的内容 和 0011题一样，当用户输入敏感词语，则用 星号 * 替换，例如当用户输入「北京是个好城市」，则变成「**是个好城市」。 分析思路和0011题一样，接着使用str.replace方法,将敏感词替换为*。 代码 普通版 12345678910111213with open('filtered_words.txt','r') as f: #读取内容到一个列表，并过滤每项中的'\n' text = ''.join(f.readlines()).strip('\n').split()while True: #读取输入 line = input("&gt; ") #循环替换一遍 for words in text: #根据敏感词长度打印*的长度 line = line.replace(words,len(words)*‘*’) print(line) 高效版，从Github上找一个DFA，BF算法实现的匹配过滤，由于python2写的，我们可以简单修改一下，去除编码部分的判断即可在Python3下正常使用。 123456789101112from wfgfw import DFAFilter#构造DFAFilter对象f = DFAFilter()#添加关键词f.parse('filtered_words.txt')while True: msg = input("&gt;") #过滤消息，默认返回(布尔值，过滤过的内容) _,out = f.filter(msg) print(out) 参考 https://github.com/dantezhu/wfgfw/blob/master/wfgfw/wfgfw.py https://xiaotaoist.github.io/2018/06/04/python-exercise-0011]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0011]]></title>
     <url>%2F2018%2F06%2F04%2Fpython-exercise-0011%2F</url>
     <content type="text"><![CDATA[题目敏感词文本文件 filtered_words.txt，里面的内容为以下内容，当用户输入敏感词语时，则打印出 Freedom，否则打印出 Human Rights。 北京程序员公务员领导牛比牛逼你娘你妈lovesexjiangge 分析读取文本内容，添加到列表，获取输入，匹配即可。 代码123456789101112with open('filtered_words.txt','r') as f: #读取内容到一个列表，并过滤每项中的'\n' text = ''.join(f.readlines()).strip('\n').split()while True: #读取输入 line = input("&gt; ") #判断输入内容是否含有敏感词 if any( [words in line for words in text]): print('Freedom') else: print('Human Rights') 扩展当敏感词列表非常多的时候这示例就不是那么好用了，主要原因在于字符匹配算法太低效，可以尝试： AC自动机： https://github.com/gongchangpy/ahocorasick-python DFA算法：https://github.com/iistrate/DFA 参考 https://www.topjishu.com/1826.html]]></content>

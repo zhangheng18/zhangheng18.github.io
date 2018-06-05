@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-06-04T06:38:57.697Z</updated>
+  <updated>2018-06-05T03:13:43.365Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python练习册：0012</title>
+    <link href="http://yoursite.com/2018/06/05/python-exercise-0012/"/>
+    <id>http://yoursite.com/2018/06/05/python-exercise-0012/</id>
+    <published>2018-06-05T02:18:13.000Z</published>
+    <updated>2018-06-05T03:13:43.365Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>敏感词文本文件 filtered_words.txt，里面的内容 和 0011题一样，当用户输入敏感词语，则用 星号 * 替换，例如当用户输入「北京是个好城市」，则变成「**是个好城市」。</code></pre><a id="more"></a><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>思路和<a href="https://xiaotaoist.github.io/2018/06/04/python-exercise-0011/" target="_blank" rel="noopener">0011题</a>一样，接着使用<a href="http://www.runoob.com/python/att-string-replace.html" target="_blank" rel="noopener">str.replace</a>方法,将敏感词替换为*。</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul><li><p>普通版</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'filtered_words.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="comment">#读取内容到一个列表，并过滤每项中的'\n'</span></span><br><span class="line">        text = <span class="string">''</span>.join(f.readlines()).strip(<span class="string">'\n'</span>).split()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="comment">#读取输入</span></span><br><span class="line">        line = input(<span class="string">"&gt; "</span>)</span><br><span class="line">        <span class="comment">#循环替换一遍</span></span><br><span class="line">        <span class="keyword">for</span> words <span class="keyword">in</span> text:</span><br><span class="line">                <span class="comment">#根据敏感词长度打印*的长度</span></span><br><span class="line">                line = line.replace(words,len(words)*‘*’) </span><br><span class="line"></span><br><span class="line">        print(line)</span><br></pre></td></tr></table></figure></li><li><p>高效版，从<a href="https://github.com/dantezhu/wfgfw" target="_blank" rel="noopener">Github</a>上找一个DFA，BF算法实现的匹配过滤，由于python2写的，我们可以简单修改一下，去除编码部分的判断即可在Python3下正常使用。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> wfgfw <span class="keyword">import</span> DFAFilter</span><br><span class="line"></span><br><span class="line"><span class="comment">#构造DFAFilter对象</span></span><br><span class="line">f = DFAFilter()</span><br><span class="line"><span class="comment">#添加关键词</span></span><br><span class="line">f.parse(<span class="string">'filtered_words.txt'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        msg = input(<span class="string">"&gt;"</span>)</span><br><span class="line">        <span class="comment">#过滤消息，默认返回(布尔值，过滤过的内容)</span></span><br><span class="line">        _,out = f.filter(msg)</span><br><span class="line">        print(out)</span><br></pre></td></tr></table></figure></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://github.com/dantezhu/wfgfw/blob/master/wfgfw/wfgfw.py" target="_blank" rel="noopener">https://github.com/dantezhu/wfgfw/blob/master/wfgfw/wfgfw.py</a></li><li><a href="https://xiaotaoist.github.io/2018/06/04/python-exercise-0011" target="_blank" rel="noopener">https://xiaotaoist.github.io/2018/06/04/python-exercise-0011</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;敏感词文本文件 filtered_words.txt，里面的内容 和 0011题一样，当用户输入敏感词语，则用 星号 * 替换，例如当用户输入「北京是个好城市」，则变成「**是个好城市」。
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="Python练习册" scheme="http://yoursite.com/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Python练习册：0011</title>
