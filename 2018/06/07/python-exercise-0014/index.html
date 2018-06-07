@@ -6,24 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://xiaotaoist.github.io">
-  <title>使用Pcap_DNS搭建本地防污染DNS服务器 | XiaoTaoist&#39;s Blog</title>
+  <title>Python练习册：0014 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
-<meta name="keywords" content="Linux">
+  <meta name="description" content="题目纯文本文件 student.txt为学生信息, 里面的内容（包括花括号）如下所示：">
+<meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
-<meta property="og:url" content="https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/index.html">
+<meta property="og:title" content="Python练习册：0014">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/06/07/python-exercise-0014/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
+<meta property="og:description" content="题目纯文本文件 student.txt为学生信息, 里面的内容（包括花括号）如下所示：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://xiaotaoist.github.io/img/dns_dig.png">
-<meta property="og:image" content="https://xiaotaoist.github.io/img/dns_fake.png">
-<meta property="og:image" content="https://xiaotaoist.github.io/img/dns_suc.png">
-<meta property="og:updated_time" content="2018-05-07T05:43:23.536Z">
+<meta property="og:image" content="https://camo.githubusercontent.com/18dea9401449e4ca894d40d55134d9c28083280d/687474703a2f2f692e696d6775722e636f6d2f6e50446c706d652e6a7067">
+<meta property="og:updated_time" content="2018-06-07T07:56:43.300Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
-<meta name="twitter:description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
-<meta name="twitter:image" content="https://xiaotaoist.github.io/img/dns_dig.png">
+<meta name="twitter:title" content="Python练习册：0014">
+<meta name="twitter:description" content="题目纯文本文件 student.txt为学生信息, 里面的内容（包括花括号）如下所示：">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/18dea9401449e4ca894d40d55134d9c28083280d/687474703a2f2f692e696d6775722e636f6d2f6e50446c706d652e6a7067">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -157,81 +155,40 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Pcap-DNSProxy-md" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-python-exercise-0014" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      使用Pcap_DNS搭建本地防污染DNS服务器
+      Python练习册：0014
     </h1>
   
 
         
-        <a href="/2018/04/14/Pcap-DNSProxy-md/" class="archive-article-date">
-  	<time datetime="2018-04-14T13:42:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-14</time>
+        <a href="/2018/06/07/python-exercise-0014/" class="archive-article-date">
+  	<time datetime="2018-06-07T00:27:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>========================</p>
-<h2 id="DNS介绍"><a href="#DNS介绍" class="headerlink" title="DNS介绍"></a>DNS介绍</h2><p> 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p>
- <a id="more"></a>
-<p> <img src="/img/dns_dig.png" alt="dig"></p>
-<h2 id="DNS的问题"><a href="#DNS的问题" class="headerlink" title="DNS的问题"></a>DNS的问题</h2><p>一般运营商（联通，电信，移动）都会搭建自己的DNS服务器，以提高响应速度，但是运营商会为了为了某些目的，会对DNS做一些手脚，导致我们无法通过域名解析出正确的IP地址。常用的手段有：DNS劫持和DNS污染。网上很多文章建议将DNS设为公共DNS（如阿里的<code>223.5.5.5</code>,谷歌的<code>8.8.8.8</code>,腾讯的<code>119.29.29.29</code>），但是你们也太小看运营商了，以移动为例：他们会对UDP53（DNS默认向53端口用UDP包发送查询请求）进行抢答。随便输入一个IP地址（8.1.2.3不是任何公共DNS服务器地址），都能给你返回查询结果。<br><img src="/img/dns_fake.png" alt="dns_fake"></p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里介绍使用<a href="https://github.com/chengr28/Pcap_DNSProxy" target="_blank" rel="noopener">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win/MacOS都有编译好的二进制文件，可以直接<a href="https://github.com/chengr28/Pcap_DNSProxy/releases" target="_blank" rel="noopener">下载</a>使用。</p>
-<p>下文介绍Arch Linux下的Pcap_DNSProxy的编译与使用，其他环境请参考chengr28的<a href="https://github.com/chengr28/Pcap_DNSProxy/tree/master/Documents" target="_blank" rel="noopener">官方文档</a></p>
-<ul>
-<li><p>安装编译环境</p>
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>纯文本文件 student.txt为学生信息, 里面的内容（包括花括号）如下所示：
+</code></pre><a id="more"></a>
 <blockquote>
-<p>sudo pacman -S gcc cmake libpcap libsodium openssl git bind-tools</p>
+<p>{<br>    “1”:[“张三”,150,120,100],<br>    “2”:[“李四”,90,99,95],<br>    “3”:[“王五”,60,66,68]<br>}<br>请将上述内容写到 student.xls 文件中，如下图所示：<br><img src="https://camo.githubusercontent.com/18dea9401449e4ca894d40d55134d9c28083280d/687474703a2f2f692e696d6775722e636f6d2f6e50446c706d652e6a7067" alt="img"></p>
 </blockquote>
-</li>
-<li><p>下载源码</p>
+<p><a href="https://www.cnblogs.com/skynet/archive/2013/05/06/3063245.html" target="_blank" rel="noopener">阅读资料</a> 腾讯游戏开发 XML 和 Excel 内容相互转换</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>txt的内容格式其实是字典格式，这里我们可以使用强大的数据处理库<a href="https://pandas.pydata.org/pandas-docs/stable/" target="_blank" rel="noopener">pandas</a>实现字典到excel的直接转化。</p>
 <blockquote>
-<p>git clone <a href="https://github.com/chengr28/Pcap_DNSProxy.git" target="_blank" rel="noopener">https://github.com/chengr28/Pcap_DNSProxy.git</a></p>
+<p>pip install pandas xlwt</p>
 </blockquote>
-</li>
-<li><p>编译生成可执行文件</p>
-<blockquote>
-<p>cd Pcap_DNSProxy/Source/Auxiliary/Scripts #进入指定目录<br>chmod 755 CMake_Build.sh #赋予脚本执行权限<br>./CMake_Build.sh         #执行编译程序</p>
-</blockquote>
-</li>
-<li><p>编译成功后，<code>Pcap_DNSProxy/Source/Release</code> 目录下的文件即目标程序和配置文件，我们先来测试一下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line">sudo ./Pcap_DNSProxy --<span class="built_in">disable</span>-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h2><ul>
-<li>进入<code>Release</code>目录并编辑 Pcap_DNSProxy.service 文件，编辑完成后保存： </li>
-</ul>
-<blockquote>
-<p>WorkingDirectory= 项为程序所在目录的绝对路径(例如:/home/my/Pcap_DNSProxy/Source/Release)<br>ExecStart= 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：/home/my/Pcap_DNSProxy/Source/Release/Pcap_DNSProxy)</p>
-</blockquote>
-<ul>
-<li><p>自动安装到系统，并设为开机自启</p>
-<blockquote>
-<p>sudo ./Linux_Install.Systemd.sh</p>
-</blockquote>
-</li>
-<li><p>修改系统DNS设置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">"nameserver 127.0.0.1\n"</span> | sudo tee /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;sudo chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></p>
-</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4  + UDP + TCP <span class="comment">#优先使用UDP，提高解析速度</span></span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#允许使用Sock5代理，以远程解析DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>更详细配置请阅读<a href="https://github.com/chengr28/Pcap_DNSProxy/blob/master/Documents/ReadMe.zh-Hans.txt" target="_blank" rel="noopener">文档</a></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment">#按json格式读取内容，转化成pandas可以处理的DataFrame格式</span></span><br><span class="line">df = pd.read_json(<span class="string">'student.txt'</span>,orient=<span class="string">'index'</span>)</span><br><span class="line"><span class="comment">#printf(df)</span></span><br><span class="line"><span class="comment">#输出到student表格,表名student，忽略表头 0 1 2 3</span></span><br><span class="line">df.to_excel(<span class="string">'student.xls'</span>,sheet_name=<span class="string">'student'</span>,header=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F</a></li>
-<li><a href="https://www.v2ex.com/t/442340#reply15" target="_blank" rel="noopener">https://www.v2ex.com/t/442340#reply15</a></li>
-<li><a href="https://www.v2ex.com/t/360775" target="_blank" rel="noopener">https://www.v2ex.com/t/360775</a></li>
-<li><a href="https://wiki.archlinux.org/index.php/Resolv.conf" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/Resolv.conf</a></li>
+<li><a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_json.html" target="_blank" rel="noopener">https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_json.html</a></li>
+<li><a href="https://blog.csdn.net/tongxinzhazha/article/details/78796952" target="_blank" rel="noopener">https://blog.csdn.net/tongxinzhazha/article/details/78796952</a></li>
 </ul>
 
       
@@ -246,13 +203,24 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
         		</li>
       		
 		</ul>
 	</div>
 
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -302,7 +270,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/06/07/python-exercise-0014/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -316,18 +284,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/05/24/python-exercise-0000/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python练习册：0000
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/04/07/python-getss/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python爬取某站科学上网帐号(5.15更新)</div>
+    <a href="/2018/06/06/python-exercise-0013/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0013</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -366,7 +325,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/",
+  id: "https://xiaotaoist.github.io/2018/06/07/python-exercise-0014/",
   owner: 'xiaoTaoist',
   repo: 'xiaotaoist.github.io',
   oauth: {
