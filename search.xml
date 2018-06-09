@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0016]]></title>
+    <url>%2F2018%2F06%2F09%2Fpython-exercise-0016%2F</url>
+    <content type="text"><![CDATA[题目纯文本文件 numbers.txt, 里面的内容（包括方括号）如下所示： [ [1, 82, 65535], [20, 90, 13], [26, 809, 1024]]请将上述内容写到 numbers.xls 文件中，如下图所示： 分析和0014题,0015题一样，还是将指定内容写入Excel表格，这次我们分别用xlwt和pandas。 代码 xlwt 12345678910111213141516171819202122232425262728293031import jsonimport xlwtdef read(filename): with open(filename, 'r') as f: data = f.read() #格式化成json数据便于操作 return json.loads(data)def write(filename, data): #新建一个xls表格 workbook = xlwt.Workbook() #新建表：numbers sheet_name = workbook.add_sheet('numbers') row = 0 #行 #data 的内容[[1, 82, 65535], [20, 90, 13], [26, 809, 1024]] for row_d in data: col = 0 #列 for col_d in row_d: sheet_name.write(row, col, col_d) col += 1 row += 1 #保存成numbers.xls表 workbook.save(filename)if __name__ == '__main__': data = read('numbers.txt') write('numbers.xls', data) pandas 1234import pandas as pddf =pd.read_json('numbers.txt') df.to_excel('numbers.xls',header=None,index=False) 参考 https://blog.csdn.net/brucewong0516/article/details/79097909]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0015]]></title>
     <url>%2F2018%2F06%2F08%2Fpython-exercise-0015%2F</url>
     <content type="text"><![CDATA[题目纯文本文件 city.txt为城市信息, 里面的内容（包括花括号）如下所示： { “1” : “上海”, “2” : “北京”, “3” : “成都”}请将上述内容写到 city.xls 文件中，如下图所示： 分析和0014题一样也是将指定内容写入Excel表格，这次我们用xlwt库 pip install xlwt 代码12345678910111213141516171819202122232425262728293031import jsonimport xlwtdef read(filename): with open(filename, 'r') as f: data = f.read() #格式化成json数据便于操作 return json.loads(data)def write(filename, data): #新建一个xls表格 workbook = xlwt.Workbook() #添加一个city表 sheet_name = workbook.add_sheet('city') row = 0 #行 #data 的内容[('1', '上海'), ('2', '北京'), ('3', '成都')] for i, j in data.items(): col = 0 #列 sheet_name.write(row, col, i) sheet_name.write(row, col + 1, j) row += 1 #保存成city.xls表 workbook.save(filename)if __name__ == '__main__': data = read('city.txt') write('city.xls', data) 参考 https://www.jianshu.com/p/4e39444d5ebc https://blog.csdn.net/tongxinzhazha/article/details/78796952]]></content>
