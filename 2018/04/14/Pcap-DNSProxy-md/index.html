@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://xiaotaoist.github.io/img/dns_dig.png">
 <meta property="og:image" content="https://xiaotaoist.github.io/img/dns_fake.png">
 <meta property="og:image" content="https://xiaotaoist.github.io/img/dns_suc.png">
-<meta property="og:updated_time" content="2018-05-07T05:43:23.536Z">
+<meta property="og:updated_time" content="2018-06-10T09:37:29.482Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
 <meta name="twitter:description" content="======================== DNS介绍 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
@@ -217,7 +217,7 @@
 </blockquote>
 </li>
 <li><p>修改系统DNS设置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">"nameserver 127.0.0.1\n"</span> | sudo tee /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;sudo chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">"nameserver 127.0.0.1\nnameserver 8.8.8.8"</span> | sudo tee /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;sudo chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></p>
 </li>
