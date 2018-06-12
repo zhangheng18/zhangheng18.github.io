@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0020]]></title>
+    <url>%2F2018%2F06%2F12%2Fpython-exercise-0020%2F</url>
+    <content type="text"><![CDATA[题目第 0020 题： 登陆中国联通网上营业厅 后选择「自助服务」 --&gt; 「详单查询」，然后选择你要查询的时间段，点击「查询」按钮，查询结果页面的最下方，点击「导出」，就会生成类似于 2014年10月01日～2014年10月31日通话详单.xls 文件。写代码，对每月通话时间做个统计。 我们可以看到表格内容类似如下： 分析我们先用xlrd读取表格中通话时长，呼叫类型两列数据,再用re去提取通话时长的数据，最后进行累加统计即可。 代码12345678910111213141516171819202122232425262728293031323334353637import reimport xlrd#统计时长def collect_times(xlsname): #读取第一个表格数据 xls = xlrd.open_workbook(xlsname) sheet = xls.sheet_by_index(0) sum_time = 0 caller_sum = 0 #去掉表头 for n in range(1, sheet.nrows): #读取通话时长与呼叫类型两列数据 call_time, call_type = sheet.row_values(n)[3:5] #通过正则，得到时间，如9分23秒返回(9,23) Min, Sec = re.match(r'(\d*?)[分]?(\d+)秒', call_time).groups() #转化成秒 if Min == '': Min = '0' times = int(Min) * 60 + int(Sec) #统计主叫时间 if call_type == "主叫": caller_sum += times sum_time += times #打印统计结果 print("本月主叫通话时间：%s分%s秒" % (divmod(caller_sum, 60))) print("本月被叫通话时间：%s分%s秒" % (divmod(sum_time - caller_sum, 60))) print("本月通话时间总计：%s分%s秒" % (divmod(sum_time, 60)))if __name__ == "__main__": data = collect_times('2018年06月语音通信.xls') 参考 http://www.runoob.com/python/python-reg-expressions.html]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0019]]></title>
     <url>%2F2018%2F06%2F11%2Fpython-exercise-0019%2F</url>
     <content type="text"><![CDATA[题目将 第 0016 题中的 numbers.xls 文件中的内容写到 numbers.xml 文件中，如下所示： &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt; &lt;root&gt; &lt;numbers&gt; &lt;!-- 数字信息 --&gt; [ [1, 82, 65535], [20, 90, 13], [26, 809, 1024] ] &lt;/numbers&gt; &lt;/root&gt; 分析和0017题,0018题，都是一样的，这次用pandas封装好的read_excel去读取表格内容，建立xml依旧用lxml。 pip install pandas xlrd lxml 代码12345678910111213141516171819202122232425262728293031323334353637383940import pandas as pdfrom lxml import etree#读取xls,返回所需要样式的字符串def read_xls(xlsname): df = pd.read_excel(xlsname, header=None) d = df.to_dict(orient='split')['data'] return "\n\t[\n\t\t&#123;&#125;,\n\t\t&#123;&#125;,\n\t\t&#123;&#125;\n\t]\n".format(d[0], d[1], d[2])#写入到xmldef write_xml(xmlname, data, comment): #建立root根节点 root = etree.Element('root') #添加注释 comm = etree.Comment(comment) root.append(comm) #添加一个子节点 child = etree.SubElement(root, xmlname) #添加文字 child.text = data #生成xml树对象 tree = etree.ElementTree(root) #写入到表格 tree.write( xmlname + '.xml', pretty_print=True, xml_declaration=True, encoding='utf-8')if __name__ == "__main__": comment = '数字信息' data = read_xls('numbers.xls') write_xml('numbers', data, comment) 参考 http://www.runoob.com/python/att-string-format.html https://blog.csdn.net/m0_37804518/article/details/78444110]]></content>
