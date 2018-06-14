@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Python练习册：0023]]></title>
+    <url>%2F2018%2F06%2F14%2Fpython-exercise-0023%2F</url>
+    <content type="text"><![CDATA[题目使用 Python 的 Web 框架，做一个 Web 版本 留言簿 应用。 阅读资料：Python 有哪些 Web 框架 分析常见的知名web框架有Django,Flask,Tornado,Bottle等，这里我们用Flask1.0+SQLite3实现其功能，用Pure样式美化我们的页面。主要参考Yixiaohan的flask-guestbook。 pip install flask 代码 结构 templates/ —–&gt; 模板 index.html static/ —–&gt; 静态页面 pure-min.css app.py —–&gt; flask 代码 guestbook.db —–&gt; sqlite3数据库 核心代码app.py 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384import sqlite3, osfrom datetime import datetimefrom flask import Flaskfrom flask import render_template, request, redirectfrom flask import gDATABASE = "guestbook.db"app = Flask(__name__)#绑定数据库链接def get_db(): db = getattr(g, '_database', None) if db is None: db = g._database = sqlite3.connect(DATABASE) return db@app.teardown_appcontextdef close_connection(exception): db = getattr(g, '_database', None) if db is not None: db.close()#第一次初始化数据库结构def init_db(): db = get_db() db.cursor().execute("""CREATE TABLE GUESTBOOK( USERNAME TEXT NOT NULL, COMMENT TEXT NOT NULL, CREATEAT TEXT NOT NULL); """) db.commit()#加载留言def load_data(): cur = get_db().execute("SELECT * from GUESTBOOK") rv = cur.fetchall() cur.close() return rv#保存留言def save_data(name, comment, create_at): db = get_db() cur = db.cursor().execute( "INSERT INTO GUESTBOOK (USERNAME,COMMENT,CREATEAT) VALUES (?,?,?)", (name, comment, create_at)) cur.close() db.commit()#响应主页@app.route('/')def index(): #第一次运行时初始化数据库 if not os.path.exists(DATABASE): init_db() #获取留言数据 greeting_list = load_data() #渲染html页面 return render_template('index.html', greeting_list=greeting_list)#得到POST方法提交的表单数据。@app.route('/post', methods=['POST'])def post(): name = request.form['name'] comment = request.form['comment'] create_at = datetime.now() save_data(name, comment, create_at) return redirect('/')if __name__ == '__main__': app.run('127.0.0.1', port='5000', debug=True) 完整代码参见这里 效果]]></content>
+      <categories>
+        <category>Python练习册</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python练习册：0022]]></title>
     <url>%2F2018%2F06%2F14%2Fpython-exercise-0022%2F</url>
     <content type="text"><![CDATA[题目iPhone 6、iPhone 6 Plus 早已上市开卖。请查看你写得 第 0005 题的代码是否可以复用。 分析0005题，的代码完全可以复用，只需要改动MAX_RESIZE为(750, 1334)(iPhone6的分辨率)。 代码1234567891011121314151617181920212223242526272829303132import osfrom PIL import Imagedef resize(img_dir, MAX_RESIZE, out_dir): try: for file in os.listdir(img_dir): #读取文件 img_file = os.path.join(img_dir, file) img = Image.open(img_file) #调整大小 out = img.resize(MAX_RESIZE) #如果out文件夹不存在则新建一个 if not os.path.exists(out_dir): os.mkdir(out_dir) #保存结果 out_img = os.path.join(out_dir, file) out.save(out_img) except Exception as e: print("操作失败！", e)if __name__ == '__main__': img_dir = 'img' out_dir = 'out' MAX_RESIZE = (750, 1334) resize(img_dir, MAX_RESIZE, out_dir) 参考 https://xiaotaoist.github.io/2018/05/29/python-exercise-0005/]]></content>
