@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://xiaotaoist.github.io">
-  <title>Archives | XiaoTaoist&#39;s Blog</title>
+  <title>Python练习册：0024 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="https://xiaotaoist.github.io/archives/page/3/index.html">
+  <meta name="description" content="题目第 0024 题： 使用 Python 的 Web 框架，做一个 Web 版本 TodoList 应用。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python练习册：0024">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/06/15/python-exercise-0024/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="题目第 0024 题： 使用 Python 的 Web 框架，做一个 Web 版本 TodoList 应用。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://camo.githubusercontent.com/d6aaa1fd3e238860cb9ce736cc8bdae628117508/687474703a2f2f692e696d6775722e636f6d2f4e4566377a48702e6a7067">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/0024.png">
+<meta property="og:updated_time" content="2018-06-16T06:53:37.487Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="Python练习册：0024">
+<meta name="twitter:description" content="题目第 0024 题： 使用 Python 的 Web 框架，做一个 Web 版本 TodoList 应用。">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/d6aaa1fd3e238860cb9ce736cc8bdae628117508/687474703a2f2f692e696d6775722e636f6d2f4e4566377a48702e6a7067">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -148,36 +156,57 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-python-exercise-0024" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python练习册：0024
+    </h1>
+  
+
+        
+        <a href="/2018/06/15/python-exercise-0024/" class="archive-article-date">
+  	<time datetime="2018-06-15T12:05:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-15</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>第 0024 题： 使用 Python 的 Web 框架，做一个 Web 版本 TodoList 应用。
+</code></pre><a id="more"></a>
+<p><img src="https://camo.githubusercontent.com/d6aaa1fd3e238860cb9ce736cc8bdae628117508/687474703a2f2f692e696d6775722e636f6d2f4e4566377a48702e6a7067" alt="0024"></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这种综合项目涉及的知识点较多,这里我们用<a href="https://dormousehole.readthedocs.io/en/latest/" target="_blank" rel="noopener">Flask1.0</a>和<a href="http://www.pythondoc.com/flask-sqlalchemy/quickstart.html" target="_blank" rel="noopener">flask-sqlalchemy</a>实现其逻辑，数据库使用<a href="http://www.runoob.com/sqlite/sqlite-intro.html" target="_blank" rel="noopener">SQLite3</a>,用<a href="http://www.materializecss.cn/getting-started.html" target="_blank" rel="noopener">materialize</a>样式美化我们的页面，<a href="https://www.jquery123.com/" target="_blank" rel="noopener">jQuery</a>优化用户体验。主要修改自<a href="https://zhuanlan.zhihu.com/p/23834410" target="_blank" rel="noopener">李辉的Flask实践：待办事项</a>,去除添加分类功能，只保留核心todo内容。</p>
+<blockquote>
+<p>pip install flask  flask-salalchemy</p>
+</blockquote>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
+<li><p>结构</p>
+<blockquote>
+<p>  templates/      —–&gt; 模板 index.html<br>  static/         —–&gt; 静态页面 css js<br>  app.py          —–&gt; flask 代码<br>  todo.db    —–&gt; sqlite3数据库</p>
+</blockquote>
+</li>
+<li><p>核心代码app.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template, redirect, url_for, request</span><br><span class="line"><span class="keyword">from</span> flask_sqlalchemy <span class="keyword">import</span> SQLAlchemy</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置数据库信息</span></span><br><span class="line">DATABASE = <span class="string">"todo.db"</span></span><br><span class="line">basedir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line">app.config[<span class="string">'SQLALCHEMY_DATABASE_URI'</span>] = <span class="string">"sqlite:////"</span> + os.path.join(</span><br><span class="line">    basedir, DATABASE)</span><br><span class="line">app.config[<span class="string">'SQLALCHEMY_TRACK_MODIFICATIONS'</span>] = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">db = SQLAlchemy(app)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#数据库结构项</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Item</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    id = db.Column(db.Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    body = db.Column(db.Text)</span><br><span class="line">    category_id = db.Column(</span><br><span class="line">        db.Integer, db.ForeignKey(<span class="string">'category.id'</span>), default=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#构建数据库结构 类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Category</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    id = db.Column(db.Integer, primary_key=<span class="keyword">True</span>)</span><br><span class="line">    name = db.Column(db.String(<span class="number">64</span>))</span><br><span class="line">    <span class="comment">#构造项与类的关系</span></span><br><span class="line">    items = db.relationship(<span class="string">'Item'</span>, backref=<span class="string">'category'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#初始化数据库，并添加测试数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_db</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""Insert default categories and demo items.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    db.create_all()</span><br><span class="line">    todo = Category(name=<span class="string">u'待完成'</span>)</span><br><span class="line">    done = Category(name=<span class="string">u'已完成'</span>)</span><br><span class="line"></span><br><span class="line">    item = Item(body=<span class="string">u'看一小时《战争与和平》'</span>)</span><br><span class="line">    item2 = Item(body=<span class="string">u'浇花'</span>, category=todo)</span><br><span class="line">    item3 = Item(body=<span class="string">u'收快递'</span>, category=done)</span><br><span class="line"></span><br><span class="line">    db.session.add_all([todo, done, item, item2, item3])</span><br><span class="line">    db.session.commit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#首页</span></span><br><span class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment">#第一次运行时初始化数据库</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(DATABASE): init_db()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">        body = request.form.get(<span class="string">'item'</span>)</span><br><span class="line">        category_id = request.form.get(<span class="string">'category'</span>)</span><br><span class="line">        category = Category.query.get_or_404(category_id)</span><br><span class="line">        item = Item(body=body, category=category)</span><br><span class="line">        db.session.add(item)</span><br><span class="line">        db.session.commit()</span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">'category'</span>, id=category_id))</span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">'category'</span>, id=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#分类页</span></span><br><span class="line"><span class="meta">@app.route('/category/&lt;int:id&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">category</span><span class="params">(id)</span>:</span></span><br><span class="line">    category = Category.query.get_or_404(id)</span><br><span class="line">    categories = Category.query.all()</span><br><span class="line">    items = category.items</span><br><span class="line">    <span class="keyword">return</span> render_template(</span><br><span class="line">        <span class="string">'index.html'</span>,</span><br><span class="line">        items=items,</span><br><span class="line">        categories=categories,</span><br><span class="line">        category_now=category)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#编辑某项</span></span><br><span class="line"><span class="meta">@app.route('/edit-item/&lt;int:id&gt;', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit_item</span><span class="params">(id)</span>:</span></span><br><span class="line">    item = Item.query.get_or_404(id)</span><br><span class="line">    category = item.category</span><br><span class="line">    item.body = request.form.get(<span class="string">'body'</span>)</span><br><span class="line">    db.session.add(item)</span><br><span class="line">    db.session.commit()</span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">'category'</span>, id=category.id))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#添加到已完成</span></span><br><span class="line"><span class="meta">@app.route('/done/&lt;int:id&gt;', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">done</span><span class="params">(id)</span>:</span></span><br><span class="line">    item = Item.query.get_or_404(id)</span><br><span class="line">    category = item.category</span><br><span class="line">    done_category = Category.query.get_or_404(<span class="number">2</span>)</span><br><span class="line">    done_item = Item(body=item.body, category=done_category)</span><br><span class="line">    db.session.add(done_item)</span><br><span class="line">    db.session.delete(item)</span><br><span class="line">    db.session.commit()</span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">'category'</span>, id=category.id))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除某项</span></span><br><span class="line"><span class="meta">@app.route('/delete-item/&lt;int:id&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_item</span><span class="params">(id)</span>:</span></span><br><span class="line">    item = Item.query.get_or_404(id)</span><br><span class="line">    category = item.category</span><br><span class="line">    <span class="keyword">if</span> item <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">'category'</span>, id=<span class="number">1</span>))</span><br><span class="line">    db.session.delete(item)</span><br><span class="line">    db.session.commit()</span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">'category'</span>, id=category.id))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完整代码参见<a href="https://github.com/xiaoTaoist/Show-Me-the-Code/tree/master/0024" target="_blank" rel="noopener">这里</a></p>
+</li>
+</ul>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="/img/0024.png" alt="0024"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/helloflask/todo" target="_blank" rel="noopener">https://github.com/helloflask/todo</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/28/python-exercise-0004/" class="archive-article-date">
-  	<time datetime="2018-05-28T06:01:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/28/python-exercise-0004/">Python练习册：0004</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -189,7 +218,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -202,406 +231,119 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/06/15/python-exercise-0024/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/27/python-exercise-0003/" class="archive-article-date">
-  	<time datetime="2018-05-27T08:41:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/14/python-exercise-0023/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0023</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/27/python-exercise-0003/">Python练习册：0003</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/26/python-exercise-0002/" class="archive-article-date">
-  	<time datetime="2018-05-26T02:17:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/26/python-exercise-0002/">Python练习册：0002</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/25/python-exercise-0001/" class="archive-article-date">
-  	<time datetime="2018-05-25T07:11:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/25/python-exercise-0001/">Python练习册：0001</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/24/python-exercise-0000/" class="archive-article-date">
-  	<time datetime="2018-05-24T08:37:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/24/python-exercise-0000/">Python练习册：0000</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/14/Pcap-DNSProxy-md/" class="archive-article-date">
-  	<time datetime="2018-04-14T13:42:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/14/Pcap-DNSProxy-md/">使用Pcap_DNS搭建本地防污染DNS服务器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/07/python-getss/" class="archive-article-date">
-  	<time datetime="2018-04-07T10:31:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/07/python-getss/">Python爬取某站科学上网帐号(5.15更新)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/29/gpg/" class="archive-article-date">
-  	<time datetime="2018-03-29T00:41:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/29/gpg/">保护你的邮件通信——Mailvelope（GPG）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Privacy</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/19/Bumblebee/" class="archive-article-date">
-  	<time datetime="2018-03-19T10:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/19/Bumblebee/">Manjaro Linux 配置Intel与Nvidia双显卡切换</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/15/aircrack-hashcat/" class="archive-article-date">
-  	<time datetime="2018-03-15T11:45:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/15/aircrack-hashcat/">使用Aircrack&amp;hashcat破解WPA/WPA2</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">WiFi</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "https://xiaotaoist.github.io/2018/06/15/python-exercise-0024/",
+  owner: 'xiaoTaoist',
+  repo: 'xiaotaoist.github.io',
+  oauth: {
+    client_id: 'db56b34f79769b86de3d',
+    client_secret: 'b6be612255a771e8d1685cc94ebc31516e693454',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -625,8 +367,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
