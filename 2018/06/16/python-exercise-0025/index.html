@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://xiaotaoist.github.io">
-  <title>Archives: 2018 | XiaoTaoist&#39;s Blog</title>
+  <title>Python练习册：0025 | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="https://xiaotaoist.github.io/archives/2018/page/4/index.html">
+  <meta name="description" content="题目使用 Python 实现：对着电脑吼一声,自动打开浏览器中的默认网站。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python练习册：0025">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/06/16/python-exercise-0025/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="题目使用 Python 实现：对着电脑吼一声,自动打开浏览器中的默认网站。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-17T12:23:00.277Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="Python练习册：0025">
+<meta name="twitter:description" content="题目使用 Python 实现：对着电脑吼一声,自动打开浏览器中的默认网站。">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -148,291 +153,197 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-python-exercise-0025" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python练习册：0025
+    </h1>
+  
+
+        
+        <a href="/2018/06/16/python-exercise-0025/" class="archive-article-date">
+  	<time datetime="2018-06-16T12:03:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>使用 Python 实现：对着电脑吼一声,自动打开浏览器中的默认网站。
+</code></pre><a id="more"></a>
+<blockquote>
+<p>例如，对着笔记本电脑吼一声“百度”，浏览器自动打开百度首页。<br>关键字：Speech to Text</p>
+</blockquote>
+<p>参考思路：</p>
+<ol>
+<li>获取电脑录音–&gt;WAV文件 python record wav</li>
+<li>录音文件–&gt;文本<ul>
+<li>STT: Speech to Text</li>
+<li>STT API Google API</li>
+</ul>
+</li>
+<li>文本–&gt;电脑命令</li>
+</ol>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>根据参考思路，用<a href="https://people.csail.mit.edu/hubert/pyaudio/docs/" target="_blank" rel="noopener">pyaudio</a>去录音，传给腾讯AI开放平台的<a href="https://ai.qq.com/doc/aaiasr.shtml" target="_blank" rel="noopener">语音识别接口</a>，需要自行<a href="https://ai.qq.com/cgi-bin/login?from=https%3A%2F%2Fai.qq.com%2Fcgi-bin%2Fconsole_overview" target="_blank" rel="noopener">注册</a>，根据返回的文本去执行相应的命令，这里用<a href="https://docs.python.org/3/library/webbrowser.html" target="_blank" rel="noopener">webbrowser</a>去操作浏览器。</p>
+<blockquote>
+<p>pip install  webbrowser pyaudio</p>
+</blockquote>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pyaudio</span><br><span class="line"><span class="keyword">import</span> wave</span><br><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> apiutil</span><br><span class="line"><span class="keyword">import</span> webbrowser</span><br><span class="line"></span><br><span class="line">FILE_NAME = <span class="string">"tmp.wav"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#录音</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">record_sound</span><span class="params">()</span>:</span></span><br><span class="line">    FORMAT = pyaudio.paInt16</span><br><span class="line">    CHANNELS = <span class="number">1</span></span><br><span class="line">    RATE = <span class="number">16000</span></span><br><span class="line">    CHUNK = <span class="number">1024</span></span><br><span class="line">    RECORD_SECONDS = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#按照16KHz，单声道，16位最多采集声音3秒</span></span><br><span class="line">    audio = pyaudio.PyAudio()</span><br><span class="line">    stream = audio.open(</span><br><span class="line">        format=FORMAT,</span><br><span class="line">        channels=CHANNELS,</span><br><span class="line">        rate=RATE,</span><br><span class="line">        input=<span class="keyword">True</span>,</span><br><span class="line">        frames_per_buffer=CHUNK)</span><br><span class="line">    print(<span class="string">'开始录音'</span>)</span><br><span class="line">    <span class="comment">#过滤背景噪音</span></span><br><span class="line">    frames = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, int(RATE / CHUNK * RECORD_SECONDS)):</span><br><span class="line">        data = stream.read(CHUNK)</span><br><span class="line">        data_chunk = array(<span class="string">'h'</span>, data)</span><br><span class="line">        vol = max(data_chunk)</span><br><span class="line">        <span class="comment">#只录入大于2000 的声音。</span></span><br><span class="line">        <span class="keyword">if</span> (vol &gt;= <span class="number">2000</span>):</span><br><span class="line">            frames.append(data)</span><br><span class="line">    print(<span class="string">'录音结束'</span>)</span><br><span class="line">    <span class="comment">#结束录音</span></span><br><span class="line">    stream.stop_stream()</span><br><span class="line">    stream.close()</span><br><span class="line">    audio.terminate()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#将结果写入到wav文件</span></span><br><span class="line">    wavfile = wave.open(FILE_NAME, <span class="string">'wb'</span>)</span><br><span class="line">    wavfile.setnchannels(CHANNELS)</span><br><span class="line">    wavfile.setsampwidth(audio.get_sample_size(FORMAT))</span><br><span class="line">    wavfile.setframerate(RATE)</span><br><span class="line">    wavfile.writeframes(<span class="string">b''</span>.join(frames))  <span class="comment">#append frames recorded to file</span></span><br><span class="line">    wavfile.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#调用腾讯AI接口，将声音转化成文字。</span></span><br><span class="line"><span class="comment">#感谢daimon99提供基于python3的aiplatsdk https://github.com/daimon99/py-aiplat-py3</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">soundTotext</span><span class="params">()</span>:</span></span><br><span class="line">    app_key = <span class="string">'申请的Key'</span></span><br><span class="line">    app_id = <span class="string">'申请的Id'</span></span><br><span class="line"></span><br><span class="line">    seq = <span class="number">0</span></span><br><span class="line">    for_mat = <span class="number">2</span></span><br><span class="line">    rate = <span class="number">16000</span></span><br><span class="line">    bits = <span class="number">16</span></span><br><span class="line">    cont_res = <span class="number">0</span></span><br><span class="line">    once_size = <span class="number">41000</span></span><br><span class="line">    file_path = FILE_NAME</span><br><span class="line"></span><br><span class="line">    <span class="comment">#计算音频MD5</span></span><br><span class="line">    <span class="keyword">with</span> open(file_path, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        md5obj = hashlib.md5()</span><br><span class="line">        md5obj.update(f.read())</span><br><span class="line">        hash = md5obj.hexdigest()</span><br><span class="line">        speech_id = str(hash).upper()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#读取音频内容，每次41000字节</span></span><br><span class="line">    f = open(file_path, <span class="string">'rb'</span>)</span><br><span class="line">    file_size = os.path.getsize(file_path)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            chunk = f.read(once_size)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> chunk:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                chunk_size = len(chunk)</span><br><span class="line">                <span class="keyword">if</span> (seq + chunk_size) == file_size:</span><br><span class="line">                    end = <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    end = <span class="number">0</span></span><br><span class="line">            <span class="comment">#初始化AIPlat接口</span></span><br><span class="line">            ai_obj = apiutil.AiPlat(app_id, app_key)</span><br><span class="line">            <span class="comment">#调用语音识别-流式版(WeChat AI),传入参数</span></span><br><span class="line">            rsp = ai_obj.getAaiWxAsrs(chunk, speech_id, end, for_mat, rate,</span><br><span class="line">                                      bits, seq, chunk_size, cont_res)</span><br><span class="line"></span><br><span class="line">            seq += chunk_size</span><br><span class="line">            <span class="keyword">if</span> rsp[<span class="string">'ret'</span>] == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> rsp[<span class="string">'data'</span>][<span class="string">'speech_text'</span>]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">"调用腾讯API失败"</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        f.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#执行命令</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">command</span><span class="params">(text)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> text <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        print(<span class="string">"未识别到，请重试"</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="string">'百度'</span> <span class="keyword">in</span> text:</span><br><span class="line">        webbrowser.open(<span class="string">"https://www.baidu.com"</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    record_sound()</span><br><span class="line">    text = soundTotext()</span><br><span class="line">    command(text)</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://stackoverflow.com/questions/892199/detect-record-audio-in-python" target="_blank" rel="noopener">https://stackoverflow.com/questions/892199/detect-record-audio-in-python</a></li>
+<li><a href="https://github.com/daimon99/py-aiplat-py3" target="_blank" rel="noopener">https://github.com/daimon99/py-aiplat-py3</a></li>
+<li><a href="https://ai.qq.com/doc/aaiasr.shtml" target="_blank" rel="noopener">https://ai.qq.com/doc/aaiasr.shtml</a></li>
+<li><a href="https://docs.python.org/3/library/webbrowser.html" target="_blank" rel="noopener">https://docs.python.org/3/library/webbrowser.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/15/aircrack-hashcat/" class="archive-article-date">
-  	<time datetime="2018-03-15T11:45:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/15/aircrack-hashcat/">使用Aircrack&amp;hashcat破解WPA/WPA2</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">WiFi</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/oh-my-zsh/" class="archive-article-date">
-  	<time datetime="2018-03-14T01:41:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/oh-my-zsh/">终端环境之Zsh＆oh-my-zsh</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/06/16/python-exercise-0025/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/09/archlinuxcn/" class="archive-article-date">
-  	<time datetime="2018-03-09T08:07:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/15/python-exercise-0024/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0024</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/09/archlinuxcn/">笔记本安装 Manjaro Linux</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/07/ssh-keygen/" class="archive-article-date">
-  	<time datetime="2018-03-07T01:37:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/07/ssh-keygen/">SSH免密登录</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/02/backdoor-apk/" class="archive-article-date">
-  	<time datetime="2018-03-02T10:00:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/02/backdoor-apk/">生成apk后门实现msf控制安卓手机</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/28/vimium/" class="archive-article-date">
-  	<time datetime="2018-02-28T09:09:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/28/vimium/">Vimium 入门</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/16/poetry/" class="archive-article-date">
-  	<time datetime="2018-02-15T17:09:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/16/poetry/">随笔・一</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2018/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/2018/">1</a><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><span class="page-number current">4</span>
-    </nav>
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "https://xiaotaoist.github.io/2018/06/16/python-exercise-0025/",
+  owner: 'xiaoTaoist',
+  repo: 'xiaotaoist.github.io',
+  oauth: {
+    client_id: 'db56b34f79769b86de3d',
+    client_secret: 'b6be612255a771e8d1685cc94ebc31516e693454',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -456,8 +367,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
