@@ -175,7 +175,7 @@
       
         <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>敏感词文本文件 filtered_words.txt，里面的内容 和 0011题一样，当用户输入敏感词语，则用 星号 * 替换，例如当用户输入「北京是个好城市」，则变成「**是个好城市」。
 </code></pre><a id="more"></a>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>思路和<a href="https://xiaotaoist.github.io/2018/06/04/python-exercise-0011/" target="_blank" rel="noopener">0011题</a>一样，接着使用<a href="http://www.runoob.com/python/att-string-replace.html" target="_blank" rel="noopener">str.replace</a>方法,将敏感词替换为*。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>思路和<a href="https://xiaotaoist.github.io/2018/06/04/python-exercise-0011/">0011题</a>一样，接着使用<a href="http://www.runoob.com/python/att-string-replace.html" target="_blank" rel="noopener">str.replace</a>方法,将敏感词替换为*。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
 <li><p>普通版</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'filtered_words.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="comment">#读取内容到一个列表，并过滤每项中的'\n'</span></span><br><span class="line">        text = <span class="string">''</span>.join(f.readlines()).strip(<span class="string">'\n'</span>).split()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="comment">#读取输入</span></span><br><span class="line">        line = input(<span class="string">"&gt; "</span>)</span><br><span class="line">        <span class="comment">#循环替换一遍</span></span><br><span class="line">        <span class="keyword">for</span> words <span class="keyword">in</span> text:</span><br><span class="line">                <span class="comment">#根据敏感词长度打印*的长度</span></span><br><span class="line">                line = line.replace(words,len(words)*‘*’) </span><br><span class="line"></span><br><span class="line">        print(line)</span><br></pre></td></tr></table></figure>
@@ -186,7 +186,7 @@
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://github.com/dantezhu/wfgfw/blob/master/wfgfw/wfgfw.py" target="_blank" rel="noopener">https://github.com/dantezhu/wfgfw/blob/master/wfgfw/wfgfw.py</a></li>
-<li><a href="https://xiaotaoist.github.io/2018/06/04/python-exercise-0011" target="_blank" rel="noopener">https://xiaotaoist.github.io/2018/06/04/python-exercise-0011</a></li>
+<li><a href="https://xiaotaoist.github.io/2018/06/04/python-exercise-0011">https://xiaotaoist.github.io/2018/06/04/python-exercise-0011</a></li>
 </ul>
 
       
@@ -435,19 +435,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Web</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Privacy</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -455,11 +451,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Privacy</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">WiFi</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Tools</a>
               </li>
             
             <div class="clearfix"></div>

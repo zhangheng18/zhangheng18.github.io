@@ -6,22 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://xiaotaoist.github.io">
-  <title>Manjaro Linux 配置Intel与Nvidia双显卡切换 | XiaoTaoist&#39;s Blog</title>
+  <title>终极 Python Project 管理方案：pipenv + autoenv | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="BumblebeeBumblebee是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。 安装Manjaro 提供了强大的硬件检测模块mhwd,可以很方便的安装各种驱动。  安装依赖 sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus   安装nvidia闭源驱动与intel驱动混合">
-<meta name="keywords" content="Linux">
+  <meta name="description" content="前言使用过pip的同学都知道它的强大与方便，但学习的时候免不了安装各种各样的库，最后需要导出依赖的时候才发现无从下手，virtualenv便是为了解决此问题而诞生的，但若有很多项目，构建虚拟环境并手动切换，也是个繁琐的工作，好在有了更强大的解决方案：pipenv(项目依赖管理器)+autoenv(自动激活环境)。">
+<meta name="keywords" content="python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Manjaro Linux 配置Intel与Nvidia双显卡切换">
-<meta property="og:url" content="https://xiaotaoist.github.io/2018/03/19/Bumblebee/index.html">
+<meta property="og:title" content="终极 Python Project 管理方案：pipenv + autoenv">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/07/26/pipenv/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="BumblebeeBumblebee是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。 安装Manjaro 提供了强大的硬件检测模块mhwd,可以很方便的安装各种驱动。  安装依赖 sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus   安装nvidia闭源驱动与intel驱动混合">
+<meta property="og:description" content="前言使用过pip的同学都知道它的强大与方便，但学习的时候免不了安装各种各样的库，最后需要导出依赖的时候才发现无从下手，virtualenv便是为了解决此问题而诞生的，但若有很多项目，构建虚拟环境并手动切换，也是个繁琐的工作，好在有了更强大的解决方案：pipenv(项目依赖管理器)+autoenv(自动激活环境)。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://xiaotaoist.github.io/img/manjaro_grub.png">
-<meta property="og:updated_time" content="2018-03-31T02:32:57.223Z">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/pipenv_autoenv.png">
+<meta property="og:updated_time" content="2018-07-28T06:49:53.144Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Manjaro Linux 配置Intel与Nvidia双显卡切换">
-<meta name="twitter:description" content="BumblebeeBumblebee是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。 安装Manjaro 提供了强大的硬件检测模块mhwd,可以很方便的安装各种驱动。  安装依赖 sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus   安装nvidia闭源驱动与intel驱动混合">
-<meta name="twitter:image" content="https://xiaotaoist.github.io/img/manjaro_grub.png">
+<meta name="twitter:title" content="终极 Python Project 管理方案：pipenv + autoenv">
+<meta name="twitter:description" content="前言使用过pip的同学都知道它的强大与方便，但学习的时候免不了安装各种各样的库，最后需要导出依赖的时候才发现无从下手，virtualenv便是为了解决此问题而诞生的，但若有很多项目，构建虚拟环境并手动切换，也是个繁琐的工作，好在有了更强大的解决方案：pipenv(项目依赖管理器)+autoenv(自动激活环境)。">
+<meta name="twitter:image" content="https://xiaotaoist.github.io/img/pipenv_autoenv.png">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -155,99 +155,87 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Bumblebee" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-pipenv" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Manjaro Linux 配置Intel与Nvidia双显卡切换
+      终极 Python Project 管理方案：pipenv + autoenv
     </h1>
   
 
         
-        <a href="/2018/03/19/Bumblebee/" class="archive-article-date">
-  	<time datetime="2018-03-19T10:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-19</time>
+        <a href="/2018/07/26/pipenv/" class="archive-article-date">
+  	<time datetime="2018-07-26T13:54:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Bumblebee"><a href="#Bumblebee" class="headerlink" title="Bumblebee"></a>Bumblebee</h2><p><a href="https://github.com/Bumblebee-Project/Bumblebee" target="_blank" rel="noopener">Bumblebee</a>是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Manjaro 提供了强大的硬件检测模块<code>mhwd</code>,可以很方便的安装各种驱动。</p>
-<ul>
-<li>安装依赖<blockquote>
-<p>sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus</p>
-</blockquote>
-</li>
-<li>安装nvidia闭源驱动与intel驱动混合版bumblebee<blockquote>
-<p>sudo mhwd -f -i pci video-hybrid-intel-nvidia-bumblebee</p>
-</blockquote>
-</li>
-</ul>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用过<code>pip</code>的同学都知道它的强大与方便，但学习的时候免不了安装各种各样的库，最后需要导出依赖的时候才发现无从下手，<code>virtualenv</code>便是为了解决此问题而诞生的，但若有很多项目，构建虚拟环境并手动切换，也是个繁琐的工作，好在有了更强大的解决方案：<a href="https://github.com/pypa/pipenv" target="_blank" rel="noopener">pipenv</a>(项目依赖管理器)+<a href="https://github.com/kennethreitz/autoenv" target="_blank" rel="noopener">autoenv</a>(自动激活环境)。</p>
 <a id="more"></a>
+<h2 id="演示环境"><a href="#演示环境" class="headerlink" title="演示环境"></a>演示环境</h2><ul>
+<li>Arch Linux + zsh + python3 + pip3</li>
+</ul>
+<h2 id="pipenv"><a href="#pipenv" class="headerlink" title="pipenv"></a>pipenv</h2><p>pipenv 是Kenneth Reitz编写的一个用于创建和管理Python虚拟环境的新工具</p>
 <ul>
-<li>开启自动启动bumblebeed服务<blockquote>
-<p>sudo systemctl enable bumblebeed</p>
+<li>安装<blockquote>
+<p>pip install pipenv –user #推荐安装到个人目录</p>
 </blockquote>
 </li>
-<li>将用户添加到bumblee组<blockquote>
-<p>sudo gpasswd -a $USER bumblebee</p>
-</blockquote>
+<li><p>手动添加python的bin目录到<code>$PATH</code>变量中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">python -m site --user-base                  <span class="comment">#查看pip 安装路径</span></span><br><span class="line">&gt; /home/taoist/.<span class="built_in">local</span>                       <span class="comment">#这是我的路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑 ~/.zshrc 在最后一行添加</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/taoist/.<span class="built_in">local</span>/bin   <span class="comment">#注意到bin</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc ＃重新载入终端配置文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir test_project                  <span class="comment">#新建一个空目录</span></span><br><span class="line"><span class="built_in">cd</span> test_project </span><br><span class="line">pipenv install                      <span class="comment">#创建一个新的虚拟环境</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipenv install requests             <span class="comment">#手动安装requests库</span></span><br><span class="line">pipenv install -r requirements.txt  <span class="comment">#根据requirements.txt 自动安装库依赖</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行虚拟环境</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pipenv run python xxx.py            <span class="comment">#用虚拟环境运行 xxx.py </span></span><br><span class="line">pipenv shell                        <span class="comment">#激活shell虚拟环境</span></span><br><span class="line"><span class="built_in">exit</span>                                <span class="comment">#退出当前虚拟环境</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipenv uninstall requests           <span class="comment">#删除requests库</span></span><br><span class="line">pipenv --rm                         <span class="comment">#移除此项目</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其他</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pipenv graph                        <span class="comment">#查看包依赖</span></span><br><span class="line">pipenv check                        <span class="comment">#检查编码风格 与安全隐患</span></span><br><span class="line">pipenv lock -r                      <span class="comment">#生成requirements.txt 文件</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>如果一切顺利的话，重启后就可以在你想运行的程序名前面加<code>optirun</code>,好使用独立显卡驱动你的应用程序。</p>
+<p>更多使用请参考<a href="https://docs.pipenv.org/" target="_blank" rel="noopener">官方文档</a></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><p>使用国内pypi镜像加速下载</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#编辑配置文件，更改url 使用豆瓣镜像</span></span><br><span class="line">vim Pipfile </span><br><span class="line"></span><br><span class="line">[[<span class="built_in">source</span>]]</span><br><span class="line">url = <span class="string">"https://pypi.douban.com/simple"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将venv环境文件放到当前目录，默认在用户目录</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"export PIPENV_VENV_IN_PROJECT=1"</span> &gt;&gt; ~/.zshrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启zsh 对 pipenv 的自动补全功能</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span>  <span class="string">'eval "$(pipenv --completion)"'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自动激活虚拟环境,需要写入<code>.env</code> 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"pipenv shell"</span> &gt; .env  <span class="comment">#将环境配置写入到 .env 文件中</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="autoenv"><a href="#autoenv" class="headerlink" title="autoenv"></a>autoenv</h2><p>当您 cd 进入一个包含 .env 的目录中，就会 autoenv 自动激活那个环境。</p>
 <ul>
-<li>但很大可能是重启后发现无法进入图形化界面,你可以尝试在Grub菜单启动界面按[E]编辑，找到<code>quite</code>并在后面加入(注意空格):<blockquote>
-<p>acpi_osi=! acpi_osi=’Windows 2009’<br>或者<br>acpi_osi=! acpi_osi=Linux acpi_osi=’Windows 2015’ pcie_port_pm=off<br><strong>(很多硬件厂商的BIOS驱动都对Linux不友好，无法顺利加载ACPI模块，而导致无法驱动独立显卡,acpi_osi=’Windows 2009’的意思是告诉ACPI模块，我是‘Windows 7’，别闹情绪了，赶紧工作吧。)</strong><br>接着按[Ctrl]+[x]或[F10]保存更改并启动系统。</p>
-</blockquote>
-</li>
-<li>顺利进入系统后打开终端更改配置文件<blockquote>
-<p>sudo vim /etc/default/grub</p>
-</blockquote>
-</li>
-<li>给 “GRUB_CMLINE_LINUX_DEFAULT”添加你可以正常启动Linux的‘acpi_osi’参数，如图我用的是’Windows 2009’。<br><img src="/img/manjaro_grub.png" alt="Grub"></li>
-<li>更新Grub文件,即可永久解决不能启动图形界面的问题<blockquote>
-<p>sudo update-grub</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h2><ul>
-<li>安装测试软件<blockquote>
-<p>sudo pacman -S mesa-demos</p>
-</blockquote>
-</li>
-<li>集显性能<blockquote>
-<p>glxgears -info</p>
-</blockquote>
-</li>
-<li>独显性能<blockquote>
-<p>optirun glxgears -info</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><ul>
-<li><p>NVIDIA面板无信息</p>
+<li><p>安装</p>
 <blockquote>
-<p>optirun -b none nvidia-settings -c :8</p>
+<p>pip install autoenv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#激活</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"source `which activate.sh`"</span> &gt;&gt; ~/.zshrc <span class="comment">#zsh shell 激活autoenv </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.zhsrc                                 <span class="comment">#重新载入配置</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 </li>
-<li><p>不依赖Bumblebee来使用CUDA</p>
-<blockquote>
-<p>sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; ‘ON’</p>
-</blockquote>
-</li>
-<li>使用完CUDA 停止NVIDIA显卡<blockquote>
-<p>sudo rmmod nvidia_uvm nvidia &amp;&amp; sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; OFF</p>
-</blockquote>
+<li><p>使用<br>配置完成，以后<code>cd</code>到项目目录后，就会自动激活虚拟环境了，如果是第一次进入，会提示你是否允许自动激活，输入 y ，回车确认即可。<br><img src="/img/pipenv_autoenv.png" alt="autoenv"></p>
 </li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://gist.github.com/Misairu-G/616f7b2756c488148b7309addc940b28" target="_blank" rel="noopener">https://gist.github.com/Misairu-G/616f7b2756c488148b7309addc940b28</a></li>
-<li><a href="https://wiki.manjaro.org/index.php?title=Configure_NVIDIA_(non-free)_settings_and_load_them_on_Startup" target="_blank" rel="noopener">https://wiki.manjaro.org/index.php?title=Configure_NVIDIA_(non-free)_settings_and_load_them_on_Startup</a></li>
-<li><a href="https://wiki.archlinux.org/index.php/Bumblebee#Primusrun" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/Bumblebee#Primusrun</a></li>
+<li><a href="https://pythonguidecn.readthedocs.io/zh/latest/dev/virtualenvs.html" target="_blank" rel="noopener">https://pythonguidecn.readthedocs.io/zh/latest/dev/virtualenvs.html</a></li>
+<li><a href="http://www.dongwm.com/archives/%E4%BD%BF%E7%94%A8pipenv%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE/" target="_blank" rel="noopener">http://www.dongwm.com/archives/%E4%BD%BF%E7%94%A8pipenv%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE/</a></li>
+<li><a href="https://www.jianshu.com/p/8c6ae288ba48" target="_blank" rel="noopener">https://www.jianshu.com/p/8c6ae288ba48</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/31056585" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/31056585</a></li>
 </ul>
 
       
@@ -262,7 +250,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
         		</li>
       		
 		</ul>
@@ -318,7 +306,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/03/19/Bumblebee/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/07/26/pipenv/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -332,18 +320,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/03/29/gpg/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          保护你的邮件通信——Mailvelope（GPG）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/03/15/aircrack-hashcat/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">使用Aircrack&amp;hashcat破解WPA/WPA2</div>
+    <a href="/2018/06/16/python-exercise-0025/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python练习册：0025</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -382,7 +361,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "https://xiaotaoist.github.io/2018/03/19/Bumblebee/",
+  id: "https://xiaotaoist.github.io/2018/07/26/pipenv/",
   owner: 'xiaoTaoist',
   repo: 'xiaotaoist.github.io',
   oauth: {
