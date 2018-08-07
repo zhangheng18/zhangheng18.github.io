@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://xiaotaoist.github.io">
-  <title>Python练习册：0004 | XiaoTaoist&#39;s Blog</title>
+  <title>LeetCode 189：旋转数组[初级] | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="======================== 题目任一个英文的纯文本文件，统计其中的单词出现的个数。">
-<meta name="keywords" content="Python">
+  <meta name="description" content="题目189：旋转数组        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。">
+<meta name="keywords" content="leetcode,python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python练习册：0004">
-<meta property="og:url" content="https://xiaotaoist.github.io/2018/05/28/python-exercise-0004/index.html">
+<meta property="og:title" content="LeetCode 189：旋转数组[初级]">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/08/07/leetcode-189/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="======================== 题目任一个英文的纯文本文件，统计其中的单词出现的个数。">
+<meta property="og:description" content="题目189：旋转数组        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-31T11:51:45.458Z">
+<meta property="og:updated_time" content="2018-08-07T12:48:19.960Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python练习册：0004">
-<meta name="twitter:description" content="======================== 题目任一个英文的纯文本文件，统计其中的单词出现的个数。">
+<meta name="twitter:title" content="LeetCode 189：旋转数组[初级]">
+<meta name="twitter:description" content="题目189：旋转数组        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -153,41 +153,62 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-python-exercise-0004" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-leetcode-189" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python练习册：0004
+      LeetCode 189：旋转数组[初级]
     </h1>
   
 
         
-        <a href="/2018/05/28/python-exercise-0004/" class="archive-article-date">
-  	<time datetime="2018-05-28T06:01:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-28</time>
+        <a href="/2018/08/07/leetcode-189/" class="archive-article-date">
+  	<time datetime="2018-08-07T08:28:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>========================</p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>任一个英文的纯文本文件，统计其中的单词出现的个数。
-</code></pre><a id="more"></a>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这里可以先从文件中读取内容，然后考虑到大小写问题（Text和text作为一个单词）,缩写问题(I’m 作为一个一个单词),连字符（末尾没写完新开一行te-xt）,标点符号（.,?:”）等问题后，把单词分割好，最后进行个数统计。<br>这里主要使用<a href="http://www.runoob.com/python/python-reg-expressions.html" target="_blank" rel="noopener">正则表达式</a></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
-<li><p>用 Dict 统计词频</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"text.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment">#读取文本内容并全部转换为小写字母</span></span><br><span class="line">    text = f.read().lower()</span><br><span class="line"></span><br><span class="line"><span class="comment">#将标点符号替换成空格</span></span><br><span class="line">text = re.sub(<span class="string">r'[,.!?:"]'</span>,<span class="string">' '</span>,text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#去掉连字符</span></span><br><span class="line">text = re.sub(<span class="string">r'-'</span>,<span class="string">''</span>,text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#将计次放入以单词为key的value中</span></span><br><span class="line">counts = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> text.split():</span><br><span class="line">    <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> counts:</span><br><span class="line">        counts[word] = <span class="number">1</span></span><br><span class="line">    counts[word] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#按词频从大到小排序</span></span><br><span class="line">result = sorted(counts.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>],reverse=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出统计结果</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>用<a href="https://docs.python.org/3/library/collections.html#collections.Counter" target="_blank" rel="noopener">collections</a>库中的Counter计数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"test.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    text = f.read().lower()</span><br><span class="line">text = re.sub(<span class="string">r'[,.!?:"]'</span>,<span class="string">' '</span>,text)</span><br><span class="line">text = re.sub(<span class="string">r'-'</span>,<span class="string">''</span>,text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#统计词频</span></span><br><span class="line">counts = Counter(text.split())</span><br><span class="line"><span class="comment">#按顺序输出结果</span></span><br><span class="line">print(counts.most_common())</span><br></pre></td></tr></table></figure>
-</li>
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a href="https://leetcode-cn.com/problems/rotate-array/description/" target="_blank" rel="noopener">189：旋转数组</a><br>        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</p>
+<a id="more"></a>
+<p>示例1:</p>
+<blockquote>
+<pre><code>输入: [1,2,3,4,5,6,7] 和 k = 3
+输出: [5,6,7,1,2,3,4]
+解释:
+向右旋转 1 步: [7,1,2,3,4,5,6]
+向右旋转 2 步: [6,7,1,2,3,4,5]
+向右旋转 3 步: [5,6,7,1,2,3,4]
+</code></pre></blockquote>
+<p>示例2:</p>
+<blockquote>
+<pre><code> 输入: [-1,-100,3,99] 和 k = 2
+ 输出: [3,99,-1,-100]
+ 解释: 
+向右旋转 1 步: [99,-1,-100,3]
+ 向右旋转 2 步: [3,99,-1,-100]
+</code></pre></blockquote>
+<p>说明:</p>
+<pre><code>* 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
+* 要求使用空间复杂度为 O(1) 的原地算法。
+</code></pre><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ul>
+<li>方法一:空间复杂度O(n)<br>首先想到的就是切片，以[-1,-100,3,99]，k=2 为例： 先用[-2:]拿到 [3,99]，再用[:-2]得到剩下的[-1,-100]</li>
 </ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431953239820157155d21c494e5786fce303f3018c86000" target="_blank" rel="noopener">https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431953239820157155d21c494e5786fce303f3018c86000</a></li>
-<li><a href="http://www.runoob.com/python/python-strings.html" target="_blank" rel="noopener">http://www.runoob.com/python/python-strings.html</a></li>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rotate</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :type nums: List[int]</span></span><br><span class="line"><span class="string">    :type k: int</span></span><br><span class="line"><span class="string">    :rtype: void Do not return anything, modify nums in-place instead.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    nums = nums[-k:] + nums[:-k]</span><br></pre></td></tr></table></figure>
+<p>提交以后才发现结果不对，这才想起nums此时其实是一个新建的局部变量，不影响原来的List，修改如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rotate</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">    new_nums = nums[-k:] + nums[:-k]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">        nums[i] = new_nums[i]</span><br></pre></td></tr></table></figure></p>
+<p>还是没有考虑全，还有nums=[1,2,3],k=5这种k&gt;len(nums)的情况，我们进行取模运算，最终代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rotate</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">    length = len(nums)</span><br><span class="line">    i = k%length</span><br><span class="line">    new_nums = nums[-i:] + nums[:-i]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">        nums[i] = new_nums[i]</span><br></pre></td></tr></table></figure></p>
+<p>看了别的提交的代码后发现可以用Python浅拷贝的魔法糖list[:],它等价于<code>list.copy()</code>：只复制对象地址，而非完整对象资源。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rotate</span><span class="params">(self, nums, k)</span>:</span></span><br><span class="line">    </span><br><span class="line">    i = len(nums) - k </span><br><span class="line">    nums[:] = nums[i:] + nums[:i]</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>方法2:空间复杂度O(1)<br>按题目要求，我们可以用这个思路：删除最后一个元素，把最后一个元素的内容插入到List的开头位置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rotate</span><span class="params">(self,nums,k)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> k:</span><br><span class="line">        tail = nums.pop()</span><br><span class="line">        nums.insert(<span class="number">0</span>,tail)</span><br><span class="line">        k -=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>日常使用的话,标准集合库<code>collections</code>里deque(双向列表)提供了旋转数组的方法:rotate</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line">d = deque([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>])</span><br><span class="line">d.rotate(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 
       
@@ -202,24 +223,13 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">leetcode,python</a>
         		</li>
       		
 		</ul>
 	</div>
 
       
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
 
       
 
@@ -269,7 +279,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/05/28/python-exercise-0004/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2018/08/07/leetcode-189/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -283,18 +293,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/05/29/python-exercise-0005/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python练习册：0005
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/05/27/python-exercise-0003/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python练习册：0003</div>
+    <a href="/2018/07/26/pipenv/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">终极 Python Project 管理方案：pipenv + autoenv</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -333,7 +334,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "https://xiaotaoist.github.io/2018/05/28/python-exercise-0004/",
+  id: "https://xiaotaoist.github.io/2018/08/07/leetcode-189/",
   owner: 'xiaoTaoist',
   repo: 'xiaotaoist.github.io',
   oauth: {
