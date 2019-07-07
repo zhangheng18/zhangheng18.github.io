@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://xiaotaoist.github.io">
-  <title>Archives: 2018/6 | XiaoTaoist&#39;s Blog</title>
+  <title>MySQL 8.0.16 安装配置(Arch Linux) | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="https://xiaotaoist.github.io/archives/2018/06/page/2/index.html">
+  <meta name="description" content="MySQL与MariaDBMariaDB 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至AUR 中。">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 8.0.16 安装配置(Arch Linux)">
+<meta property="og:url" content="https://xiaotaoist.github.io/2019/07/06/mysql8/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="MySQL与MariaDBMariaDB 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至AUR 中。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-07T02:45:36.845Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="MySQL 8.0.16 安装配置(Arch Linux)">
+<meta name="twitter:description" content="MySQL与MariaDBMariaDB 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至AUR 中。">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -148,417 +153,237 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-mysql8" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL 8.0.16 安装配置(Arch Linux)
+    </h1>
+  
+
+        
+        <a href="/2019/07/06/mysql8/" class="archive-article-date">
+  	<time datetime="2019-07-06T06:58:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-06</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="MySQL与MariaDB"><a href="#MySQL与MariaDB" class="headerlink" title="MySQL与MariaDB"></a>MySQL与MariaDB</h2><p><a href="https://zh.wikipedia.org/zh-hans/MariaDB" target="_blank" rel="noopener">MariaDB</a> 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至<a href="https://aur.archlinux.org/packages/mysql/" target="_blank" rel="noopener">AUR</a> 中。</p>
+<a id="more"></a>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li>yay -S mysql<blockquote>
+<p>#根据说明初始化MySQL<br>sudo mysqld –initialize –user=mysql –basedir=/usr –datadir=/var/lib/mysql # 此操作会给你生成一个随机root密码(临时)<br>#启动　mysql 服务<br>sudo systemctl start mysqld<br>#可以进行一些安全设置，更改root密码，设置密码复杂度要求，禁止远程登录root帐号等　(建议)<br>mysql_secure_installation</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h3><ul>
+<li>error while loading shared libraries: libicuuc.so.63: cannot open shared object file: No such file or directory<br>目前(2019-05-21)　Arch Linux 的<a href="https://www.archlinux.org/packages/core/x86_64/icu/" target="_blank" rel="noopener">ICU</a>已经更新到64版了(Unicode组件标准库,以支持世界语言，实现最新版本的Unicode编码标准和Unicode区域设置数据)，而AUR仓库里的MySQL还依赖icu63版，这里可以去AUR仓库里安装<a href="https://aur.archlinux.org/packages/icu63/" target="_blank" rel="noopener">icu63</a>版。<blockquote>
+<p>yay -S icu63</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
+<li>MySQL配置文件说明里不建议直接编辑默认配置文件, 我们可以自定义一个配置文件，追加到<code>/etc/mysql/my.cnf</code><blockquote>
+<p>#加载我们自定义的配置文件 /etc/mysql/myl.cnf<br>sudo tee -a /etc/mysql/my.cnf &lt;&lt;&lt; “!include /etc/mysql/myl.cnf”</p>
+</blockquote>
+</li>
+<li>编辑配置文件 <code>sudo vim /etc/mysql/myl.cnf</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> [mysql]</span><br><span class="line"> #配置mysql 命令提示符前缀 [主机名][用户名]@[数据库名] (当前时间)</span><br><span class="line"> prompt=[\h][\u]@[\d] (\R:\m)&gt;</span><br><span class="line"> </span><br><span class="line"> #开启自动补全　/ no-auto-rehash 关闭</span><br><span class="line"> auto-rehash</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"></span><br><span class="line"> #事务隔离级别:读提交</span><br><span class="line"> transaction-isolation=READ-COMMITTED</span><br><span class="line"></span><br><span class="line"> #持久化 redolog　到磁盘，保证异常重启不丢数据　默认１,0关闭</span><br><span class="line"> innodb_flush_log_at_trx_commit=1</span><br><span class="line"></span><br><span class="line"> #持久化 binlog,保证异常重启不丢日志 默认１</span><br><span class="line"> sync_binlog=1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="重置-MySQL-root-密码"><a href="#重置-MySQL-root-密码" class="headerlink" title="重置 MySQL root 密码"></a>重置 MySQL root 密码</h3><p>现在主流Linux发行版基本全部使用systemd作为系统和服务管理器,可以使用systemd 配置 mysqld服务，不再使用mysql_safe。</p>
+<ol>
+<li>停止mysqld守护进程<blockquote>
+<p>sudo systemctl stop mysqld</p>
+</blockquote>
+</li>
+<li>配置MYSQLD_OPTS环境变量(不启用授权表，不启用网络环境)<blockquote>
+<p>sudo systemctl set-environment MYSQLD_OPTS=”–skip-grant-tables –skip-networking”</p>
+</blockquote>
+</li>
+<li>重新启动mysql<blockquote>
+<p>sudo systemctl start mysqld</p>
+</blockquote>
+</li>
+<li>使用空密码重新登录root账户<blockquote>
+<p>mysql -u root -p</p>
+</blockquote>
+</li>
+<li>清空root 密码<blockquote>
+<p>UPDATE mysql.user SET authentication_string=null WHERE User=’root’;</p>
+</blockquote>
+</li>
+<li>取消特权模式，重新启动mysqld服务<blockquote>
+<p>sudo systemctl unset-environment MYSQLD_OPTS<br>sudo systemctl restart mysqld</p>
+</blockquote>
+</li>
+<li>更新 root 密码 为 1234<blockquote>
+<p>mysql -u root -p<br>use mysql<br>ALTER USER ‘root‘@’localhost’ IDENTIFIED WITH caching_sha2_password BY ‘1234’;</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="添加新用户并授权"><a href="#添加新用户并授权" class="headerlink" title="添加新用户并授权"></a>添加新用户并授权</h3><ul>
+<li>创建 名为test 密码为123，支持远程登录(%), 使用旧版MySQL密码认证算法(MySQL8引入caching_sha2_password, 之前版本使用mysql_native_password)的用户<blockquote>
+<p>CREATE USER ‘test‘@’%’ IDENTIFIED WITH mysql_native_password BY ‘123’;</p>
+</blockquote>
+</li>
+<li>授权 test 用户对test 数据库拥有所有权限<blockquote>
+<p>GRANT ALL ON test.* TO ‘test‘@’%’;</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="深入学习"><a href="#深入学习" class="headerlink" title="深入学习"></a>深入学习</h2><ul>
+<li><a href="https://book.douban.com/subject/3354490/" target="_blank" rel="noopener">《MySQL必知必会》</a></li>
+<li><a href="https://www.imooc.com/learn/117" target="_blank" rel="noopener">数据库设计那些事</a></li>
+<li><a href="https://time.geekbang.org/column/intro/139" target="_blank" rel="noopener">MySQL实战45讲</a></li>
+<li><a href="https://book.douban.com/subject/23008813/" target="_blank" rel="noopener">《高性能MySQL》</a></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://stackoverflow.com/questions/33510184/change-mysql-root-password-on-centos7/34207996#34207996" target="_blank" rel="noopener">https://stackoverflow.com/questions/33510184/change-mysql-root-password-on-centos7/34207996#34207996</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/MariaDB_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/MariaDB_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/option-files.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/option-files.html</a></li>
+<li><a href="https://time.geekbang.org/column/article/68633" target="_blank" rel="noopener">https://time.geekbang.org/column/article/68633</a></li>
+<li><a href="https://stackoverflow.com/questions/50691977/how-to-reset-the-root-password-in-mysql-8-0-11" target="_blank" rel="noopener">https://stackoverflow.com/questions/50691977/how-to-reset-the-root-password-in-mysql-8-0-11</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/caching-sha2-pluggable-authentication.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/caching-sha2-pluggable-authentication.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/08/python-exercise-0015/" class="archive-article-date">
-  	<time datetime="2018-06-08T04:16:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/08/python-exercise-0015/">Python练习册：0015</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2019/07/06/mysql8/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/07/python-exercise-0014/" class="archive-article-date">
-  	<time datetime="2018-06-07T00:27:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/07/leetcode-136/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LeetCode 136：旋转数组[初级]</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/07/python-exercise-0014/">Python练习册：0014</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/06/python-exercise-0013/" class="archive-article-date">
-  	<time datetime="2018-06-05T23:45:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/06/python-exercise-0013/">Python练习册：0013</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/05/python-exercise-0012/" class="archive-article-date">
-  	<time datetime="2018-06-05T02:18:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/05/python-exercise-0012/">Python练习册：0012</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/04/python-exercise-0011/" class="archive-article-date">
-  	<time datetime="2018-06-04T05:04:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/04/python-exercise-0011/">Python练习册：0011</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/python-exercise-0010/" class="archive-article-date">
-  	<time datetime="2018-06-03T02:57:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/python-exercise-0010/">Python练习册：0010</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/02/python-exercise-0009/" class="archive-article-date">
-  	<time datetime="2018-06-02T11:36:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/02/python-exercise-0009/">Python练习册：0009</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/01/python-exercise-0008/" class="archive-article-date">
-  	<time datetime="2018-05-31T23:32:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/01/python-exercise-0008/">Python练习册：0008</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2018/06/">&laquo; Prev</a><a class="page-number" href="/archives/2018/06/">1</a><span class="page-number current">2</span>
-    </nav>
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "https://xiaotaoist.github.io/2019/07/06/mysql8/",
+  owner: 'xiaoTaoist',
+  repo: 'xiaotaoist.github.io',
+  oauth: {
+    client_id: 'db56b34f79769b86de3d',
+    client_secret: 'b6be612255a771e8d1685cc94ebc31516e693454',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -582,8 +407,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
