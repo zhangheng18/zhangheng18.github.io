@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://xiaotaoist.github.io">
-  <title>Tag: Web | XiaoTaoist&#39;s Blog</title>
+  <title>分析Python程序性能 （译） | XiaoTaoist&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="XiaoTaoist&#39;s Blog">
-<meta property="og:url" content="https://xiaotaoist.github.io/tags/Web/index.html">
+  <meta name="description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Itamar Turner-Trauring写的Not just CPU:writing custom profilers for Python">
+<meta name="keywords" content="English">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分析Python程序性能 （译）">
+<meta property="og:url" content="https://xiaotaoist.github.io/2019/09/07/custom-python-profiler/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Itamar Turner-Trauring写的Not just CPU:writing custom profilers for Python">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-07T09:04:47.504Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XiaoTaoist&#39;s Blog">
+<meta name="twitter:title" content="分析Python程序性能 （译）">
+<meta name="twitter:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Itamar Turner-Trauring写的Not just CPU:writing custom profilers for Python">
   
     <link rel="alternative" href="/atom.xml" title="XiaoTaoist&#39;s Blog" type="application/atom+xml">
   
@@ -148,60 +153,219 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-custom-python-profiler" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/02/backdoor-apk/" class="archive-article-date">
-  	<time datetime="2018-03-02T10:00:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/02/backdoor-apk/">生成apk后门实现msf控制安卓手机</a>
+    <h1 class="article-title" itemprop="name">
+      分析Python程序性能 （译）
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/09/07/custom-python-profiler/" class="archive-article-date">
+  	<time datetime="2019-09-07T05:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文用于练习英文阅读，如有侵权，联系删除</p>
+<p><a href="https://pythonspeed.com/articles/custom-python-profiler/" target="_blank" rel="noopener">原文链接</a>是<strong>Itamar Turner-Trauring</strong>写的Not just CPU:writing custom profilers for Python</p>
+<a id="more"></a>
+<p><strong>以下为译文</strong><br>如果你的程序运行缓慢，并且你确定仅<a href="https://pythonspeed.com/articles/blocking-cpu-or-io/" target="_blank" rel="noopener">部分归因于CPU</a>,你该如何确定代码的那一部分正在等待CPU以外的时间呢？</p>
+<p>在本文中，你将学习如何编写自定义的分析器，并帮你精确分析定位代码运行具体消耗的时间。特别的，我们将讨论:</p>
+<ul>
+<li>你的程序具体时间消耗情况</li>
+<li>分析非CPU等待时间</li>
+<li>分析非自愿上下文切换消耗的时间</li>
+</ul>
+<h1 id="你的程序在等待什么？"><a href="#你的程序在等待什么？" class="headerlink" title="你的程序在等待什么？"></a>你的程序在等待什么？</h1><p>有些时候你的程序时间花费在CPU以外的地方，可能是:</p>
+<ul>
+<li><strong>网络通讯</strong>.可能包括DNS查询，等待对方响应，等待所有数据加载完成，等等。</li>
+<li><strong>硬盘读写</strong>. 从硬盘读写数据需要一些延迟，有时会先写入内存缓存，这很快。有时会直接写入硬盘，比较慢。</li>
+<li><strong>锁</strong>.程序也可能等待线程/进程锁释放</li>
+<li><strong>睡眠</strong>.有时你的程序会主动等待，比如等待一段时间后重试或退出。</li>
+</ul>
+<p>那如何找到这些具体发生了什么操作呢？</p>
+<h1 id="技巧＃1-非CPU运行时间"><a href="#技巧＃1-非CPU运行时间" class="headerlink" title="技巧＃1 非CPU运行时间"></a>技巧＃1 非CPU运行时间</h1><p>Python 内置的<code>cProfile</code> 分析器可以分析你的程序调用情况，你可以用它分析非CPU时间占用情况。</p>
+<p>正如我上一篇文章中所讨论的那样，你的操作系统可以告诉你<a href="https://pythonspeed.com/articles/blocking-cpu-or-io/" target="_blank" rel="noopener">程序使用了CPU多少秒</a>。</p>
+<p>让我们假设有一个单线程程序(多线程程序更难分析和推理),如果你的程序运行共花费了9秒，使用了7.5秒的CPU,这意味着有1.5秒花费在等待上。</p>
+<p>首先，构建一个测量非CPU时间的计时器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">not_cpu_time</span><span class="params">()</span>:</span></span><br><span class="line">    times = os.times()</span><br><span class="line">    <span class="keyword">return</span> times.elapsed - (times.system + times.user)</span><br></pre></td></tr></table></figure>
+<p>接着，创建一个使用上面新创建的计时器的分析器。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cProfile, pstats</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">profile_not_cpu_time</span><span class="params">(f, *args, **kwargs)</span>:</span></span><br><span class="line">    prof = cProfile.Profile(not_cpu_time)</span><br><span class="line">    prof.runcall(f, *args, **kwargs)</span><br><span class="line">    result = pstats.Stats(prof)</span><br><span class="line">    result.sort_stats(<span class="string">"time"</span>)</span><br><span class="line">    result.print_stats()</span><br></pre></td></tr></table></figure></p>
+<p>现在，你可以用它分析各种函数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span>  urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"></span><br><span class="line"><span class="comment">#分析打开一个网页</span></span><br><span class="line">profile_not_cpu_time(</span><br><span class="line">    <span class="keyword">lambda</span>: urlopen(<span class="string">"https://pythonspeed.com"</span>).read())</span><br><span class="line"><span class="comment">#结果</span></span><br><span class="line">    <span class="number">659</span> function calls (<span class="number">658</span> primitive calls) <span class="keyword">in</span> <span class="number">0.640</span> seconds</span><br><span class="line">    Ordered by: internal time</span><br><span class="line">    ncalls  tottime  percall  filename:lineno(function)</span><br><span class="line">        <span class="number">3</span>    <span class="number">0.050</span>    <span class="number">0.017</span>   _ssl._SSLSocket.read</span><br><span class="line">        <span class="number">1</span>    <span class="number">0.040</span>    <span class="number">0.040</span>   _socket.getaddrinfo</span><br><span class="line">        <span class="number">1</span>    <span class="number">0.020</span>    <span class="number">0.020</span>   _socket.socket.connect</span><br><span class="line">        <span class="number">1</span>    <span class="number">0.010</span>    <span class="number">0.010</span>   _ssl._SSLSocket.do_handshake</span><br><span class="line">    <span class="number">342</span>    <span class="number">0.010</span>    <span class="number">0.000</span>   find.str</span><br><span class="line">    <span class="number">192</span>    <span class="number">0.010</span>    <span class="number">0.000</span>   append.list</span><br></pre></td></tr></table></figure></p>
+<p>我们可以看到大多数时间花费在了从套接字读取上(read)，但DNS查询(getaddrinfo),TCP握手(connect),以及TLS/SSL握手也需要一些时间。</p>
+<p>由于我们小心避免了计算CPU时间，我们可以知道这纯粹是等待时间，不包含CPU占用花费。</p>
+<blockquote>
+<p><strong>注意</strong>:为什么会有<code>str.find</code> 和<code>list.append</code>? 他们不需要任何等待，所以这可能是整个程序没有被运行，也可能因为某些其他程序安排的运行，或者是有时需要从swap交换分区加载到内存里。这意味着发生一些时间消耗，但并不算在CPU占用时间里。</p>
+</blockquote>
+<h1 id="技巧-2-主动上下文切换"><a href="#技巧-2-主动上下文切换" class="headerlink" title="技巧#2 主动上下文切换"></a>技巧#2 主动上下文切换</h1><p>测量非CPU占用时间可能因为一些不受程序控制的行为，导致结果有些不同。有时DNS查询会变得很慢，有时下载花费的时间会很长。<em>因此我们想使用一个更精准的测量方式，它不受外部条件变化影响。</em></p>
+<p>要做到这一点的方法之一是 测量进程做了多少次需要等待的操作：计算等待次数，而不是等待时间。</p>
+<p>这是你如何去做。当你的进程停止使用CPU资源，可能有一下两个原因:</p>
+<pre><code>1. 每次作一个不会立刻返回结果的操作,诸如 读取socket(套接字)，sleeping(休眠)等等，他会告诉操作系统:&quot;等返回结果了再唤醒我&quot;这是“主动上下文切换”,CPU可以切换运行其他的程序，直到从socket里读取到了数据，休眠结束等等再切换回来。
+2. 被动上下文切换， 这时操作系统暂时停止运行这个进程，以运行其他需要使用CPU的进程。
+</code></pre><p>因此，出于我们的目的，我们想分析主动上下文切换所花费的时间。</p>
+<p>你可以使用<code>psutil</code>库去写一个分析器，测量主动上下文切换消耗<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> psutil</span><br><span class="line"></span><br><span class="line">_current_process = psutil.Process()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">profile_voluntary_switches</span><span class="params">(f, *args, **kwargs)</span>:</span></span><br><span class="line">    prof = cProfile.Profile(</span><br><span class="line">        <span class="keyword">lambda</span>: _current_process.num_ctx_switches().voluntary)</span><br><span class="line">    prof.runcall(f, *args, **kwargs)</span><br><span class="line">    result = pstats.Stats(prof)</span><br><span class="line">    result.sort_stats(<span class="string">"time"</span>)</span><br><span class="line">    result.print_stats()</span><br></pre></td></tr></table></figure></p>
+<p>你可以再次分析网络请求的代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span>  urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"></span><br><span class="line"><span class="comment">#分析打开一个网页</span></span><br><span class="line">profile_voluntary_switches(</span><br><span class="line">    <span class="keyword">lambda</span>: urlopen(<span class="string">"https://pythonspeed.com"</span>).read())</span><br><span class="line"></span><br><span class="line"><span class="comment">#结果</span></span><br><span class="line">ncalls  tottime  percall  filename:lineno(function)</span><br><span class="line">     <span class="number">3</span>    <span class="number">7.000</span>    <span class="number">2.333</span>  _ssl._SSLSocket.read</span><br><span class="line">     <span class="number">1</span>    <span class="number">2.000</span>    <span class="number">2.000</span>  _ssl._SSLSocket.do_handshake</span><br><span class="line">     <span class="number">1</span>    <span class="number">2.000</span>    <span class="number">2.000</span>  _socket.getaddrinfo</span><br><span class="line">     <span class="number">1</span>    <span class="number">1.000</span>    <span class="number">1.000</span>  _ssl._SSLContext.set_default_verify_path</span><br><span class="line">     <span class="number">1</span>    <span class="number">1.000</span>    <span class="number">1.000</span>  _socket.socket.connect</span><br></pre></td></tr></table></figure></p>
+<p>现在看到的不是花费的等待时间，而是主动上下文切换发生的次数。</p>
+<h1 id="分析所有消耗"><a href="#分析所有消耗" class="headerlink" title="分析所有消耗"></a>分析所有消耗</h1><p>使用分析技术会带来一些额外成本:因为额外的开销导致你的程序变慢一些。大多数情况对结果影响不大，因为你没有分析CPU。</p>
+<p>通常，你可以分析任何数据。例如:</p>
+<ul>
+<li>读操作(psutil.Process().read_count)和写操作(psutil.Process().write_count))数</li>
+<li>在Linux上，读写的总字节数( psutil.Process().read_chars)</li>
+<li>内存分配分析(这需要一些额外的工作，但也可以使用 <a href="http://jemalloc.net/" target="_blank" rel="noopener">jemalloc</a>)</li>
+</ul>
+<p>你也可以看<a href="https://psutil.readthedocs.io/en/latest/#processes" target="_blank" rel="noopener">psutil的文档</a>进一步了解上面两点。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">English</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Python//" class="article-tag-list-link color2">Python</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xiaotaoist.github.io/2019/09/07/custom-python-profiler/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/07/06/mysql8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL 8.0.16 安装配置(Arch Linux)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "https://xiaotaoist.github.io/2019/09/07/custom-python-profiler/",
+  owner: 'xiaoTaoist',
+  repo: 'xiaotaoist.github.io',
+  oauth: {
+    client_id: 'db56b34f79769b86de3d',
+    client_secret: 'b6be612255a771e8d1685cc94ebc31516e693454',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
 
 
           </div>
@@ -224,9 +388,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
