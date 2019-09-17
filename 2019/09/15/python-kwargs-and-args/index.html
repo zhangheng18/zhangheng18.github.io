@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
 <meta property="og:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Davide MastromatteoPython args and kwargs: Demystified">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-16T13:21:22.939Z">
+<meta property="og:updated_time" content="2019-09-17T13:53:27.605Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="揭秘 Python args 和 kwargs （译）">
 <meta name="twitter:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Davide MastromatteoPython args and kwargs: Demystified">
@@ -206,6 +206,18 @@
 <p>事实上，如果你忘了这种使用方法。你将发现自己迭代的是Python kwargs 字典的键，如下示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># concatenate_keys.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">concatenate</span><span class="params">(**kwargs)</span>:</span></span><br><span class="line">    result = <span class="string">""</span></span><br><span class="line">    <span class="comment"># Iterating over the keys of the Python kwargs dictionary</span></span><br><span class="line">    <span class="keyword">for</span> arg <span class="keyword">in</span> kwargs:</span><br><span class="line">        result += arg</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">print(concatenate(a=<span class="string">"Real"</span>, b=<span class="string">"Python"</span>, c=<span class="string">"Is"</span>, d=<span class="string">"Great"</span>, e=<span class="string">"!"</span>))</span><br></pre></td></tr></table></figure></p>
 <p>注意，如果你尝试执行这个例子，你将注意到一下输出<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python concatenate_keys.py</span><br><span class="line">abcde</span><br></pre></td></tr></table></figure></p>
 <p>如你所见，如果你没有指定.values()，你的函数将迭代Python kwargs字典的键值，返回错误的结果。</p>
+<h2 id="函数参数顺序"><a href="#函数参数顺序" class="headerlink" title="函数参数顺序"></a>函数参数顺序</h2><p>现在，你学习了*args和**kwargs的用途，你就可以使用它们开始编写传入不同数量参数的函数了，但是如果你想创建一个传入可变数量的位置参数和命名参数，怎么办？</p>
+<p>在这种情况下，你必须记住参数顺序，就像非默认参数必须在默认参数前面，*args 也必须在 **kwargs前面。</p>
+<p>总结一下，参数的正确顺序:</p>
+<ol>
+<li>标准参数</li>
+<li>*args 参数</li>
+<li>**kwargs 参数</li>
+</ol>
+<p>例如，下面这个函数定义正确:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># correct_function_definition.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_function</span><span class="params">(a, b, *args, **kwargs)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></p>
+<p>这个*args 应该在 **kwargs前面列出。但是如果你尝试修改参数的顺序？例如，请思考下面这个函数:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wrong_function_definition.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_function</span><span class="params">(a, b, **kwargs, *args)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></p>
+<p>现在，**kwargs 被放在*args 函数定义前面。如果你尝试运行这个例子，解释器将报错:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ python wrong_function_definition.py</span><br><span class="line">  File <span class="string">"wrong_function_definition.py"</span>, line 2</span><br><span class="line">    def my_function(a, b, **kwargs, *args):</span><br><span class="line">                                    ^</span><br><span class="line">SyntaxError: invalid syntax</span><br></pre></td></tr></table></figure></p>
+<p>在这种情况，*args 被放在**kwargs前面，Python 解释器将报语法错误。</p>
 
       
 
