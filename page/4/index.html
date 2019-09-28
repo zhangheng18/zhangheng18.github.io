@@ -150,6 +150,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-python-exercise-0002" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/26/python-exercise-0002/">Python练习册：0002</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/26/python-exercise-0002/" class="archive-article-date">
+  	<time datetime="2018-05-26T02:17:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>========================</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><pre><code>将 0001 题生成的 200 个激活码（或者优惠券）保存到 MySQL 关系型数据库中。
+</code></pre>
+        
+          <a class="article-more-a" href="/2018/05/26/python-exercise-0002/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Python练习册//" class="article-tag-list-link color5">Python练习册</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/26/python-exercise-0002/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-python-exercise-0001" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -883,98 +972,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/03/09/archlinuxcn/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ssh-keygen" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/07/ssh-keygen/">SSH免密登录</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/07/ssh-keygen/" class="archive-article-date">
-  	<time datetime="2018-03-07T01:37:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>========================</p>
-<hr>
-<h2 id="SSH单密钥配置"><a href="#SSH单密钥配置" class="headerlink" title="SSH单密钥配置"></a>SSH单密钥配置</h2><ul>
-<li>生成ssh密钥文件<blockquote>
-<p>ssh-keygen -t ecdsa -b 521</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t 为指定加密算法类型，支持rsa，dsa，ecdsa</span><br><span class="line">-b 指定密钥大小，ecdsa算法默认大小为256位</span><br><span class="line"></span><br><span class="line">ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高</span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-</ul>
-<p>如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车<br>ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。</p>
-<ul>
-<li>将公钥上传到远程服务器<blockquote>
-<p>ssh-copy-id  username@remote_ip</p>
-</blockquote>
-</li>
-</ul>
-<p>ssh-copy-id会将你刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中</p>
-        
-          <a class="article-more-a" href="/2018/03/07/ssh-keygen/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/07/ssh-keygen/">展开全文 >></a>
         </p>
       
 
