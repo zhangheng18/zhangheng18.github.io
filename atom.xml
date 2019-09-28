@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2019-09-28T14:16:12.539Z</updated>
+  <updated>2019-09-28T23:43:21.872Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://xiaotaoist.github.io/2019/09/21/python-lambda-functions/"/>
     <id>https://xiaotaoist.github.io/2019/09/21/python-lambda-functions/</id>
     <published>2019-09-21T11:21:00.000Z</published>
-    <updated>2019-09-28T14:16:12.539Z</updated>
+    <updated>2019-09-28T23:43:21.872Z</updated>
     
-    <content type="html"><![CDATA[<p>本文用于练习英文阅读，如有侵权，联系删除</p><p><a href="https://dbader.org/blog/python-lambda-functions" target="_blank" rel="noopener">原文链接</a>是<strong>Dan Bader</strong>的 Lambda Functions in Python: What Are They Good For?</p><a id="more"></a><p><strong>以下为译文</strong><br>Python lambda 表达式: 它们的优点，何时使用以及何时最好避免使用他们。</p>]]></content>
+    <content type="html"><![CDATA[<p>本文用于练习英文阅读，如有侵权，联系删除</p><p><a href="https://dbader.org/blog/python-lambda-functions" target="_blank" rel="noopener">原文链接</a>是<strong>Dan Bader</strong>的 Lambda Functions in Python: What Are They Good For?</p><a id="more"></a><p><strong>以下为译文</strong><br>Python lambda 表达式: 它们的优点，何时使用以及何时最好避免使用他们。</p><p>Python中的lambda关键词提供了声明简短匿名函数的快捷方式。Lambda 函数的行为就像使用def关键字声明的常规函数一样。只要函数对象被声明就可以使用。</p><p>例如，这是定义一个加法功能的简单lambda函数:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>add = <span class="keyword">lambda</span> x, y: x + y</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>add(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure></p><p>你也可以使用def关键字声明同样的加法函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> x + y</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>add(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure></p><p>现在你可能感到惊奇:为什么对lambdas大惊小怪？如果它只是def声明函数的简洁版，有什么大不了的？</p><p>看下面这个例子，并把执行这个操作时把这个函数表达式放在脑海里:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>(<span class="keyword">lambda</span> x, y: x + y)(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure></p><p>好的，这是怎么回事？我只是用lambda内联定义了一个add 函数，接着用参数5和3进行了调用。</p><p>从概念上讲lambda表达式 lambda x,y:x+y 和用def声明的函数类似，只是用了内联写法。区别在于使用它之前没有绑定到诸如add这样的名称上。我只是说了我想计算的表达式，接着像常规函数一样调用它立刻求值。</p><p>在你继续之前，你可能需要玩味一下前面的代码示例，以便真的理解它的意思。我仍然记得这花了好久去思考。所以要担心花费几分钟去理解它。</p><p>lambdas 和常规函数的另一个语法不同在于:Lamdba 只能是单个表达式。这意味着lambda函数不能使用声明和注释，甚至return语句。</p><p>那么该如何使lambdas返回值？执行lambda函数会评估其表达式，然后自动返回结果。因此，总会有一个隐式的return语句。这就是为什么有些人将lambda称为单表达式函数的原因。</p>]]></content>
     
     <summary type="html">
     
