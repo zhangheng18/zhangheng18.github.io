@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2019-10-08T12:37:55.686Z</updated>
+  <updated>2019-10-08T23:42:14.872Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在Python里如何将min()和max() 与嵌套列表一起使用 （译）</title>
+    <link href="https://xiaotaoist.github.io/2019/10/07/python-min-max-and-nested-lists/"/>
+    <id>https://xiaotaoist.github.io/2019/10/07/python-min-max-and-nested-lists/</id>
+    <published>2019-10-07T12:28:00.000Z</published>
+    <updated>2019-10-08T23:42:14.872Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文用于练习英文阅读，如有侵权，联系删除</p><p><a href="https://dbader.org/blog/python-min-max-and-nested-lists" target="_blank" rel="noopener">原文链接</a>是<strong>Dan Bader</strong>的 How to use Python’s min() and max() with nested lists</p><a id="more"></a><p><strong>以下为译文</strong><br>让我们谈谈在包含另一个列表的列表中使用Python的min()和max()函数。有时这被成为嵌套列表或列表索引。</p><p>根据内部特定属性查找列表的最大或最小元素是一种常见情况，但对与Python新手来说可能是一个挑战。</p><p>下面是一个具体实例，假设这样一个列表，包含权重部分。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nested_list = [[<span class="string">'cherry'</span>, <span class="number">7</span>], [<span class="string">'apple'</span>, <span class="number">100</span>], [<span class="string">'anaconda'</span>, <span class="number">1360</span>]]</span><br></pre></td></tr></table></figure><p>我们希望Python 根据储存在索引1上的权重选择最小和最大元素。我们预期min和max返回下面元素:</p><ul><li><code>min(nested_list) should be [&#39;cherry&#39;, 7]</code></li><li><code>max(nested_list) should be [&#39;anaconda&#39;, 1360]</code></li></ul><p>但是仅在nested_list 上调用 min 和 max 我们不能得到预期结果。</p><p>我们得到的排序似乎基于存储在索引0处的商品名称:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>min(nested_list)</span><br><span class="line">[<span class="string">'anaconda'</span>, <span class="number">1360</span>]  <span class="comment"># 非预期!</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(nested_list)</span><br><span class="line">[<span class="string">'cherry'</span>, <span class="number">7</span>]  <span class="comment"># 非预期!</span></span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文用于练习英文阅读，如有侵权，联系删除&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://dbader.org/blog/python-min-max-and-nested-lists&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;原文链接&lt;/a&gt;是&lt;strong&gt;Dan Bader&lt;/strong&gt;的 How to use Python’s min() and max() with nested lists&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="https://xiaotaoist.github.io/categories/Python/"/>
+    
+    
+      <category term="English" scheme="https://xiaotaoist.github.io/tags/English/"/>
+    
+  </entry>
   
   <entry>
     <title>Python 中的Lambda 函数:他们有什么用 （译）</title>
