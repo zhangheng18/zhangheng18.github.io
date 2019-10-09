@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
 <meta property="og:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Dan Bader的 How to use Python’s min() and max() with nested lists">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-08T23:42:14.872Z">
+<meta property="og:updated_time" content="2019-10-09T14:05:59.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Python里如何将min()和max() 与嵌套列表一起使用 （译）">
 <meta name="twitter:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Dan Bader的 How to use Python’s min() and max() with nested lists">
@@ -187,6 +187,14 @@
 </ul>
 <p>但是仅在nested_list 上调用 min 和 max 我们不能得到预期结果。</p>
 <p>我们得到的排序似乎基于存储在索引0处的商品名称:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>min(nested_list)</span><br><span class="line">[<span class="string">'anaconda'</span>, <span class="number">1360</span>]  <span class="comment"># 非预期!</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(nested_list)</span><br><span class="line">[<span class="string">'cherry'</span>, <span class="number">7</span>]  <span class="comment"># 非预期!</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="好吧，为什么选错了元素呢？"><a href="#好吧，为什么选错了元素呢？" class="headerlink" title="好吧，为什么选错了元素呢？"></a>好吧，为什么选错了元素呢？</h1><p>让我们停下来思考一下Python的max函数工作原理。算法看起来像这样<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_max</span><span class="params">(sequence)</span>:</span></span><br><span class="line">    <span class="string">"""Return the maximum element of a sequence"""</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sequence:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'empty sequence'</span>)</span><br><span class="line"></span><br><span class="line">    maximum = sequence[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> sequence:</span><br><span class="line">        <span class="keyword">if</span> item &gt; maximum:</span><br><span class="line">            maximum = item</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> maximum</span><br></pre></td></tr></table></figure></p>
+<p>选择最大值的条件下会发现这个有趣的行为: if item &gt; amximum:如果序列的类型只是int 或 float，它能很好的工作，因为比较他们很简单(它符合我们的直觉,例如 3 &gt; 2)。</p>
+<p>但是，如果序列包含其他序列，则情况会变得更加复杂。让我们看一下Python 文档去学习下 <a href="https://docs.python.org/zh-cn/3/tutorial/datastructures.html#comparing-sequences-and-other-types" target="_blank" rel="noopener">比较序列和其他类型</a></p>
+<blockquote>
+<p>序列对象可以与相同类型的其他对象比较。它们使用 字典顺序 进行比较：首先比较两个序列的第一个元素，如果不同，那么这就决定了比较操作的结果。如果它们相同，就再比较每个序列的第二个元素，以此类推，直到有一个序列被耗尽。如果要比较的两个元素本身就是相同类型的序列，那么就递归进行字典顺序比较。</p>
+</blockquote>
+<p>当max需要比较两个序列并寻找最大的元素，默认可能不是我们想要的。</p>
+<p>现在我们了解了为什么会得到意外结果，我们就可以去思考怎样修复代码。</p>
 
       
 
