@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
 <meta property="og:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Dan Bader的 How to use Python’s min() and max() with nested lists">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-09T14:05:59.683Z">
+<meta property="og:updated_time" content="2019-10-10T13:50:28.676Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Python里如何将min()和max() 与嵌套列表一起使用 （译）">
 <meta name="twitter:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Dan Bader的 How to use Python’s min() and max() with nested lists">
@@ -195,6 +195,14 @@
 </blockquote>
 <p>当max需要比较两个序列并寻找最大的元素，默认可能不是我们想要的。</p>
 <p>现在我们了解了为什么会得到意外结果，我们就可以去思考怎样修复代码。</p>
+<h2 id="我们如何改变比较行为"><a href="#我们如何改变比较行为" class="headerlink" title="我们如何改变比较行为"></a>我们如何改变比较行为</h2><p>我们需要告诉max函数去比较不同的行为。</p>
+<p>在上个例子，Python的max函数查看每一个列表的第一个元素（字符串 cherry, apple, or anaconda）并与当前最大元素进行比较，这就是为什么我们仅调用max(nested_list) 它将cherry返回作为最大元素的原因。</p>
+<p>怎样告诉max 去比较每个列表的第二个元素呢？</p>
+<p>假设我们有一个名叫my_max_by_weight的my_max更新版，它使用第二个元素进行比较每个内嵌列表:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_max_by_weight</span><span class="params">(sequence)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sequence:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">'empty sequence'</span>)</span><br><span class="line"></span><br><span class="line">    maximum = sequence[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> sequence:</span><br><span class="line">        <span class="comment"># Compare elements by their weight stored</span></span><br><span class="line">        <span class="comment"># in their second element.</span></span><br><span class="line">        <span class="keyword">if</span> item[<span class="number">1</span>] &gt; maximum[<span class="number">1</span>]:</span><br><span class="line">            maximum = item</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> maximum</span><br></pre></td></tr></table></figure></p>
+<p>这很成功，我们可以看到my_max_by_weight 选择了我们预期的最大元素:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_max_by_weight(nested_list)</span><br><span class="line">[<span class="string">'anaconda'</span>, <span class="number">1360</span>]</span><br></pre></td></tr></table></figure></p>
+<p>现在假设我们需要在更多类型的list里寻找最大元素。</p>
+<p>也许索引(或键)不总是第二项。可能有时是第三，或第四项，或着其他方式查找。</p>
+<p>如果我们在my_max里可以复用大部分代码岂不更好?它的某些部分始终相同，例如 检查是否是空序列。</p>
 
       
 
