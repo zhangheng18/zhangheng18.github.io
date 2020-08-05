@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/index.html">
+<meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
+<meta property="og:locale">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/dns_dig.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/dns_fake.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/dns_suc.png">
+<meta property="article:published_time" content="2018-04-14T13:42:48.000Z">
+<meta property="article:modified_time" content="2018-06-10T09:37:29.482Z">
+<meta property="article:author" content="taoist">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaotaoist.github.io/img/dns_dig.png">
+
+<link rel="canonical" href="https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用Pcap_DNS搭建本地防污染DNS服务器 | XiaoTaoist's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">XiaoTaoist's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/userico.png">
+      <meta itemprop="name" content="taoist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XiaoTaoist's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Pcap_DNS搭建本地防污染DNS服务器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-14 21:42:48" itemprop="dateCreated datePublished" datetime="2018-04-14T21:42:48+08:00">2018-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-06-10 17:37:29" itemprop="dateModified" datetime="2018-06-10T17:37:29+08:00">2018-06-10</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>0:01</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>========================</p>
+<h2 id="DNS介绍"><a href="#DNS介绍" class="headerlink" title="DNS介绍"></a>DNS介绍</h2><p> 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p>
+ <a id="more"></a>
+<p> <img src="/img/dns_dig.png" alt="dig"></p>
+<h2 id="DNS的问题"><a href="#DNS的问题" class="headerlink" title="DNS的问题"></a>DNS的问题</h2><p>一般运营商（联通，电信，移动）都会搭建自己的DNS服务器，以提高响应速度，但是运营商会为了为了某些目的，会对DNS做一些手脚，导致我们无法通过域名解析出正确的IP地址。常用的手段有：DNS劫持和DNS污染。网上很多文章建议将DNS设为公共DNS（如阿里的<code>223.5.5.5</code>,谷歌的<code>8.8.8.8</code>,腾讯的<code>119.29.29.29</code>），但是你们也太小看运营商了，以移动为例：他们会对UDP53（DNS默认向53端口用UDP包发送查询请求）进行抢答。随便输入一个IP地址（8.1.2.3不是任何公共DNS服务器地址），都能给你返回查询结果。<br><img src="/img/dns_fake.png" alt="dns_fake"></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里介绍使用<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win/MacOS都有编译好的二进制文件，可以直接<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/releases">下载</a>使用。</p>
+<p>下文介绍Arch Linux下的Pcap_DNSProxy的编译与使用，其他环境请参考chengr28的<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/tree/master/Documents">官方文档</a></p>
+<ul>
+<li><p>安装编译环境</p>
+<blockquote>
+<p>sudo pacman -S gcc cmake libpcap libsodium openssl git bind-tools</p>
+</blockquote>
+</li>
+<li><p>下载源码</p>
+<blockquote>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy.git">https://github.com/chengr28/Pcap_DNSProxy.git</a></p>
+</blockquote>
+</li>
+<li><p>编译生成可执行文件</p>
+<blockquote>
+<p>cd Pcap_DNSProxy/Source/Auxiliary/Scripts #进入指定目录<br>chmod 755 CMake_Build.sh #赋予脚本执行权限<br>./CMake_Build.sh         #执行编译程序</p>
+</blockquote>
+</li>
+<li><p>编译成功后，<code>Pcap_DNSProxy/Source/Release</code> 目录下的文件即目标程序和配置文件，我们先来测试一下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line">sudo ./Pcap_DNSProxy --<span class="built_in">disable</span>-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h2><ul>
+<li>进入<code>Release</code>目录并编辑 Pcap_DNSProxy.service 文件，编辑完成后保存： </li>
+</ul>
+<blockquote>
+<p>WorkingDirectory= 项为程序所在目录的绝对路径(例如:/home/my/Pcap_DNSProxy/Source/Release)<br>ExecStart= 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：/home/my/Pcap_DNSProxy/Source/Release/Pcap_DNSProxy)</p>
+</blockquote>
+<ul>
+<li><p>自动安装到系统，并设为开机自启</p>
+<blockquote>
+<p>sudo ./Linux_Install.Systemd.sh</p>
+</blockquote>
+</li>
+<li><p>修改系统DNS设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">&quot;nameserver 127.0.0.1\nnameserver 8.8.8.8&quot;</span> | sudo tee /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;sudo chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure></li>
+<li>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4  + UDP + TCP <span class="comment">#优先使用UDP，提高解析速度</span></span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#允许使用Sock5代理，以远程解析DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>更详细配置请阅读<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/blob/master/Documents/ReadMe.zh-Hans.txt">文档</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F">https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.v2ex.com/t/442340#reply15">https://www.v2ex.com/t/442340#reply15</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.v2ex.com/t/360775">https://www.v2ex.com/t/360775</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Resolv.conf">https://wiki.archlinux.org/index.php/Resolv.conf</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/07/python-getss/" rel="prev" title="Python爬取某站科学上网帐号(5.15更新)">
+      <i class="fa fa-chevron-left"></i> Python爬取某站科学上网帐号(5.15更新)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/24/python-exercise-0000/" rel="next" title="Python练习册：0000">
+      Python练习册：0000 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">DNS介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">DNS的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF"><span class="nav-number">4.</span> <span class="nav-text">设置开机自启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="taoist"
+      src="/img/userico.png">
+  <p class="site-author-name" itemprop="name">taoist</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">taoist</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

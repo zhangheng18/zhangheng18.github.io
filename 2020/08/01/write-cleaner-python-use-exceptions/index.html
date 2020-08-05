@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Jeff Knupp写的Write Cleaner Python: Use Exceptions">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何写出整洁的Python代码 —— 异常处理 （译）">
+<meta property="og:url" content="https://xiaotaoist.github.io/2020/08/01/write-cleaner-python-use-exceptions/index.html">
+<meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="本文用于练习英文阅读，如有侵权，联系删除 原文链接是Jeff Knupp写的Write Cleaner Python: Use Exceptions">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-08-01T12:01:00.000Z">
+<meta property="article:modified_time" content="2020-08-05T13:42:02.111Z">
+<meta property="article:author" content="taoist">
+<meta property="article:tag" content="English">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xiaotaoist.github.io/2020/08/01/write-cleaner-python-use-exceptions/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>如何写出整洁的Python代码 —— 异常处理 （译） | XiaoTaoist's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">XiaoTaoist's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2020/08/01/write-cleaner-python-use-exceptions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/userico.png">
+      <meta itemprop="name" content="taoist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XiaoTaoist's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何写出整洁的Python代码 —— 异常处理 （译）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-01 20:01:00" itemprop="dateCreated datePublished" datetime="2020-08-01T20:01:00+08:00">2020-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-05 21:42:02" itemprop="dateModified" datetime="2020-08-05T21:42:02+08:00">2020-08-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>0:01</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文用于练习英文阅读，如有侵权，联系删除</p>
+<p><a target="_blank" rel="noopener" href="https://www.jeffknupp.com/blog/2013/02/06/write-cleaner-python-use-exceptions">原文链接</a>是<strong>Jeff Knupp</strong>写的Write Cleaner Python: Use Exceptions</p>
+<a id="more"></a>
+<p><strong>以下为译文</strong><br>许多程序员深受无论在任何语言中，只有真正特殊的异常情况才可以使用异常。他们错了，Python社区建议使用异常处理让你的代码更整洁干净。而且这通常不会像其他语言那样对性能造成巨大影响。</p>
+<h2 id="使用异常编写更整洁的代码"><a href="#使用异常编写更整洁的代码" class="headerlink" title="使用异常编写更整洁的代码"></a>使用异常编写更整洁的代码</h2><p>当我谈到“使用异常”是 我不是指那些疯狂的在尽可能出问题的地方捕获异常的层次结构。毫无疑问，这种做法会导致代码难以阅读和维护。这个概念已经被广泛的讨论，并在<a target="_blank" rel="noopener" href="http://www.joelonsoftware.com/items/2003/10/13.html">Joel Spolsky’s 的Blog</a>里得到很好的总结。</p>
+<p>注:Python 避免了大多数使用错误码还是使用异常的矛盾情况。在一个函数中返回多个值还是返回一个不同类型的值（例如None 或类似的）的讨论不是本文的重点。</p>
+<p>我提倡的是一种完全不同的异常用法，简言之:<strong>着重使用已经抛出异常的Python 内置模块和标准库</strong> 异常机制已经成为了Python 底层构建。事实上，我保证你的代码已经使用了异常处理，即使您没有显式的使用。</p>
+<h2 id="插曲-for-语句是如何工作"><a href="#插曲-for-语句是如何工作" class="headerlink" title="插曲: for 语句是如何工作"></a>插曲: for 语句是如何工作</h2><p>每当你使用<em>for</em> 去遍历一个可迭代对象(基本上，所有序列类型 都定义了 <strong>iter</strong>() 或<strong>getitem</strong>() 以支持遍历)时， 它需要知道合适停止迭代。看下面的代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">words = [<span class="string">&#x27;exceptions&#x27;</span>,<span class="string">&#x27;are&#x27;</span>,<span class="string">&#x27;useful&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">    print(word)</span><br></pre></td></tr></table></figure>
+<p>for 如何知道当到达到最后一个元素时应该停止尝试继续遍历？答案可能让你惊讶：这个列表抛出了一个<strong>StopIteration</strong> 异常。</p>
+<p>事实上，所有可迭代对象都遵循这种模式。 当for第一次评估一条语句时，它会调用iter()，这会生成一个可迭代对象：能按顺序返回该对象的内容。为了被iter()成功调用，这些对象必须支持可迭代协议(通过定义 <strong>iter</strong>() 或序列协议(定义 <strong>getitem</strong>())。</p>
+<p>碰巧的是 当被迭代的元素用尽时 <strong>iter</strong>() 和 <strong>getitem</strong>()都需要引发异常。 <strong>iter</strong>() 抛出 StopIteration 异常， <strong>getitem</strong>() 抛出 IndexError 异常。 这就是for 如何知道该停止迭代的方法。</p>
+<p>总结： 如果你在代码的任何地方使用过for，那么你正在使用异常</p>
+<hr>
+<h2 id="LBYL（提前检查许可）-vs-EAFP-求原谅比求许可更容易"><a href="#LBYL（提前检查许可）-vs-EAFP-求原谅比求许可更容易" class="headerlink" title="LBYL（提前检查许可） vs EAFP(求原谅比求许可更容易)"></a>LBYL（提前检查许可） vs EAFP(求原谅比求许可更容易)</h2><p>在核心Python构造中广泛的使用异常非常好，但这为什么要这么做。毕竟，for 完全可以写成不依赖任何异常作为序列结束标记的方式。确实，完全可以避免异常。</p>
+<p>但是他们的存在是由于Python的的错误检查哲学。不使用异常的代码将始终检查是否可以执行某些操作。事实上，在确信可以做某事之前，必须做很多判断。如果他没有 考虑全面，就会发生错误，思考以下代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_object</span>(<span class="params">some_object</span>):</span></span><br><span class="line">    <span class="comment"># check if the object is printable...</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(some_object,str):</span><br><span class="line">        print(some_object)</span><br><span class="line">    <span class="keyword">elif</span> isinstance(some_object,dict):</span><br><span class="line">        print(some_object)</span><br><span class="line">    <span class="keyword">elif</span> isinstance(some_object, list):</span><br><span class="line">        print(some_object)</span><br><span class="line">    <span class="comment"># 97 elifs later...</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">    print( <span class="string">&quot;unprintable oject&quot;</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这个简单的函数负责调用print()打印一个对象，如果对象类型不支持打印就显示一个错误。</p>
+<p>视图预测所有的错误情况注定会导致失败（并且非常的丑陋）。鸭子类型(当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子)是Python的中心思想，这个函数可以不用明确的检查类型，依然正确打印错误，像这样重写：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_object</span>(<span class="params">some_object</span>):</span></span><br><span class="line">    <span class="comment"># Check if the object is printable</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        printable = str(some_object)</span><br><span class="line">        print(printable)</span><br><span class="line">    <span class="keyword">except</span> TypeError:</span><br><span class="line">        print(<span class="string">&#x27;unprintable ojbect&#x27;</span>)</span><br></pre></td></tr></table></figure></p>
+<p>如果可以将对象强制转换为字符串，就打印它，如果引发异常，则打印错误消息。相同的想法，但是更容易理解(在try 里面显然可以合并为一行，但是并不能使示例更清晰可读)。另外，注意 我们正在显式的检查 TypeError，如果强制转换失败，仍然会抛出异常，永远不要使用只使用一个 except 这将会隐藏你不想捕获的错误（导致代码难以维护）。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/piglei/one-python-craftsman/blob/master/zh_CN/15-thinking-in-edge-cases.md">https://github.com/piglei/one-python-craftsman/blob/master/zh_CN/15-thinking-in-edge-cases.md</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jeffknupp.com/blog/2013/02/06/write-cleaner-python-use-exceptions/">https://www.jeffknupp.com/blog/2013/02/06/write-cleaner-python-use-exceptions/</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B">https://zh.wikipedia.org/zh-hans/%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/English/" rel="tag"># English</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/07/python-min-max-and-nested-lists/" rel="prev" title="在Python里如何将min()和max() 与嵌套列表一起使用 （译）">
+      <i class="fa fa-chevron-left"></i> 在Python里如何将min()和max() 与嵌套列表一起使用 （译）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%BC%82%E5%B8%B8%E7%BC%96%E5%86%99%E6%9B%B4%E6%95%B4%E6%B4%81%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">使用异常编写更整洁的代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E6%9B%B2-for-%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">插曲: for 语句是如何工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LBYL%EF%BC%88%E6%8F%90%E5%89%8D%E6%A3%80%E6%9F%A5%E8%AE%B8%E5%8F%AF%EF%BC%89-vs-EAFP-%E6%B1%82%E5%8E%9F%E8%B0%85%E6%AF%94%E6%B1%82%E8%AE%B8%E5%8F%AF%E6%9B%B4%E5%AE%B9%E6%98%93"><span class="nav-number">3.</span> <span class="nav-text">LBYL（提前检查许可） vs EAFP(求原谅比求许可更容易)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="taoist"
+      src="/img/userico.png">
+  <p class="site-author-name" itemprop="name">taoist</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">taoist</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

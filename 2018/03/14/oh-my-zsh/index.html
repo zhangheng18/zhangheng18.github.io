@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 终极 Shell(zsh)介绍 Z Shell(Zsh) 是一种Unix shell，它可以用作为交互式的登录shell，也是一种强大的shell脚本命令解释器。它在兼容 Bash 的同时 (默认不兼容，除非设置成 emulate sh) 还提供了很多改进。 改进特性: 色彩高亮 更强大的自动补全 支持通配符搜索 兼容Bash 完全可定制化    安装 sudo pa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="终端环境之Zsh＆oh-my-zsh">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/03/14/oh-my-zsh/index.html">
+<meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 终极 Shell(zsh)介绍 Z Shell(Zsh) 是一种Unix shell，它可以用作为交互式的登录shell，也是一种强大的shell脚本命令解释器。它在兼容 Bash 的同时 (默认不兼容，除非设置成 emulate sh) 还提供了很多改进。 改进特性: 色彩高亮 更强大的自动补全 支持通配符搜索 兼容Bash 完全可定制化    安装 sudo pa">
+<meta property="og:locale">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/zsh_theme.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/zsh_plugins.png">
+<meta property="article:published_time" content="2018-03-14T01:41:21.000Z">
+<meta property="article:modified_time" content="2018-03-17T12:56:49.017Z">
+<meta property="article:author" content="taoist">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaotaoist.github.io/img/zsh_theme.png">
+
+<link rel="canonical" href="https://xiaotaoist.github.io/2018/03/14/oh-my-zsh/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>终端环境之Zsh＆oh-my-zsh | XiaoTaoist's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">XiaoTaoist's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2018/03/14/oh-my-zsh/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/userico.png">
+      <meta itemprop="name" content="taoist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XiaoTaoist's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          终端环境之Zsh＆oh-my-zsh
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-14 09:41:21" itemprop="dateCreated datePublished" datetime="2018-03-14T09:41:21+08:00">2018-03-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-03-17 20:56:49" itemprop="dateModified" datetime="2018-03-17T20:56:49+08:00">2018-03-17</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>0:01</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>==============</p>
+<h2 id="终极-Shell-zsh"><a href="#终极-Shell-zsh" class="headerlink" title="终极 Shell(zsh)"></a>终极 Shell(zsh)</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+<li>Z Shell(Zsh) 是一种Unix shell，它可以用作为交互式的登录shell，也是一种强大的shell脚本命令解释器。它在兼容 Bash 的同时 (默认不兼容，除非设置成 emulate sh) 还提供了很多改进。</li>
+<li>改进特性:<ul>
+<li>色彩高亮</li>
+<li>更强大的自动补全</li>
+<li>支持通配符搜索</li>
+<li>兼容Bash</li>
+<li>完全可定制化</li>
+</ul>
+</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><blockquote>
+<p>sudo pacman -S zsh zsh-completions</p>
+</blockquote>
+<p>此处为Arch Linux，其他平台请使用自带的包管理器，为了使用更强大的补全功能建议同时安装 zsh-completions包</p>
+<a id="more"></a>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul>
+<li>将zsh设为默认shell<blockquote>
+<p>chsh -s /bin/zsh</p>
+</blockquote>
+</li>
+<li>其他发行版可先用chsh -l 查看zsh安装位置</li>
+</ul>
+<h2 id="Oh-my-zsh"><a href="#Oh-my-zsh" class="headerlink" title="Oh-my-zsh"></a>Oh-my-zsh</h2><ul>
+<li>curl 和 git 应该已被安装(若没有Arch 用sudo pacman -S curl git 安装，其他发行版类似。)</li>
+<li><a target="_blank" rel="noopener" href="http://ohmyz.sh">Oh-my-zsh</a>是一个傻瓜化的zsh配置管理框架，提供了大量实用的功能，主题等。做到开箱即用，现在基本成为了Zsh的标配。</li>
+<li>安装<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>配置文件位置： ~/.zshrc</li>
+<li><p>主题<br>oh-my-zsh自带大量<a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/Themes">Themes</a>，默认为robbyrussell。你也可以选择random，即每次打开终端随机选一个主题。</p>
+<blockquote>
+<p>ZSH_THEME=”你喜欢的主题名”<br><img src="/img/zsh_theme.png" alt="themes"></p>
+</blockquote>
+</li>
+<li><p>常用插件</p>
+<ul>
+<li>git: 提供大量git的Aliases，<a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git">详情</a></li>
+<li>archlinux： 提供一些pacman包管理器的Aliases，<a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#archlinux">详情</a></li>
+<li>z：经常使用cd 切换路径，积累一定数据后可用z快速跳转到指定位置</li>
+<li>sudo：按两次[Esc]自动在前面加sudo</li>
+<li>pip： 补全pip 命令</li>
+<li>zsh-autosuggestions: 根据历史记录进行智能提示(按 ctrl+E 是正确姿势)。非oh-my-zsh自带，用git下载安装<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="variable">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions</span><br></pre></td></tr></table></figure></li>
+<li>zsh-syntax-highlighting：命令高亮，正确显示绿色，错误为红色。非oh-my-zsh自带，用git下载安装<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>plugins=( 你想启用的插件，空格分隔 )<br><img src="/img/zsh_plugins.png" alt="plugins"></p>
+</blockquote>
+</li>
+<li>重新加载配置文件，立刻生效。<blockquote>
+<p>source ~/.zshrc</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>其他插件请参见官方<a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins-Overview">wiki</a></li>
+<li>少即是多，启用大量插件会严重拖慢zsh启动速度</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Zsh_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">https://wiki.archlinux.org/index.php/Zsh_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a></li>
+<li><a target="_blank" rel="noopener" href="http://zsh.sourceforge.net/FAQ/zshfaq01.html#l4">http://zsh.sourceforge.net/FAQ/zshfaq01.html#l4</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Z_shell">https://en.wikipedia.org/wiki/Z_shell</a></li>
+<li><a target="_blank" rel="noopener" href="http://macshuo.com/?p=676">http://macshuo.com/?p=676</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/09/archlinuxcn/" rel="prev" title="笔记本安装 Manjaro Linux">
+      <i class="fa fa-chevron-left"></i> 笔记本安装 Manjaro Linux
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/15/aircrack-hashcat/" rel="next" title="使用Aircrack&hashcat破解WPA/WPA2">
+      使用Aircrack&hashcat破解WPA/WPA2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%88%E6%9E%81-Shell-zsh"><span class="nav-number">1.</span> <span class="nav-text">终极 Shell(zsh)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oh-my-zsh"><span class="nav-number">2.</span> <span class="nav-text">Oh-my-zsh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="taoist"
+      src="/img/userico.png">
+  <p class="site-author-name" itemprop="name">taoist</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">taoist</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

