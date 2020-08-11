@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2020-08-05T13:42:02.111Z</updated>
+  <updated>2020-08-11T13:56:23.630Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Django Admin 慢查询优化</title>
+    <link href="https://xiaotaoist.github.io/2020/08/11/django-admin-optimization/"/>
+    <id>https://xiaotaoist.github.io/2020/08/11/django-admin-optimization/</id>
+    <published>2020-08-11T12:00:00.000Z</published>
+    <updated>2020-08-11T13:56:23.630Z</updated>
+    
+    <content type="html"><![CDATA[<p>项目是 Django Admin 的简单的后台，有一个表大概有160万左右的数据，打开一次需要将近20s，借助django-debug-toolbar 进行优化一下。</p><a id="more"></a><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Django Admin 构建的后台，使用<a href="https://github.com/newpanjing/simpleui">Simpleui</a>优化显示效果，<br>数据量160万左右，Admin 结构如下:<br><img src="/img/django-admin-debug-1.png" alt="admin-model－1"></p><h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><ul><li>安装 <a href="https://django-debug-toolbar.readthedocs.io/en/latest/installation.html">django-debug-toolbar</a></li><li><p>看到加载了17s，通过Chrome Deubug 没发现网页资源 有明显问题，那就从这109个SQL查询入手<br><img src="/img/django-admin-debug-2.png" alt="admin-debug-2"></p></li><li><p>展开第一个慢SQL，发现有两次count,count需要走全表扫描，数据多时影响查询性能。<br><img src="/img/django-admin-debug-3.png" alt="admin-debug-3"><br>通过查阅文档发现一次是受<a href="https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.show_full_result_count">show_full_result_count</a>参数控制(控制是否应在过滤的管理页面（例如）上显示对象的全部数量。如果此选项设置为， 则显示类似的文本。99 results (103 total)False99 results (Show all) )可以在 Admin Class 里关掉。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show_full_result_count = <span class="literal">False</span></span><br></pre></td></tr></table></figure></li><li><p>少了一个count，速度没啥提升。继续看下面的SQL：<br><img src="/img/django-admin-debug-4.png" alt="admin-debug-4"><br>存在好多 DISTINCT 查询,还是会走全表扫描影响性能，StackoverFlow上说是<a href="https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter">list_filter</a>（#过滤框导致的默认从表中取出该字段的所有字段，以支持过滤补全。可以通过自定义Filter来控制行为),这里选择使用<a href="https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.search_fields">search_fields</a>代替list_filter。</p></li><li><p>现在这个sql 已经从5s多变成了2s多:<br><img src="/img/django-admin-debug-5.png" alt="admin-debug-5"><br>发现有很多类似的小查询，虽然每条查询不慢，但是架不住多，StackoverFlow说是因为表上有外键，每条记录都会单独查询外键表，可以通过联合查询来避免。 <strong>admin.ModelAdmin</strong>支持通过<a href="https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_select_related">list_select_related</a>参数(转化为数据库层面的left join 以提高查询速度)</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list_select_related = [<span class="string">&quot;webhook&quot;</span>, <span class="string">&quot;processing_method&quot;</span>]</span><br></pre></td></tr></table></figure></li><li>现在 只剩下4个sql 查询了，整个页面用时1.6s，sql用时500ms:<br><img src="/img/django-admin-debug-6.png" alt="admin-debug-6"></li><li>Django Admin 默认每页展示100条记录，设成20条，又快了一点。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list_per_page = <span class="number">20</span></span><br></pre></td></tr></table></figure></li></ul><h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><ul><li>对于大量数据的count,也是可以权衡准确性来优化速度的，详情可以参考HylaruCoder大佬的<br><a href="https://zhuanlan.zhihu.com/p/72115634">MG的编程物语</a> 通过返回假数据，设置缓存，利用DB特性返回大概值等方式。</li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://stackoverflow.com/questions/22080469/improving-performance-of-django-admin-list-filter-queries">https://stackoverflow.com/questions/22080469/improving-performance-of-django-admin-list-filter-queries</a></li><li><a href="https://zhuanlan.zhihu.com/p/72115634">https://zhuanlan.zhihu.com/p/72115634</a></li><li><a href="https://docs.djangoproject.com/en/3.0/ref/contrib/admin">https://docs.djangoproject.com/en/3.0/ref/contrib/admin</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;项目是 Django Admin 的简单的后台，有一个表大概有160万左右的数据，打开一次需要将近20s，借助django-debug-toolbar 进行优化一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="https://xiaotaoist.github.io/categories/Python/"/>
+    
+    
+      <category term="Django" scheme="https://xiaotaoist.github.io/tags/Django/"/>
+    
+  </entry>
   
   <entry>
     <title>如何写出整洁的Python代码 —— 异常处理 （译）</title>
