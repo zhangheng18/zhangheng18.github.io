@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="简介 records 是由Ken Reitz 大神(requests,pipenv,tablib,maya,request-html ) 开发的，一个符合人类习惯的，简单强大的用来执行原生SQL的库 执行SQL ，并获取字典 列表结果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优雅的Python库-records[数据库]">
+<meta property="og:url" content="https://xiaotaoist.github.io/2021/04/19/python-records/index.html">
+<meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
+<meta property="og:description" content="简介 records 是由Ken Reitz 大神(requests,pipenv,tablib,maya,request-html ) 开发的，一个符合人类习惯的，简单强大的用来执行原生SQL的库 执行SQL ，并获取字典 列表结果">
+<meta property="og:locale">
+<meta property="og:image" content="https://xiaotaoist.github.io/img/python-records.png">
+<meta property="article:published_time" content="2021-04-19T08:37:13.000Z">
+<meta property="article:modified_time" content="2021-07-03T07:16:16.244Z">
+<meta property="article:author" content="taoist">
+<meta property="article:tag" content="Python SQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaotaoist.github.io/img/python-records.png">
+
+<link rel="canonical" href="https://xiaotaoist.github.io/2021/04/19/python-records/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>优雅的Python库-records[数据库] | XiaoTaoist's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">XiaoTaoist's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2021/04/19/python-records/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/userico.png">
+      <meta itemprop="name" content="taoist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XiaoTaoist's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          优雅的Python库-records[数据库]
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-19 16:37:13" itemprop="dateCreated datePublished" datetime="2021-04-19T16:37:13+08:00">2021-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-03 15:16:16" itemprop="dateModified" datetime="2021-07-03T15:16:16+08:00">2021-07-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>9.9k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>9 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>records 是由<a target="_blank" rel="noopener" href="https://kenreitz.org">Ken Reitz</a> 大神(requests,pipenv,tablib,maya,request-html ) 开发的，一个符合人类习惯的，简单强大的用来<strong>执行原生SQL</strong>的库</li>
+<li>执行SQL ，并获取字典 列表结果</li>
+</ul>
+<a id="more"></a>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><h2 id="psycopg2"><a href="#psycopg2" class="headerlink" title="psycopg2"></a>psycopg2</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> psycopg2</span><br><span class="line"><span class="keyword">import</span> psycopg2.extras</span><br><span class="line"></span><br><span class="line">conn = psycopg2.connect(database=<span class="string">&quot;testdb&quot;</span>, user=<span class="string">&quot;postgres&quot;</span>, password=<span class="string">&quot;pass123&quot;</span>, host=<span class="string">&quot;127.0.0.1&quot;</span>, port=<span class="number">5432</span>)</span><br><span class="line">cur = conn.cursor(cursor_factory = psycopg2.extras.DictCursor)</span><br><span class="line">fetch_all_as_dict = <span class="keyword">lambda</span> cursor: [dict(row) <span class="keyword">for</span> row <span class="keyword">in</span> cursor]</span><br><span class="line">cur.execute(<span class="string">&quot;SELECT * FROM test WHERE id=%s;&quot;</span>,(<span class="number">1</span>,))</span><br><span class="line"><span class="comment"># cur.fetchone() </span></span><br><span class="line">print(fetch_all_as_dict(cur))</span><br><span class="line">cur.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+<h2 id="peewee"><a href="#peewee" class="headerlink" title="peewee"></a>peewee</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> peewee <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">db = SqliteDatabase(<span class="string">&#x27;people.db&#x27;</span>)</span><br><span class="line">cursor = db.execute_sql(<span class="string">&#x27;select count(*) from test where id=%s&#x27;</span>, params=(<span class="number">1</span>,))</span><br><span class="line">fetch_all_as_dict = <span class="keyword">lambda</span> cursor: [dict(zip(col_names, row)) <span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall()]</span><br><span class="line">print(fetch_all_as_dict(cursor))</span><br><span class="line">cursor.close()</span><br></pre></td></tr></table></figure>
+<h2 id="record"><a href="#record" class="headerlink" title="record"></a>record</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> records</span><br><span class="line">db = records.Database(<span class="string">&quot;mysql://username:password@hostname:port/databasename&quot;</span>)</span><br><span class="line">rows = db.query(<span class="string">&quot;SELECT name,age FROM people WHERE name=:name&quot;</span>,name=<span class="string">&quot;zhangsan&quot;</span>)</span><br><span class="line">print(rows.all(as_dict=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><ul>
+<li>支持 Postgre, MySQL, SQLite 和MSSQL, 更多见 <a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/13/core/engines.html">https://docs.sqlalchemy.org/en/13/core/engines.html</a></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> records</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化db 连接 , 支持从 环境变量 DATABASE_URL 读取 url</span></span><br><span class="line">db = records.Database(<span class="string">&quot;mysql://username:password@hostname:port/databasename&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><ul>
+<li>查询<ul>
+<li>默认RecordCollection 对象</li>
+<li>通过 as_dict=True 转化为字典</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">rows = db.query(<span class="string">&quot;SELECT name,age FROM people WHERE name=:name&quot;</span>,name=<span class="string">&quot;zhangsan&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 支持迭代遍历</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> rows:</span><br><span class="line">    print(row.name, row.get(<span class="string">&quot;age&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Record 对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>rows[<span class="number">0</span>]</span><br><span class="line">&lt;Record &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;zhangsan&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>rows[<span class="number">0</span>].as_dict()</span><br><span class="line">&#123;<span class="string">&#x27;id&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;zhangsan&#x27;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">18</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>rows[<span class="number">0</span>].name</span><br><span class="line"><span class="string">&#x27;zhangsan&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>rows[<span class="number">0</span>].get(<span class="string">&#x27;age&#x27;</span>)</span><br><span class="line"><span class="number">18</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有</span></span><br><span class="line">rows.all()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 字典</span></span><br><span class="line">rows.as_dict()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询唯一的一个</span></span><br><span class="line">rows.one(as_dict=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取第一个，字典形式</span></span><br><span class="line">rows.first(as_dict=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行sql文件</span></span><br><span class="line">rows = db.query_file(<span class="string">&quot;a.sql&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><ul>
+<li>操作<ul>
+<li><code>:variable</code> 安全传参</li>
+<li>bulk_query 批量操作</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新</span></span><br><span class="line">user = &#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;zhang&quot;</span>, <span class="string">&quot;age&quot;</span>:<span class="number">18</span>&#125;</span><br><span class="line">db.query(<span class="string">&quot;UPDATE people SET age=:age WHERE name=:name&quot;</span>,**user)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 批量添加</span></span><br><span class="line">users = [&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;zhang&quot;</span>, <span class="string">&quot;age&quot;</span>:<span class="number">18</span>&#125;,&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;zhao&quot;</span>, <span class="string">&quot;age&quot;</span>:<span class="number">18</span>&#125;]</span><br><span class="line">db.bulk_query(<span class="string">&quot;INSERT INTO people(name,age) VALUES(:name, :age)&quot;</span>,users)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>事务</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> db.transaction() <span class="keyword">as</span> tr:</span><br><span class="line">    <span class="comment"># zhangsan 给lisi 转30</span></span><br><span class="line">    tr.query(<span class="string">&#x27;UPDATE people set money=money-30 where name=&quot;zhangsan&quot;&#x27;</span>)</span><br><span class="line">    tr.query(<span class="string">&#x27;UPDATE people set money=money+30 where name=&quot;lisi&quot; &#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="记录导出"><a href="#记录导出" class="headerlink" title="记录导出"></a>记录导出</h2><ul>
+<li>支持导出 json, xlsx, csv… 更多格式见 <a target="_blank" rel="noopener" href="https://tablib.readthedocs.io/en/stable/formats/">https://tablib.readthedocs.io/en/stable/formats/</a></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># json</span></span><br><span class="line">rows = db.query(<span class="string">&#x27;SELECT * FROM people;&#x27;</span>)</span><br><span class="line">json_rows = rows.export(<span class="string">&#x27;json&#x27;</span>)</span><br><span class="line">print(json_rows)</span><br><span class="line"></span><br><span class="line"><span class="comment"># xls 等二进制格式 需要直接写入文件</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;users.xlsx&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">f.write(rows.export(<span class="string">&#x27;xlsx&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>提供cli：<code>records &lt;query&gt; [&lt;format&gt;] [&lt;params&gt;...] [--url=&lt;url&gt;]</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导出 sql数据到 out.csv</span></span><br><span class="line">records <span class="string">&#x27;sql查询语句&quot; &#x27;</span> xls --url=<span class="string">&#x27;数据库url&#x27;</span> &gt; out.csv</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p><img src="/img/python-records.png" alt="records-class"></p>
+<h2 id="Record-单条记录"><a href="#Record-单条记录" class="headerlink" title="Record 单条记录"></a>Record 单条记录</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Record</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 单条记录 &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 限制实例属性，减少内存占用</span></span><br><span class="line">    __slots__ = (<span class="string">&#x27;_keys&#x27;</span>, <span class="string">&#x27;_values&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, keys, values</span>):</span></span><br><span class="line">        self._keys = keys</span><br><span class="line">        self._values = values</span><br><span class="line">        <span class="comment"># 断言key values 匹配</span></span><br><span class="line">        <span class="keyword">assert</span> len(self._keys) == len(self._values)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">keys</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 对外提供keys 方法 隐藏 _keys属性 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> self._keys</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="comment"># 支持索引操作  r[1]</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(key, int):</span><br><span class="line">            <span class="keyword">return</span> self.values()[key]</span><br><span class="line">        <span class="comment">#  支持[]操作  r[&#x27;key&#x27;]</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.keys():</span><br><span class="line">            <span class="comment"># 异常边界，不允许 重复的key </span></span><br><span class="line">            i = self.keys().index(key)</span><br><span class="line">            <span class="keyword">if</span> self.keys().count(key) &gt; <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">raise</span> KeyError(<span class="string">&quot;Record contains multiple &#x27;&#123;&#125;&#x27; fields.&quot;</span>.format(key))</span><br><span class="line">            <span class="keyword">return</span> self.values()[i]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">raise</span> KeyError(<span class="string">&quot;Record contains no &#x27;&#123;&#125;&#x27; field.&quot;</span>.format(key))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="comment"># 添加属性  r.key </span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> self[key]</span><br><span class="line">        <span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">raise</span> AttributeError(e)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__dir__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># 列出所有 属性和方法名</span></span><br><span class="line">        standard = dir(super(Record, self))</span><br><span class="line">        <span class="comment"># 合并标准属性和动态生成的属性</span></span><br><span class="line">        <span class="keyword">return</span> sorted(standard + [str(k) <span class="keyword">for</span> k <span class="keyword">in</span> self.keys()])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, key, default=None</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 返回 指定k的值 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> self[key]</span><br><span class="line">        <span class="keyword">except</span> KeyError:</span><br><span class="line">            <span class="keyword">return</span> default</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">as_dict</span>(<span class="params">self, ordered=False</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;返回记录作为 字典 /有序字典  (Python3.6 + 官方字典已经是有序 ) &quot;&quot;&quot;</span></span><br><span class="line">        items = zip(self.keys(), self.values())</span><br><span class="line">        <span class="keyword">return</span> OrderedDict(items) <span class="keyword">if</span> ordered <span class="keyword">else</span> dict(items)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property #装饰器， 把getter方法变成属性，（可以对数据进行限制，避免随便赋值）</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dataset</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 数据集配置&quot;&quot;&quot;</span></span><br><span class="line">        data = tablib.Dataset()</span><br><span class="line">        data.headers = self.keys()</span><br><span class="line">        <span class="comment"># 转化datetime 对象为标准时间字符串</span></span><br><span class="line">        row = _reduce_datetimes(self.values())</span><br><span class="line">        data.append(row)</span><br><span class="line">        <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">export</span>(<span class="params">self, format, **kwargs</span>):</span></span><br><span class="line">        <span class="comment"># 导出为 xlsx,json, csv ...  依赖 库 tablib 实现</span></span><br><span class="line">        <span class="keyword">return</span> self.dataset.export(format, **kwargs)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="RecordCollection-记录集"><a href="#RecordCollection-记录集" class="headerlink" title="RecordCollection 记录集"></a>RecordCollection 记录集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RecordCollection</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Record 记录集合 &quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, rows</span>):</span></span><br><span class="line">        self._rows = rows</span><br><span class="line">        self._all_rows = []</span><br><span class="line">        self.pending = <span class="literal">True</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;迭代器方法 大量数据时提升性能，节省内存 &quot;&quot;&quot;</span></span><br><span class="line">        i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="comment"># 其他方法可能迭代过，先检查缓存，提升性能</span></span><br><span class="line">            <span class="keyword">if</span> i &lt; len(self):</span><br><span class="line">                <span class="keyword">yield</span> self[i]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># following https://www.python.org/dev/peps/pep-0479/</span></span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="keyword">yield</span> next(self)</span><br><span class="line">                <span class="keyword">except</span> StopIteration:</span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__next__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            nextrow = next(self._rows)</span><br><span class="line">            self._all_rows.append(nextrow)</span><br><span class="line">            <span class="keyword">return</span> nextrow</span><br><span class="line">        <span class="keyword">except</span> StopIteration:</span><br><span class="line">            self.pending = <span class="literal">False</span></span><br><span class="line">            <span class="keyword">raise</span> StopIteration(<span class="string">&#x27;RecordCollection contains no more rows.&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, key</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 支持索引操作 并缓存已经取过的 记录 &quot;&quot;&quot;</span></span><br><span class="line">        is_int = isinstance(key, int)</span><br><span class="line">        <span class="comment"># Convert RecordCollection[1] into slice.</span></span><br><span class="line">        <span class="keyword">if</span> is_int:</span><br><span class="line">            key = slice(key, key + <span class="number">1</span>)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">while</span> len(self) &lt; key.stop <span class="keyword">or</span> key.stop <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                next(self)</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        rows = self._all_rows[key]</span><br><span class="line">        <span class="keyword">if</span> is_int:</span><br><span class="line">            <span class="keyword">return</span> rows[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> RecordCollection(iter(rows))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> len(self._all_rows)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">all</span>(<span class="params">self, as_dict=False, as_ordereddict=False</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 返回所有Record列表 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># By calling list it calls the __iter__ method</span></span><br><span class="line">        rows = list(self)</span><br><span class="line">        <span class="keyword">if</span> as_dict:</span><br><span class="line">            <span class="keyword">return</span> [r.as_dict() <span class="keyword">for</span> r <span class="keyword">in</span> rows]</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">        <span class="keyword">return</span> rows</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">as_dict</span>(<span class="params">self, ordered=False</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 返回字典列表 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> self.all(as_dict=<span class="keyword">not</span>(ordered), as_ordereddict=ordered)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">first</span>(<span class="params">self, default=None, as_dict=False, as_ordereddict=False</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;返回第一条记录， 返回default /或抛出default  &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            record = self[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">except</span> IndexError:</span><br><span class="line">            <span class="keyword">if</span> isexception(default):</span><br><span class="line">                <span class="keyword">raise</span> default</span><br><span class="line">            <span class="keyword">return</span> default</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> as_dict:</span><br><span class="line">            <span class="keyword">return</span> record.as_dict()</span><br><span class="line">        <span class="keyword">elif</span> as_ordereddict:</span><br><span class="line">            <span class="keyword">return</span> record.as_dict(ordered=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> record</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">one</span>(<span class="params">self, default=None, as_dict=False, as_ordereddict=False</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;返回唯一记录， 如果多个会抛出异常 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">except</span> IndexError:</span><br><span class="line">            <span class="keyword">return</span> self.first(default=default, as_dict=as_dict, as_ordereddict=as_ordereddict)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&#x27;RecordCollection contained more than one row. &#x27;</span></span><br><span class="line">                             <span class="string">&#x27;Expects only one row when using &#x27;</span></span><br><span class="line">                             <span class="string">&#x27;RecordCollection.one&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="DataBase-数据库"><a href="#DataBase-数据库" class="headerlink" title="DataBase 数据库"></a>DataBase 数据库</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Database</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;数据库对象， 封装了 SQLAlchemy 连接池 和 DB_URL. &quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, db_url=None, **kwargs</span>):</span></span><br><span class="line">        self.db_url = db_url <span class="keyword">or</span> os.environ.get(<span class="string">&#x27;DATABASE_URL&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.db_url:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&#x27;You must provide a db_url.&#x27;</span>)</span><br><span class="line">        <span class="comment"># Create an engine.</span></span><br><span class="line">        self._engine = create_engine(self.db_url, **kwargs)</span><br><span class="line">        self.open = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Closes the Database.&quot;&quot;&quot;</span></span><br><span class="line">        self._engine.dispose()</span><br><span class="line">        self.open = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_table_names</span>(<span class="params">self, internal=False</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;返回 连接的数据库里所有表列表&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> inspect(self._engine).get_table_names()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_connection</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;获取数据库连接 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.open:</span><br><span class="line">            <span class="keyword">raise</span> exc.ResourceClosedError(<span class="string">&#x27;Database closed.&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> Connection(self._engine.connect())</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">query</span>(<span class="params">self, query, fetchall=False, **params</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;执行sql查询， 默认迭代方式返回，参数可选， 可将结果作为字典  as_dict</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">with</span> self.get_connection() <span class="keyword">as</span> conn:</span><br><span class="line">            <span class="keyword">return</span> conn.query(query, fetchall, **params)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bulk_query</span>(<span class="params">self, query, *multiparams</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 批量更新/插入 &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">with</span> self.get_connection() <span class="keyword">as</span> conn:</span><br><span class="line">            conn.bulk_query(query, *multiparams)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @contextmanager</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">transaction</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 事务上下文管理方法 &quot;&quot;&quot;</span></span><br><span class="line">        conn = self.get_connection()</span><br><span class="line">        tx = conn.transaction()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">yield</span> conn</span><br><span class="line">            tx.commit()</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            tx.rollback()</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            conn.close()</span><br></pre></td></tr></table></figure>
+<h2 id="Connection-连接"><a href="#Connection-连接" class="headerlink" title="Connection 连接"></a>Connection 连接</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Connection</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 数据库连接 &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span>(<span class="params">self, exc, val, traceback</span>):</span></span><br><span class="line">        self.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">query</span>(<span class="params">self, query, fetchall=False, **params</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;执行查询    &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 执行指定sql</span></span><br><span class="line">        cursor = self._conn.execute(text(query), **params)</span><br><span class="line">        <span class="comment"># Row-by-row Record generator.</span></span><br><span class="line">        row_gen = (Record(cursor.keys(), row) <span class="keyword">for</span> row <span class="keyword">in</span> cursor)</span><br><span class="line">        <span class="comment"># Convert psycopg2 results to RecordCollection.</span></span><br><span class="line">        results = RecordCollection(row_gen)</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">        <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bulk_query</span>(<span class="params">self, query, *multiparams</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; 批量插入或更新&quot;&quot;&quot;</span></span><br><span class="line">        self._conn.execute(text(query), *multiparams)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">query_file</span>(<span class="params">self, path, fetchall=False, **params</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;从文件里读取sql 进行查询&quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># If path doesn&#x27;t exists</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">            <span class="keyword">raise</span> IOError(<span class="string">&quot;File &#x27;&#123;&#125;&#x27; not found!&quot;</span>.format(path))</span><br><span class="line">        <span class="comment"># If it&#x27;s a directory</span></span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(path):</span><br><span class="line">            <span class="keyword">raise</span> IOError(<span class="string">&quot;&#x27;&#123;&#125;&#x27; is a directory!&quot;</span>.format(path))</span><br><span class="line">        <span class="comment"># Read the given .sql file into memory.</span></span><br><span class="line">        <span class="keyword">with</span> open(path) <span class="keyword">as</span> f:</span><br><span class="line">            query = f.read()</span><br><span class="line">        <span class="comment"># Defer processing to self.query method.</span></span><br><span class="line">        <span class="keyword">return</span> self.query(query=query, fetchall=fetchall, **params)</span><br></pre></td></tr></table></figure>
+<h2 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isexception</span>(<span class="params">obj</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;判断 是 异常对象 &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(obj, Exception):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">if</span> isclass(obj) <span class="keyword">and</span> issubclass(obj, Exception):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_reduce_datetimes</span>(<span class="params">row</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;转化datetime 对象到isoformat 字符串 &quot;&quot;&quot;</span></span><br><span class="line">    row = list(row)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(row)):</span><br><span class="line">        <span class="keyword">if</span> hasattr(row[i], <span class="string">&#x27;isoformat&#x27;</span>):</span><br><span class="line">            row[i] = row[i].isoformat()</span><br><span class="line">    <span class="keyword">return</span> tuple(row)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cli</span>():</span></span><br><span class="line">    <span class="comment"># ... 命令行方法支持</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python-SQL/" rel="tag"># Python SQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/11/django-admin-optimization/" rel="prev" title="Django Admin 慢查询优化">
+      <i class="fa fa-chevron-left"></i> Django Admin 慢查询优化
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94"><span class="nav-number">2.</span> <span class="nav-text">对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#psycopg2"><span class="nav-number">2.1.</span> <span class="nav-text">psycopg2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#peewee"><span class="nav-number">2.2.</span> <span class="nav-text">peewee</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#record"><span class="nav-number">2.3.</span> <span class="nav-text">record</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.2.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E5%AF%BC%E5%87%BA"><span class="nav-number">3.4.</span> <span class="nav-text">记录导出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">3.5.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Record-%E5%8D%95%E6%9D%A1%E8%AE%B0%E5%BD%95"><span class="nav-number">4.1.</span> <span class="nav-text">Record 单条记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RecordCollection-%E8%AE%B0%E5%BD%95%E9%9B%86"><span class="nav-number">4.2.</span> <span class="nav-text">RecordCollection 记录集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataBase-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.3.</span> <span class="nav-text">DataBase 数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Connection-%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.4.</span> <span class="nav-text">Connection 连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96-1"><span class="nav-number">4.5.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="taoist"
+      src="/img/userico.png">
+  <p class="site-author-name" itemprop="name">taoist</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">taoist</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="Symbols count total">91k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:23</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
