@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.0.0">
+<meta name="generator" content="Hexo 6.1.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"xiaotaoist.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
+  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
 <meta property="og:url" content="https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/index.html">
 <meta property="og:site_name" content="XiaoTaoist&#39;s Blog">
-<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
-<meta property="og:locale">
+<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xiaotaoist.github.io/img/dns_dig.png">
 <meta property="og:image" content="https://xiaotaoist.github.io/img/dns_fake.png">
 <meta property="og:image" content="https://xiaotaoist.github.io/img/dns_suc.png">
@@ -46,7 +46,7 @@
     sidebar: "",
     isHome : false,
     isPost : true,
-    lang   : 'zh-Hans'
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -81,6 +81,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/atom.xml" title="XiaoTaoist's Blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -90,7 +91,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -120,21 +121,21 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
       </li>
   </ul>
@@ -150,7 +151,7 @@
   </span>
   <div class="search-input-container">
     <input autocomplete="off" autocapitalize="off"
-           placeholder="Searching..." spellcheck="false"
+           placeholder="搜索..." spellcheck="false"
            type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
@@ -187,7 +188,7 @@
     
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xiaotaoist.github.io/2018/04/14/Pcap-DNSProxy-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -209,32 +210,32 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">发表于</span>
 
-              <time title="Created: 2018-04-14 21:42:48" itemprop="dateCreated datePublished" datetime="2018-04-14T21:42:48+08:00">2018-04-14</time>
+              <time title="创建时间：2018-04-14 21:42:48" itemprop="dateCreated datePublished" datetime="2018-04-14T21:42:48+08:00">2018-04-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2018-06-10 17:37:29" itemprop="dateModified" datetime="2018-06-10T17:37:29+08:00">2018-06-10</time>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-06-10 17:37:29" itemprop="dateModified" datetime="2018-06-10T17:37:29+08:00">2018-06-10</time>
               </span>
 
           <br>
-            <span class="post-meta-item" title="Symbols count in article">
+            <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
               </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2k</span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
             </span>
-            <span class="post-meta-item" title="Reading time">
+            <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -246,12 +247,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>========================</p>
-<h2 id="DNS介绍"><a href="#DNS介绍" class="headerlink" title="DNS介绍"></a>DNS介绍</h2><p> 我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p>
- <a id="more"></a>
+        <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+<h2 id="DNS介绍"><a href="#DNS介绍" class="headerlink" title="DNS介绍"></a>DNS介绍</h2><p> 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p>
+ <span id="more"></span>
+
 <p> <img src="/img/dns_dig.png" alt="dig"></p>
 <h2 id="DNS的问题"><a href="#DNS的问题" class="headerlink" title="DNS的问题"></a>DNS的问题</h2><p>一般运营商（联通，电信，移动）都会搭建自己的DNS服务器，以提高响应速度，但是运营商会为了为了某些目的，会对DNS做一些手脚，导致我们无法通过域名解析出正确的IP地址。常用的手段有：DNS劫持和DNS污染。网上很多文章建议将DNS设为公共DNS（如阿里的<code>223.5.5.5</code>,谷歌的<code>8.8.8.8</code>,腾讯的<code>119.29.29.29</code>），但是你们也太小看运营商了，以移动为例：他们会对UDP53（DNS默认向53端口用UDP包发送查询请求）进行抢答。随便输入一个IP地址（8.1.2.3不是任何公共DNS服务器地址），都能给你返回查询结果。<br><img src="/img/dns_fake.png" alt="dns_fake"></p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里介绍使用<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win/MacOS都有编译好的二进制文件，可以直接<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/releases">下载</a>使用。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里介绍使用<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win&#x2F;MacOS都有编译好的二进制文件，可以直接<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/releases">下载</a>使用。</p>
 <p>下文介绍Arch Linux下的Pcap_DNSProxy的编译与使用，其他环境请参考chengr28的<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/tree/master/Documents">官方文档</a></p>
 <ul>
 <li><p>安装编译环境</p>
@@ -266,32 +268,31 @@
 </li>
 <li><p>编译生成可执行文件</p>
 <blockquote>
-<p>cd Pcap_DNSProxy/Source/Auxiliary/Scripts #进入指定目录<br>chmod 755 CMake_Build.sh #赋予脚本执行权限<br>./CMake_Build.sh         #执行编译程序</p>
+<p>cd Pcap_DNSProxy&#x2F;Source&#x2F;Auxiliary&#x2F;Scripts #进入指定目录<br>chmod 755 CMake_Build.sh #赋予脚本执行权限<br>.&#x2F;CMake_Build.sh         #执行编译程序</p>
 </blockquote>
 </li>
 <li><p>编译成功后，<code>Pcap_DNSProxy/Source/Release</code> 目录下的文件即目标程序和配置文件，我们先来测试一下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line">sudo ./Pcap_DNSProxy --<span class="built_in">disable</span>-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line">sudo ./Pcap_DNSProxy --disable-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h2><ul>
-<li>进入<code>Release</code>目录并编辑 Pcap_DNSProxy.service 文件，编辑完成后保存： </li>
+<li>进入<code>Release</code>目录并编辑 Pcap_DNSProxy.service 文件，编辑完成后保存：</li>
 </ul>
 <blockquote>
-<p>WorkingDirectory= 项为程序所在目录的绝对路径(例如:/home/my/Pcap_DNSProxy/Source/Release)<br>ExecStart= 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：/home/my/Pcap_DNSProxy/Source/Release/Pcap_DNSProxy)</p>
+<p>WorkingDirectory&#x3D; 项为程序所在目录的绝对路径(例如:&#x2F;home&#x2F;my&#x2F;Pcap_DNSProxy&#x2F;Source&#x2F;Release)<br>ExecStart&#x3D; 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：&#x2F;home&#x2F;my&#x2F;Pcap_DNSProxy&#x2F;Source&#x2F;Release&#x2F;Pcap_DNSProxy)</p>
 </blockquote>
 <ul>
 <li><p>自动安装到系统，并设为开机自启</p>
 <blockquote>
-<p>sudo ./Linux_Install.Systemd.sh</p>
+<p>sudo .&#x2F;Linux_Install.Systemd.sh</p>
 </blockquote>
 </li>
 <li><p>修改系统DNS设置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">&quot;nameserver 127.0.0.1\nnameserver 8.8.8.8&quot;</span> | sudo tee /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;sudo chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure></li>
-<li>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">&quot;nameserver 127.0.0.1\nnameserver 8.8.8.8&quot;</span> | sudo <span class="built_in">tee</span> /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;sudo chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure></li>
+<li><p>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></p>
+</li>
 </ul>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4  + UDP + TCP <span class="comment">#优先使用UDP，提高解析速度</span></span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#允许使用Sock5代理，以远程解析DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
-</li>
+<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4  + UDP + TCP <span class="comment">#优先使用UDP，提高解析速度</span></span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#允许使用Sock5代理，以远程解析DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure></li>
 </ul>
 <p>更详细配置请阅读<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/blob/master/Documents/ReadMe.zh-Hans.txt">文档</a></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
@@ -309,7 +310,7 @@
         
 
   <div class="followme">
-    <p>Welcome to my other publishing channels</p>
+    <p>欢迎关注我的其它发布渠道</p>
 
     <div class="social-list">
 
@@ -393,10 +394,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          站点概览
         </li>
       </ul>
 
@@ -418,24 +419,24 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
         <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">categories</span>
+        <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
         <span class="site-state-item-count">15</span>
-        <span class="site-state-item-name">tags</span></a>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/xiaoTaoist" title="GitHub → https://github.com/xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/xiaoTaoist" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaoTaoist" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
         <a href="mailto:taoist@protonmail.com" title="E-Mail → mailto:taoist@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
@@ -449,10 +450,10 @@
     </div>
     <ul class="links-of-blogroll-list">
         <li class="links-of-blogroll-item">
-          <a href="https://MiniFullC.github.io" title="https://MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+          <a href="https://minifullc.github.io/" title="https:&#x2F;&#x2F;MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
         </li>
         <li class="links-of-blogroll-item">
-          <a href="https://kexuecat.github.io" title="https://kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+          <a href="https://kexuecat.github.io/" title="https:&#x2F;&#x2F;kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
         </li>
     </ul>
   </div>
@@ -476,7 +477,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -485,14 +486,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">96k</span>
+    <span title="站点总字数">104k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">1:27</span>
+    <span title="站点阅读时长">3:09</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
         
@@ -550,5 +551,5 @@
 
   
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</body>
 </html>
