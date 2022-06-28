@@ -2428,4 +2428,100 @@ return key_list
         <tag>English</tag>
       </tags>
   </entry>
+  <entry>
+    <title>使用Docker运行Python程序指南</title>
+    <url>/2022/06/15/python-docker/</url>
+    <content><![CDATA[<h1 id="Docker-简介"><a href="#Docker-简介" class="headerlink" title="Docker 简介"></a>Docker 简介</h1><ul>
+<li><a href="https://zh.wikipedia.org/wiki/Docker">Docker </a>在 2013 年 3 月 20 日发布第一个版本，使用 Go 语言开发， 利用 Linux 内核的资源隔离机制（groups， namespaces ）提供一个比虚拟机更轻量级的的容器隔离解决方案。</li>
+<li><strong>解决 PaaS 服务 部署发布需要繁琐的配置问题，做到 一次打包，处处运行。</strong><span id="more"></span></li>
+<li>概念：<ul>
+<li>镜像：把相关可执行程序，依赖库，配置文件都“打包”在一起的特殊文件系统</li>
+<li>容器：在一个资源可控的隔离环境中运行的镜像实例</li>
+<li><img src="/img/docker.png" alt="image.png"></li>
+</ul>
+</li>
+</ul>
+<h1 id="Python-镜像的选择"><a href="#Python-镜像的选择" class="headerlink" title="Python 镜像的选择"></a>Python 镜像的选择</h1><ul>
+<li><p>Docker 官方维护了一个公共仓库 <a href="https://hub.docker.com/">Docker Hub</a>，其中已经包括了数量超过 <a href="https://hub.docker.com/search/?type=image">9,161,494</a> 的镜像。大部分服务都可以通过在 Docker Hub 中直接下载镜像来实现。</p>
+</li>
+<li><p>Dokcer 官方 Python 提供了很多 tags：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>大小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3.10.5-alpine3.16</td>
+<td>47.63MB</td>
+</tr>
+<tr>
+<td>3.10.5-bullseye</td>
+<td>919.73MB</td>
+</tr>
+<tr>
+<td><strong>3.10.5-slim-bullseye</strong></td>
+<td>124.97MB</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>alpine: 基于 musl libc 和 busybox 适用于容器的 Linux 版本， CPython <a href="https://pythonspeed.com/articles/alpine-docker-python/">运行慢</a>且可能有包兼容问题</p>
+</li>
+<li><p>bullseye ： debian(11) 完整镜像，包含 gcc 等编译工具 和 常用的 lib 库</p>
+</li>
+<li><p>slim-bullseye： 精简版 debian： 只包含运行 Python 所需要的最小依赖</p>
+</li>
+</ul>
+<h1 id="构建-Docker-镜像"><a href="#构建-Docker-镜像" class="headerlink" title="构建 Docker 镜像"></a>构建 Docker 镜像</h1><ul>
+<li>构建镜像 ：docker build -f Dockerfile -t hello_python:v1 .</li>
+<li>运行容器： docker run -d –name hello -p 80:8000 hello_python</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.10</span>.<span class="number">5</span>-slim-buster</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时区设置</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=<span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 国内加速 , 安装gcc make 环境 （ 需要依赖需要编译运行的库）</span></span><br><span class="line"><span class="comment">#RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list \</span></span><br><span class="line"><span class="comment">#    &amp;&amp; sed -i s@/security.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list \</span></span><br><span class="line"><span class="comment">#    &amp;&amp; apt-get update &amp;&amp;apt-get install -y --no-install-recommends build-essential \</span></span><br><span class="line"><span class="comment">#    &amp;&amp; rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建普通用户， 提高安全性</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> useradd --create-home appuser</span></span><br><span class="line"><span class="keyword">USER</span> appuser</span><br><span class="line"><span class="keyword">ENV</span> PATH /home/appuser/.local/bin:$PATH</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖 （利用好docker 多层构建缓存）</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> requirements.txt .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash">  pip --no-cache-dir install  --quiet -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置工作目录， 添加代码</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /home/appuser/rest</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . /home/appuser/rest</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> uvicorn app.main:app --host 0.0.0.0 --port 8000</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>.dockerignore 忽略配置 减小镜像体积</li>
+<li>更多： <a href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/</a></li>
+</ul>
+<h1 id="Docker-常用命令"><a href="#Docker-常用命令" class="headerlink" title="Docker 常用命令"></a>Docker 常用命令</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull &lt;image-name&gt;      					<span class="comment"># 拉取镜像</span></span><br><span class="line">docker images  													<span class="comment"># 查看所有镜像</span></span><br><span class="line">docker run -d -p 5000:8000 &lt;image-name&gt;	<span class="comment"># 后台运行 容器里8000端口映射为主机5000</span></span><br><span class="line">docker run -v /tmp/a:/data/ redis   		<span class="comment"># 主机目录/tmp/a 映射到redis容器里/data 目录</span></span><br><span class="line">docker <span class="built_in">exec</span> -it &lt;containe-id&gt; /bin/bash <span class="comment"># 进入某容器sh</span></span><br><span class="line">docker stop/start restart	&lt;containe-id&gt; <span class="comment"># 停止/启动/重启 容器</span></span><br><span class="line">docker ps -a 														<span class="comment"># 列出所有容器</span></span><br><span class="line">docker logs															<span class="comment"># 查看日志</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更多: <a href="https://docs.docker.com/engine/reference/commandline/cli/">https://docs.docker.com/engine/reference/commandline/cli/</a></li>
+</ul>
+<h1 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><ul>
+<li>通过编写 docker-compose.yml 进行一组容器服务的编排</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker-compose up -d   				<span class="comment"># 后台运行 一组容器</span></span><br><span class="line">docker-compose up -d --build 	<span class="comment"># 重新构建并启动</span></span><br><span class="line">docker-compose down       		<span class="comment"># 停止这组容器</span></span><br><span class="line">docker-compose logs  -f   		<span class="comment"># 查看日志</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>概念<ul>
+<li>服务 (service)：一个应用容器，实际上可以运行多个相同镜像的实例。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;1.0&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">    <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">80</span><span class="string">:8000</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">api</span> <span class="comment"># 容器命名</span></span><br><span class="line">    <span class="attr">stdin_open:</span> <span class="literal">true</span> <span class="comment"># 打开标准输入，可以接受外部输入</span></span><br><span class="line">    <span class="attr">tty:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span> <span class="comment"># 指定容器退出后的重启策略为始终重启</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">cache:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:7.0.2-alpine</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">redis</span> <span class="comment"># web里的应用可以通过 主机名cache 访问此容器</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">6379</span><span class="string">:6379</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更多： <a href="https://docs.docker.com/compose/">https://docs.docker.com/compose/</a></li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li>安装： <a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a><ul>
+<li><a href="https://yeasy.gitbook.io/docker_practice/install/mirror">国内 Docker 镜像加速</a></li>
+</ul>
+</li>
+<li>更多:<ul>
+<li>《Docker — 从入门到实践》 <a href="https://yeasy.gitbook.io/docker_practice/">https://yeasy.gitbook.io/docker_practice&#x2F;</a></li>
+<li>Python Docker 相关： <a href="https://pythonspeed.com/docker/">https://pythonspeed.com/docker/</a></li>
+<li>官网: <a href="https://docs.docker.com/">https://docs.docker.com/</a></li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
 </search>

@@ -6,7 +6,7 @@
   <link href="https://xiaotaoist.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2022-03-17T12:43:56.970Z</updated>
+  <updated>2022-06-28T11:34:54.011Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Docker运行Python程序指南</title>
+    <link href="https://xiaotaoist.github.io/2022/06/15/python-docker/"/>
+    <id>https://xiaotaoist.github.io/2022/06/15/python-docker/</id>
+    <published>2022-06-15T10:37:13.000Z</published>
+    <updated>2022-06-28T11:34:54.011Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;Docker-简介&quot;&gt;&lt;a href=&quot;#Docker-简介&quot; class=&quot;headerlink&quot; title=&quot;Docker 简介&quot;&gt;&lt;/a&gt;Docker 简介&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/Docker&quot;&gt;Docker &lt;/a&gt;在 2013 年 3 月 20 日发布第一个版本，使用 Go 语言开发， 利用 Linux 内核的资源隔离机制（groups， namespaces ）提供一个比虚拟机更轻量级的的容器隔离解决方案。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;解决 PaaS 服务 部署发布需要繁琐的配置问题，做到 一次打包，处处运行。&lt;/strong&gt;</summary>
+    
+    
+    
+    <category term="Docker" scheme="https://xiaotaoist.github.io/categories/Docker/"/>
+    
+    
+    <category term="Docker" scheme="https://xiaotaoist.github.io/tags/Docker/"/>
+    
+  </entry>
   
   <entry>
     <title>Python模块热更新</title>
@@ -380,26 +401,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;    通常，登陆某个网站或者 APP，需要使用用户名和密码。密码是如何加密后存储起来的呢？请使用 Python 对密码加密。
-&lt;/code&gt;&lt;/pre&gt;</summary>
-    
-    
-    
-    <category term="Python练习册" scheme="https://xiaotaoist.github.io/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
-    
-    
-    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python练习册：0020</title>
-    <link href="https://xiaotaoist.github.io/2018/06/12/python-exercise-0020/"/>
-    <id>https://xiaotaoist.github.io/2018/06/12/python-exercise-0020/</id>
-    <published>2018-06-12T02:28:21.000Z</published>
-    <updated>2018-06-12T03:13:45.538Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;    第 0020 题： 登陆中国联通网上营业厅 后选择「自助服务」 --&amp;gt; 「详单查询」，然后选择你要查询的时间段，点击「查询」按钮，查询结果页面的最下方，点击「导出」，就会生成类似于 2014年10月01日～2014年10月31日通话详单.xls 文件。写代码，对每月通话时间做个统计。
 &lt;/code&gt;&lt;/pre&gt;</summary>
     
     
