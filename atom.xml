@@ -6,7 +6,7 @@
   <link href="https://xiaotaoist.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2022-06-28T11:34:54.011Z</updated>
+  <updated>2022-12-27T13:33:55.073Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python单元测试快速指南</title>
+    <link href="https://xiaotaoist.github.io/2022/11/17/python-test/"/>
+    <id>https://xiaotaoist.github.io/2022/11/17/python-test/</id>
+    <published>2022-11-17T08:37:13.000Z</published>
+    <updated>2022-12-27T13:33:55.073Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;为什么要写单元测试&quot;&gt;&lt;a href=&quot;#为什么要写单元测试&quot; class=&quot;headerlink&quot; title=&quot;为什么要写单元测试&quot;&gt;&lt;/a&gt;为什么要写单元测试&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;减少线上故障，方便重构&lt;/li&gt;
+&lt;li&gt;TDD（测试驱动开发）&lt;/li&gt;
+&lt;li&gt;难测的代码就是烂代码&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Python" scheme="https://xiaotaoist.github.io/categories/Python/"/>
+    
+    
+    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>使用Docker运行Python程序指南</title>
@@ -262,11 +285,11 @@
   </entry>
   
   <entry>
-    <title>LeetCode 136：旋转数组[初级]</title>
-    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-136/"/>
-    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-136/</id>
+    <title>LeetCode 189：旋转数组[初级]</title>
+    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-189/"/>
+    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-189/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-09T04:15:16.985Z</updated>
+    <updated>2018-08-07T12:48:19.960Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
@@ -279,11 +302,11 @@
   </entry>
   
   <entry>
-    <title>LeetCode 189：旋转数组[初级]</title>
-    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-189/"/>
-    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-189/</id>
+    <title>LeetCode 136：旋转数组[初级]</title>
+    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-136/"/>
+    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-136/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-07T12:48:19.960Z</updated>
+    <updated>2018-08-09T04:15:16.985Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
@@ -381,26 +404,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;iPhone 6、iPhone 6 Plus 早已上市开卖。请查看你写得 第 0005 题的代码是否可以复用。
-&lt;/code&gt;&lt;/pre&gt;</summary>
-    
-    
-    
-    <category term="Python练习册" scheme="https://xiaotaoist.github.io/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
-    
-    
-    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python练习册：0021</title>
-    <link href="https://xiaotaoist.github.io/2018/06/13/python-exercise-0021/"/>
-    <id>https://xiaotaoist.github.io/2018/06/13/python-exercise-0021/</id>
-    <published>2018-06-12T23:28:21.000Z</published>
-    <updated>2018-06-12T13:53:34.048Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;    通常，登陆某个网站或者 APP，需要使用用户名和密码。密码是如何加密后存储起来的呢？请使用 Python 对密码加密。
 &lt;/code&gt;&lt;/pre&gt;</summary>
     
     
