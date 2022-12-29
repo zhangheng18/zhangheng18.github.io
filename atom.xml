@@ -40,6 +40,33 @@
   </entry>
   
   <entry>
+    <title>PostgreSQL 使用窗口函数 求每天持续排名前TopN 的数据</title>
+    <link href="https://xiaotaoist.github.io/2022/08/11/pgsql-dense-rank/"/>
+    <id>https://xiaotaoist.github.io/2022/08/11/pgsql-dense-rank/</id>
+    <published>2022-08-11T08:37:13.000Z</published>
+    <updated>2022-12-29T03:41:24.278Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;查询学生成绩排名， 找出持续超过 3 天 排名前 2 的同学&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;思路分析&quot;&gt;&lt;a href=&quot;#思路分析&quot; class=&quot;headerlink&quot; title=&quot;思路分析&quot;&gt;&lt;/a&gt;思路分析&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;获取排名: &lt;code&gt;dense_rank&lt;/code&gt;相同排名, &lt;code&gt;rank&lt;/code&gt;间隔排名&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lag(col, 1)&lt;/code&gt; 获取上一条 ， &lt;code&gt;lead&lt;/code&gt; 获取下(偏移量)条记录&lt;/li&gt;
+&lt;li&gt;根据时间间隔 打标签， 配合 sum 实现中断过的时间分组&lt;/li&gt;
+&lt;li&gt;过滤拿到结果&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="PostgreSQL" scheme="https://xiaotaoist.github.io/categories/PostgreSQL/"/>
+    
+    
+    <category term="PostgreSQL" scheme="https://xiaotaoist.github.io/tags/PostgreSQL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>使用Docker运行Python程序指南</title>
     <link href="https://xiaotaoist.github.io/2022/06/15/python-docker/"/>
     <id>https://xiaotaoist.github.io/2022/06/15/python-docker/</id>
@@ -384,26 +411,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;使用 Python 的 Web 框架，做一个 Web 版本 留言簿 应用。
-&lt;/code&gt;&lt;/pre&gt;</summary>
-    
-    
-    
-    <category term="Python练习册" scheme="https://xiaotaoist.github.io/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
-    
-    
-    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python练习册：0022</title>
-    <link href="https://xiaotaoist.github.io/2018/06/14/python-exercise-0022/"/>
-    <id>https://xiaotaoist.github.io/2018/06/14/python-exercise-0022/</id>
-    <published>2018-06-13T23:39:31.000Z</published>
-    <updated>2018-06-14T00:37:35.288Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;iPhone 6、iPhone 6 Plus 早已上市开卖。请查看你写得 第 0005 题的代码是否可以复用。
 &lt;/code&gt;&lt;/pre&gt;</summary>
     
     
