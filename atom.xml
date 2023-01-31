@@ -6,7 +6,7 @@
   <link href="https://xiaotaoist.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2022-12-27T13:33:55.073Z</updated>
+  <updated>2023-01-31T06:07:31.340Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://xiaotaoist.github.io/2022/11/17/python-test/"/>
     <id>https://xiaotaoist.github.io/2022/11/17/python-test/</id>
     <published>2022-11-17T08:37:13.000Z</published>
-    <updated>2022-12-27T13:33:55.073Z</updated>
+    <updated>2023-01-31T06:07:31.340Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;为什么要写单元测试&quot;&gt;&lt;a href=&quot;#为什么要写单元测试&quot; class=&quot;headerlink&quot; title=&quot;为什么要写单元测试&quot;&gt;&lt;/a&gt;为什么要写单元测试&lt;/h1&gt;&lt;ul&gt;
@@ -40,11 +40,11 @@
   </entry>
   
   <entry>
-    <title>PostgreSQL 使用窗口函数 求每天持续排名前TopN 的数据</title>
+    <title>PostgreSQL 使用窗口函数 求连续K天保持排名前TopN 的数据</title>
     <link href="https://xiaotaoist.github.io/2022/08/11/pgsql-dense-rank/"/>
     <id>https://xiaotaoist.github.io/2022/08/11/pgsql-dense-rank/</id>
     <published>2022-08-11T08:37:13.000Z</published>
-    <updated>2022-12-29T03:41:24.278Z</updated>
+    <updated>2022-12-29T03:43:29.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h2&gt;&lt;ul&gt;
@@ -71,7 +71,7 @@
     <link href="https://xiaotaoist.github.io/2022/06/15/python-docker/"/>
     <id>https://xiaotaoist.github.io/2022/06/15/python-docker/</id>
     <published>2022-06-15T10:37:13.000Z</published>
-    <updated>2022-06-28T11:34:54.011Z</updated>
+    <updated>2022-06-28T11:34:54.000Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Docker-简介&quot;&gt;&lt;a href=&quot;#Docker-简介&quot; class=&quot;headerlink&quot; title=&quot;Docker 简介&quot;&gt;&lt;/a&gt;Docker 简介&lt;/h1&gt;&lt;ul&gt;
@@ -92,7 +92,7 @@
     <link href="https://xiaotaoist.github.io/2022/03/17/python-reload/"/>
     <id>https://xiaotaoist.github.io/2022/03/17/python-reload/</id>
     <published>2022-03-17T10:37:13.000Z</published>
-    <updated>2022-03-17T12:43:56.970Z</updated>
+    <updated>2022-03-17T12:43:56.000Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;ul&gt;
@@ -116,7 +116,7 @@
     <link href="https://xiaotaoist.github.io/2021/11/20/Prometheus/"/>
     <id>https://xiaotaoist.github.io/2021/11/20/Prometheus/</id>
     <published>2021-11-20T10:32:30.000Z</published>
-    <updated>2021-11-22T13:33:38.643Z</updated>
+    <updated>2021-11-22T13:33:38.000Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;ul&gt;
@@ -137,7 +137,7 @@
     <link href="https://xiaotaoist.github.io/2021/08/25/filedownload/"/>
     <id>https://xiaotaoist.github.io/2021/08/25/filedownload/</id>
     <published>2021-08-25T02:37:13.000Z</published>
-    <updated>2021-09-04T12:37:42.063Z</updated>
+    <updated>2021-09-04T12:37:42.000Z</updated>
     
     
     <summary type="html">&lt;ul&gt;
@@ -158,7 +158,7 @@
     <link href="https://xiaotaoist.github.io/2021/04/19/python-records/"/>
     <id>https://xiaotaoist.github.io/2021/04/19/python-records/</id>
     <published>2021-04-19T08:37:13.000Z</published>
-    <updated>2021-07-03T07:16:16.244Z</updated>
+    <updated>2021-07-03T07:16:16.000Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;ul&gt;
@@ -180,7 +180,7 @@
     <link href="https://xiaotaoist.github.io/2020/08/11/django-admin-optimization/"/>
     <id>https://xiaotaoist.github.io/2020/08/11/django-admin-optimization/</id>
     <published>2020-08-11T12:00:00.000Z</published>
-    <updated>2020-08-11T13:56:23.630Z</updated>
+    <updated>2020-08-11T13:56:23.000Z</updated>
     
     
     <summary type="html">&lt;p&gt;项目是 Django Admin 的简单的后台，有一个表大概有160万左右的数据，打开一次需要将近20s，借助django-debug-toolbar 进行优化一下。&lt;/p&gt;</summary>
@@ -199,7 +199,7 @@
     <link href="https://xiaotaoist.github.io/2020/08/01/write-cleaner-python-use-exceptions/"/>
     <id>https://xiaotaoist.github.io/2020/08/01/write-cleaner-python-use-exceptions/</id>
     <published>2020-08-01T12:01:00.000Z</published>
-    <updated>2020-08-05T13:42:02.111Z</updated>
+    <updated>2020-08-05T13:42:02.000Z</updated>
     
     
     <summary type="html">&lt;p&gt;本文用于练习英文阅读，如有侵权，联系删除&lt;/p&gt;
@@ -219,7 +219,7 @@
     <link href="https://xiaotaoist.github.io/2019/10/07/python-min-max-and-nested-lists/"/>
     <id>https://xiaotaoist.github.io/2019/10/07/python-min-max-and-nested-lists/</id>
     <published>2019-10-07T12:28:00.000Z</published>
-    <updated>2019-10-13T08:34:20.559Z</updated>
+    <updated>2019-10-13T08:34:20.000Z</updated>
     
     
     <summary type="html">&lt;p&gt;本文用于练习英文阅读，如有侵权，联系删除&lt;/p&gt;
@@ -239,7 +239,7 @@
     <link href="https://xiaotaoist.github.io/2019/09/21/python-lambda-functions/"/>
     <id>https://xiaotaoist.github.io/2019/09/21/python-lambda-functions/</id>
     <published>2019-09-21T11:21:00.000Z</published>
-    <updated>2019-10-08T12:37:55.686Z</updated>
+    <updated>2019-10-08T12:37:55.000Z</updated>
     
     
     <summary type="html">&lt;p&gt;本文用于练习英文阅读，如有侵权，联系删除&lt;/p&gt;
@@ -259,7 +259,7 @@
     <link href="https://xiaotaoist.github.io/2019/09/15/python-kwargs-and-args/"/>
     <id>https://xiaotaoist.github.io/2019/09/15/python-kwargs-and-args/</id>
     <published>2019-09-15T07:21:00.000Z</published>
-    <updated>2019-09-21T11:58:24.677Z</updated>
+    <updated>2019-09-21T11:58:24.000Z</updated>
     
     
     <summary type="html">&lt;p&gt;本文用于练习英文阅读，如有侵权，联系删除&lt;/p&gt;
@@ -279,7 +279,7 @@
     <link href="https://xiaotaoist.github.io/2019/09/07/custom-python-profiler/"/>
     <id>https://xiaotaoist.github.io/2019/09/07/custom-python-profiler/</id>
     <published>2019-09-07T05:21:00.000Z</published>
-    <updated>2019-09-07T09:04:47.504Z</updated>
+    <updated>2019-09-07T09:04:47.000Z</updated>
     
     
     <summary type="html">&lt;p&gt;本文用于练习英文阅读，如有侵权，联系删除&lt;/p&gt;
@@ -299,7 +299,7 @@
     <link href="https://xiaotaoist.github.io/2019/07/06/mysql8/"/>
     <id>https://xiaotaoist.github.io/2019/07/06/mysql8/</id>
     <published>2019-07-06T06:58:42.000Z</published>
-    <updated>2019-07-07T02:45:36.845Z</updated>
+    <updated>2019-07-07T02:45:36.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;MySQL与MariaDB&quot;&gt;&lt;a href=&quot;#MySQL与MariaDB&quot; class=&quot;headerlink&quot; title=&quot;MySQL与MariaDB&quot;&gt;&lt;/a&gt;MySQL与MariaDB&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/zh-hans/MariaDB&quot;&gt;MariaDB&lt;/a&gt; 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至&lt;a href=&quot;https://aur.archlinux.org/packages/mysql/&quot;&gt;AUR&lt;/a&gt; 中。&lt;/p&gt;</summary>
@@ -312,11 +312,11 @@
   </entry>
   
   <entry>
-    <title>LeetCode 189：旋转数组[初级]</title>
-    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-189/"/>
-    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-189/</id>
+    <title>LeetCode 136：旋转数组[初级]</title>
+    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-136/"/>
+    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-136/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-07T12:48:19.960Z</updated>
+    <updated>2018-08-09T04:15:16.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
@@ -329,11 +329,11 @@
   </entry>
   
   <entry>
-    <title>LeetCode 136：旋转数组[初级]</title>
-    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-136/"/>
-    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-136/</id>
+    <title>LeetCode 189：旋转数组[初级]</title>
+    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-189/"/>
+    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-189/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-09T04:15:16.985Z</updated>
+    <updated>2018-08-07T12:48:19.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
@@ -350,7 +350,7 @@
     <link href="https://xiaotaoist.github.io/2018/07/26/pipenv/"/>
     <id>https://xiaotaoist.github.io/2018/07/26/pipenv/</id>
     <published>2018-07-26T13:54:18.000Z</published>
-    <updated>2018-07-28T09:08:56.935Z</updated>
+    <updated>2018-07-28T09:08:56.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;使用过&lt;code&gt;pip&lt;/code&gt;的同学都知道它的强大与方便，但学习的时候免不了安装各种各样的库，最后需要导出依赖的时候才发现无从下手，&lt;code&gt;virtualenv&lt;/code&gt;便是为了解决此问题而诞生的，但若有很多项目，构建虚拟环境并手动切换，也是个繁琐的工作，好在有了更强大的解决方案：&lt;a href=&quot;https://github.com/pypa/pipenv&quot;&gt;pipenv&lt;/a&gt;(项目依赖管理器)+&lt;a href=&quot;https://github.com/kennethreitz/autoenv&quot;&gt;autoenv&lt;/a&gt;(自动激活环境)。&lt;/p&gt;</summary>
@@ -367,7 +367,7 @@
     <link href="https://xiaotaoist.github.io/2018/06/16/python-exercise-0025/"/>
     <id>https://xiaotaoist.github.io/2018/06/16/python-exercise-0025/</id>
     <published>2018-06-16T12:03:43.000Z</published>
-    <updated>2018-06-17T12:23:00.277Z</updated>
+    <updated>2018-06-17T12:23:00.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;使用 Python 实现：对着电脑吼一声,自动打开浏览器中的默认网站。
@@ -387,7 +387,7 @@
     <link href="https://xiaotaoist.github.io/2018/06/15/python-exercise-0024/"/>
     <id>https://xiaotaoist.github.io/2018/06/15/python-exercise-0024/</id>
     <published>2018-06-15T12:05:18.000Z</published>
-    <updated>2018-06-16T06:53:37.487Z</updated>
+    <updated>2018-06-16T06:53:37.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;第 0024 题： 使用 Python 的 Web 框架，做一个 Web 版本 TodoList 应用。
@@ -407,7 +407,7 @@
     <link href="https://xiaotaoist.github.io/2018/06/14/python-exercise-0023/"/>
     <id>https://xiaotaoist.github.io/2018/06/14/python-exercise-0023/</id>
     <published>2018-06-14T00:49:31.000Z</published>
-    <updated>2018-06-14T07:57:29.805Z</updated>
+    <updated>2018-06-14T07:57:29.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;使用 Python 的 Web 框架，做一个 Web 版本 留言簿 应用。
