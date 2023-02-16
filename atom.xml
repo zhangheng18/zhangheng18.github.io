@@ -6,7 +6,7 @@
   <link href="https://xiaotaoist.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2023-01-31T06:07:31.340Z</updated>
+  <updated>2023-02-16T07:16:40.387Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据库Tips备忘录</title>
+    <link href="https://xiaotaoist.github.io/2023/01/22/database/"/>
+    <id>https://xiaotaoist.github.io/2023/01/22/database/</id>
+    <published>2023-01-22T11:41:41.000Z</published>
+    <updated>2023-02-16T07:16:40.387Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;PostgreSQL, SQLite, PostGIS Tips 操作备忘录&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="PostgreSQL, SQLite, PostGIS" scheme="https://xiaotaoist.github.io/tags/PostgreSQL-SQLite-PostGIS/"/>
+    
+  </entry>
   
   <entry>
     <title>Python单元测试快速指南</title>
@@ -391,26 +408,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;第 0024 题： 使用 Python 的 Web 框架，做一个 Web 版本 TodoList 应用。
-&lt;/code&gt;&lt;/pre&gt;</summary>
-    
-    
-    
-    <category term="Python练习册" scheme="https://xiaotaoist.github.io/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
-    
-    
-    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python练习册：0023</title>
-    <link href="https://xiaotaoist.github.io/2018/06/14/python-exercise-0023/"/>
-    <id>https://xiaotaoist.github.io/2018/06/14/python-exercise-0023/</id>
-    <published>2018-06-14T00:49:31.000Z</published>
-    <updated>2018-06-14T07:57:29.000Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;使用 Python 的 Web 框架，做一个 Web 版本 留言簿 应用。
 &lt;/code&gt;&lt;/pre&gt;</summary>
     
     
