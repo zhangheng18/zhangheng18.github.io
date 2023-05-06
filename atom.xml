@@ -6,7 +6,7 @@
   <link href="https://xiaotaoist.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2023-02-24T02:39:34.673Z</updated>
+  <updated>2023-05-06T08:12:32.141Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SQLAlchemy2.0 简明指南</title>
+    <link href="https://xiaotaoist.github.io/2023/04/20/sqlalchemy/"/>
+    <id>https://xiaotaoist.github.io/2023/04/20/sqlalchemy/</id>
+    <published>2023-04-20T13:41:41.000Z</published>
+    <updated>2023-05-06T08:12:32.141Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;python 最知名的数据库 ORM 终于在 23 年 1 月 26 号发布了可用于生产环境的 &lt;a href=&quot;https://www.sqlalchemy.org/blog/2023/01/26/sqlalchemy-2.0.0-released/&quot;&gt;2.0&lt;/a&gt;版本，提供了全新的 ORM 与 Core 层操作，异步支持，更友好的类型提示，性能提升。&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>数据库Tips备忘录</title>
@@ -329,11 +348,11 @@
   </entry>
   
   <entry>
-    <title>LeetCode 136：旋转数组[初级]</title>
-    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-136/"/>
-    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-136/</id>
+    <title>LeetCode 189：旋转数组[初级]</title>
+    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-189/"/>
+    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-189/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-09T04:15:16.000Z</updated>
+    <updated>2018-08-07T12:48:19.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
@@ -346,11 +365,11 @@
   </entry>
   
   <entry>
-    <title>LeetCode 189：旋转数组[初级]</title>
-    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-189/"/>
-    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-189/</id>
+    <title>LeetCode 136：旋转数组[初级]</title>
+    <link href="https://xiaotaoist.github.io/2018/08/07/leetcode-136/"/>
+    <id>https://xiaotaoist.github.io/2018/08/07/leetcode-136/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-07T12:48:19.000Z</updated>
+    <updated>2018-08-09T04:15:16.000Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
@@ -388,26 +407,6 @@
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;使用 Python 实现：对着电脑吼一声,自动打开浏览器中的默认网站。
-&lt;/code&gt;&lt;/pre&gt;</summary>
-    
-    
-    
-    <category term="Python练习册" scheme="https://xiaotaoist.github.io/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
-    
-    
-    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python练习册：0024</title>
-    <link href="https://xiaotaoist.github.io/2018/06/15/python-exercise-0024/"/>
-    <id>https://xiaotaoist.github.io/2018/06/15/python-exercise-0024/</id>
-    <published>2018-06-15T12:05:18.000Z</published>
-    <updated>2018-06-16T06:53:37.000Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;第 0024 题： 使用 Python 的 Web 框架，做一个 Web 版本 TodoList 应用。
 &lt;/code&gt;&lt;/pre&gt;</summary>
     
     
