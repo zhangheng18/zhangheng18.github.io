@@ -567,13 +567,6 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/Python-Prometheus/</loc>
-    <lastmod>2023-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://xiaotaoist.github.io/tags/WiFi/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -581,7 +574,7 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/Web/</loc>
+    <loc>https://xiaotaoist.github.io/tags/Python-Prometheus/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -595,14 +588,14 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/axios/</loc>
+    <loc>https://xiaotaoist.github.io/tags/English/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/English/</loc>
+    <loc>https://xiaotaoist.github.io/tags/Web/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -616,7 +609,7 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/Privacy/</loc>
+    <loc>https://xiaotaoist.github.io/tags/axios/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -630,14 +623,14 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/MySQL/</loc>
+    <loc>https://xiaotaoist.github.io/tags/Privacy/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/PostgreSQL/</loc>
+    <loc>https://xiaotaoist.github.io/tags/MySQL/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -651,7 +644,7 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/Python/</loc>
+    <loc>https://xiaotaoist.github.io/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -665,7 +658,14 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/tags/%E9%9A%8F%E7%AC%94/</loc>
+    <loc>https://xiaotaoist.github.io/tags/PostgreSQL/</loc>
+    <lastmod>2023-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://xiaotaoist.github.io/tags/Python/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -695,6 +695,13 @@
   </url>
   
   <url>
+    <loc>https://xiaotaoist.github.io/categories/Python/</loc>
+    <lastmod>2023-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://xiaotaoist.github.io/categories/%E5%89%8D%E7%AB%AF/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -702,7 +709,7 @@
   </url>
   
   <url>
-    <loc>https://xiaotaoist.github.io/categories/Python/</loc>
+    <loc>https://xiaotaoist.github.io/categories/Docker/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -717,13 +724,6 @@
   
   <url>
     <loc>https://xiaotaoist.github.io/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/</loc>
-    <lastmod>2023-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://xiaotaoist.github.io/categories/Docker/</loc>
     <lastmod>2023-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
