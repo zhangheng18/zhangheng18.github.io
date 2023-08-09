@@ -1,8 +1,9 @@
 User-agent: *
 Allow: /
 Allow: /archives/
-Allow: /categories/
-Allow: /tags/
-Allow: /about/
+
+Disallow: /tags/
+Disallow: /page/
+Disallow: /about
 
 Sitemap: https://xiaotaoist.github.io/sitemap.xml

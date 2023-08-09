@@ -2387,7 +2387,7 @@ return key_list
 </ul>
 <h1 id="测试覆盖率报告"><a href="#测试覆盖率报告" class="headerlink" title="测试覆盖率报告"></a>测试覆盖率报告</h1><ul>
 <li>pip install pytest-cov</li>
-<li>执行 pytest –cov –cov-report html</li>
+<li>执行 <code>pytest --cov --cov-report html</code></li>
 </ul>
 <p><img src="/img/python-test-1.png" alt="image.png"></p>
 <ul>
@@ -2787,6 +2787,42 @@ return key_list
       </categories>
       <tags>
         <tag>English</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Chrome浏览器同一资源多次请求被串行化</title>
+    <url>/2023/08/07/chrome-same-request/</url>
+    <content><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>在 <a href="https://fastapi.tiangolo.com/features">fastapi</a> 中执行一段 cpu 密集型代码，在 Edge(Chromium 内核) 浏览器打开两个 tab，同时请求该接口，发现后一个请求会被阻塞，直到前一个请求完成。代码 demo 如下：<span id="more"></span></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ProcessPoolExecutor</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> uvicorn</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">from</span> fastapi.concurrency <span class="keyword">import</span> run_in_threadpool</span><br><span class="line"></span><br><span class="line">app = FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">c</span>():</span><br><span class="line">    <span class="comment"># cpu heavy task cost 5s</span></span><br><span class="line">    t = time.perf_counter()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>**<span class="number">8</span> * <span class="number">5</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="built_in">print</span>(time.perf_counter() - t)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/f&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">f</span>():</span><br><span class="line">    <span class="built_in">print</span>(datetime.now())</span><br><span class="line">    r = <span class="keyword">await</span> run_in_threadpool(c)</span><br><span class="line">    <span class="keyword">return</span> r</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    uvicorn.run(app, host=<span class="string">&quot;127.0.0.1&quot;</span>, port=<span class="number">8000</span>)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>已经使用了<code>run_in_threadpool</code> 将同步代码放到线程池中执行，避免阻塞事件循环。为什么还是会出现这个问题呢？一开始怀疑框架的线程池有问题，尝试换用多进程，问题依旧:</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ProcessPoolExecutor</span><br><span class="line"></span><br><span class="line"><span class="comment">#限制进程池大小，避免资源耗尽</span></span><br><span class="line">pool = ProcessPoolExecutor(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">&quot;/f2&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">f2</span>():</span><br><span class="line">    <span class="built_in">print</span>(datetime.now())</span><br><span class="line">    loop = asyncio.get_running_loop()</span><br><span class="line">    r = <span class="keyword">await</span> loop.run_in_executor(pool, c)</span><br><span class="line">    <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>继续怀疑框架问题，搜了一下 issue，发现没有人遇到过，尝试用<a href="https://flask.palletsprojects.com/en/2.3.x/">flask</a>,问题依然。此时意识到这可能是浏览器的问题，果然换用 Firefox 没有复现此问题。</li>
+</ul>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><ul>
+<li><strong>提出一个好问题，等于问题解决了一半</strong></li>
+<li>拿出祖传的 google 找到了 Chrome 浏览器<a href="https://codereview.chromium.org/345643003">缓存锁</a>：同一资源(URL)被多次请求时，后续请求会被阻塞（最多 20s），直到第一个请求返回。</li>
+<li><a href="https://www.codesky.me/archives/something-about-chrome-cache-lock.wind">一次 Chrome 缓存锁的有趣探索</a></li>
+</ul>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ul>
+<li>给 URL 添加无用的参数（时间戳&#x2F;随机数，避免被视为相同请求）: <a href="http://127.0.0.1/url?r=5431">http://127.0.0.1/url?r=5431</a></li>
+<li>浏览器打开-&gt;开发者工具-&gt;网络：禁用缓存</li>
+<li>换用 Firefox 浏览器</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://fastapi.tiangolo.com/async/">https://fastapi.tiangolo.com/async/</a></li>
+<li><a href="https://www.laruence.com/2011/07/16/2123.html">https://www.laruence.com/2011/07/16/2123.html</a></li>
+<li><a href="https://stackoverflow.com/questions/27513994/chrome-stalls-when-making-multiple-requests-to-same-resource">https://stackoverflow.com/questions/27513994/chrome-stalls-when-making-multiple-requests-to-same-resource</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>网络</tag>
       </tags>
   </entry>
 </search>

@@ -6,7 +6,7 @@
   <link href="https://xiaotaoist.github.io/atom.xml" rel="self"/>
   
   <link href="https://xiaotaoist.github.io/"/>
-  <updated>2023-05-06T08:12:32.141Z</updated>
+  <updated>2023-08-09T03:07:08.554Z</updated>
   <id>https://xiaotaoist.github.io/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Chrome浏览器同一资源多次请求被串行化</title>
+    <link href="https://xiaotaoist.github.io/2023/08/07/chrome-same-request/"/>
+    <id>https://xiaotaoist.github.io/2023/08/07/chrome-same-request/</id>
+    <published>2023-08-07T10:09:03.000Z</published>
+    <updated>2023-08-09T03:07:08.554Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;在 &lt;a href=&quot;https://fastapi.tiangolo.com/features&quot;&gt;fastapi&lt;/a&gt; 中执行一段 cpu 密集型代码，在 Edge(Chromium 内核) 浏览器打开两个 tab，同时请求该接口，发现后一个请求会被阻塞，直到前一个请求完成。代码 demo 如下：</summary>
+    
+    
+    
+    
+    <category term="网络" scheme="https://xiaotaoist.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>SQLAlchemy2.0 简明指南</title>
@@ -57,7 +75,7 @@
     <link href="https://xiaotaoist.github.io/2022/11/17/python-test/"/>
     <id>https://xiaotaoist.github.io/2022/11/17/python-test/</id>
     <published>2022-11-17T08:37:13.000Z</published>
-    <updated>2023-01-31T06:07:31.340Z</updated>
+    <updated>2023-08-09T05:26:03.660Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;为什么要写单元测试&quot;&gt;&lt;a href=&quot;#为什么要写单元测试&quot; class=&quot;headerlink&quot; title=&quot;为什么要写单元测试&quot;&gt;&lt;/a&gt;为什么要写单元测试&lt;/h1&gt;&lt;ul&gt;
@@ -395,26 +413,6 @@
     
     
     <category term="python" scheme="https://xiaotaoist.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python练习册：0025</title>
-    <link href="https://xiaotaoist.github.io/2018/06/16/python-exercise-0025/"/>
-    <id>https://xiaotaoist.github.io/2018/06/16/python-exercise-0025/</id>
-    <published>2018-06-16T12:03:43.000Z</published>
-    <updated>2018-06-17T12:23:00.000Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;使用 Python 实现：对着电脑吼一声,自动打开浏览器中的默认网站。
-&lt;/code&gt;&lt;/pre&gt;</summary>
-    
-    
-    
-    <category term="Python练习册" scheme="https://xiaotaoist.github.io/categories/Python%E7%BB%83%E4%B9%A0%E5%86%8C/"/>
-    
-    
-    <category term="Python" scheme="https://xiaotaoist.github.io/tags/Python/"/>
     
   </entry>
   
