@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="j66bPE4N7x6Qx1E96dSbI_JrLZSV3RFZ-MvR5ozwkx4">
+  <meta name="msvalidate.01" content="7B9A9CDD89DE64B056126B4C5C9F837D">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhangheng18.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前提是一台有root的安卓设备,我这里使用雷电模拟器9 ，整理记录了一份如何抓取安卓手机的Https请求。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何抓取安卓手机的Https包 (Magisk + Android 9)">
+<meta property="og:url" content="https://zhangheng18.github.io/2024/03/18/android-capture-https/index.html">
+<meta property="og:site_name" content="ZhangHeng&#39;s Blog">
+<meta property="og:description" content="前提是一台有root的安卓设备,我这里使用雷电模拟器9 ，整理记录了一份如何抓取安卓手机的Https请求。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhangheng18.github.io/img/android-https-image-3.png">
+<meta property="og:image" content="https://zhangheng18.github.io/img/android-https-image.png">
+<meta property="og:image" content="https://zhangheng18.github.io/img/android-https-image-2.png">
+<meta property="og:image" content="https://zhangheng18.github.io/img/android-https-image-1.png">
+<meta property="article:published_time" content="2024-03-18T09:18:13.000Z">
+<meta property="article:modified_time" content="2024-03-19T13:05:33.280Z">
+<meta property="article:author" content="zhangheng">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhangheng18.github.io/img/android-https-image-3.png">
+
+<link rel="canonical" href="https://zhangheng18.github.io/2024/03/18/android-capture-https/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何抓取安卓手机的Https包 (Magisk + Android 9) | ZhangHeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="ZhangHeng's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ZhangHeng's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2024/03/18/android-capture-https/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="name" content="zhangheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangHeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何抓取安卓手机的Https包 (Magisk + Android 9)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-18 17:18:13" itemprop="dateCreated datePublished" datetime="2024-03-18T17:18:13+08:00">2024-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-19 21:05:33" itemprop="dateModified" datetime="2024-03-19T21:05:33+08:00">2024-03-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前提是一台有root的安卓设备,我这里使用<a target="_blank" rel="noopener" href="https://www.ldmnq.com/">雷电模拟器9</a> ，整理记录了一份如何抓取安卓手机的Https请求。</p>
+<span id="more"></span>
+
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
+<li>安装Magisk,下载<a target="_blank" rel="noopener" href="https://huskydg.github.io/magisk-files/app-debug.apk">Magisk-debug</a>, 安完可能会卡死，重启一下<ul>
+<li>模拟器参考见:<a target="_blank" rel="noopener" href="https://blog.csdn.net/Ruaki/article/details/135580772">各种安卓模拟器安装magisk（magisk-delta) 雷电、蓝叠、MuMu、逍遥、夜神</a></li>
+<li>手机参考见:<a target="_blank" rel="noopener" href="https://magiskcn.com/">Magisk安装教程</a></li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://portswigger.net/burp/communitydownload">BurpSuite Community</a></li>
+</ul>
+<h1 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h1><h2 id="安装系统证书"><a href="#安装系统证书" class="headerlink" title="安装系统证书"></a>安装系统证书</h2><ul>
+<li><p>目前在Android 7.0或以上的系统有启用了对第三方证书的限制，所以需要将Burp生成的证书作为系统级别的信任证书安装。</p>
+</li>
+<li><p>使用<a target="_blank" rel="noopener" href="https://github.com/SekiBetu/MagiskTrustUserCerts">Magisk Trust User Certs Magisk</a> 模块</p>
+<ul>
+<li>Magisk -&gt; 模块 —&gt; 安装本地模块 -&gt; MagiskTrustUserCerts.zip</li>
+</ul>
+</li>
+<li><p>添加到用户凭证（ 点cer证书，cer证书安装参见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuqiyun/p/12488845.html">Burp Suite抓包-Android导入HTTPS</a>） ,重启生效</p>
+</li>
+<li><p>此时就可以通过浏览器进行验证，<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a> 已经变成了 Burp 的自定义证书<br><img src="/img/android-https-image-3.png" alt="alt text"></p>
+</li>
+</ul>
+<h2 id="绕过代理检测"><a href="#绕过代理检测" class="headerlink" title="绕过代理检测"></a>绕过代理检测</h2><ul>
+<li>有些应用为了防止抓包会检测配置了代理，这里使用<a target="_blank" rel="noopener" href="https://github.com/jayluxferro/ProxyMe/releases/download/v1.0.0/ProxyMe_v1.0.0.apk">ProxyMe 1.0</a> 将 http 代理转化为 VPN 以绕过代理检测。<br><img src="/img/android-https-image.png" alt="ProxyMe"></li>
+</ul>
+<h2 id="绕过双向证书-SSL-PINNING"><a href="#绕过双向证书-SSL-PINNING" class="headerlink" title="绕过双向证书 SSL PINNING"></a>绕过双向证书 SSL PINNING</h2><ul>
+<li>有些应用会进一步启用证书双向认证，这里需要 LSPosed 框架 配合TrustMeAlready 注入Hook 以屏蔽双向认证认证<ul>
+<li>下载<a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">LSPosed 1.92</a> 安装</li>
+<li>下载<a target="_blank" rel="noopener" href="https://github.com/ViRb3/TrustMeAlready/releases/download/v1.11/TrustMeAlready-v1.11-release.apk">TrustMeAlready1.11</a> 安装</li>
+<li>重启后， 通过下拉通知选择LSPosed -&gt; 模块 -&gt; TrustMeAlready -&gt;选择应用<br><img src="/img/android-https-image-2.png" alt="alt text"></li>
+</ul>
+</li>
+</ul>
+<h2 id="绕过Root检测"><a href="#绕过Root检测" class="headerlink" title="绕过Root检测"></a>绕过Root检测</h2><ul>
+<li><p>有些应用会检测Root权限，可以通过Magisk Hide 配置对指定应用隐藏。<br><img src="/img/android-https-image-1.png" alt="alt text"></p>
+</li>
+<li><p>Magisk 设置-&gt; App -&gt; 隐藏Magisk应用 （改包名以绕过部分检测）</p>
+</li>
+</ul>
+<h2 id="绕过模拟器检测"><a href="#绕过模拟器检测" class="headerlink" title="绕过模拟器检测"></a>绕过模拟器检测</h2><ul>
+<li>如果使用了模拟器，一些应用可能会检测出来，可以在设置里尝试更换屏幕分辨率、机器型号、 定位，仍然无效的话可上物理机（云手机 &#x2F; 咸鱼解锁BL的手机）</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>Android渗透-04：安卓抓包之绕过SSL Pinning : <a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/endpoint/341407.html">https://www.freebuf.com/articles/endpoint/341407.html</a></li>
+<li>安卓系列机型 框架LSP 安装步骤 支持多机型 LSP框架通用安装步骤【二】<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011283906/article/details/133038958">https://blog.csdn.net/u011283906/article/details/133038958</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag"># 网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/07/chrome-same-request/" rel="prev" title="Chrome浏览器同一资源多次请求被串行化">
+      <i class="fa fa-chevron-left"></i> Chrome浏览器同一资源多次请求被串行化
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%93%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">抓包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F%E8%AF%81%E4%B9%A6"><span class="nav-number">2.1.</span> <span class="nav-text">安装系统证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E4%BB%A3%E7%90%86%E6%A3%80%E6%B5%8B"><span class="nav-number">2.2.</span> <span class="nav-text">绕过代理检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E5%8F%8C%E5%90%91%E8%AF%81%E4%B9%A6-SSL-PINNING"><span class="nav-number">2.3.</span> <span class="nav-text">绕过双向证书 SSL PINNING</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87Root%E6%A3%80%E6%B5%8B"><span class="nav-number">2.4.</span> <span class="nav-text">绕过Root检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%A3%80%E6%B5%8B"><span class="nav-number">2.5.</span> <span class="nav-text">绕过模拟器检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhangheng"
+      src="/about/logo.jpg">
+  <p class="site-author-name" itemprop="name">zhangheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhangheng18" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhangheng18" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:taoist@pm.me" title="E-Mail → mailto:taoist@pm.me" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://minifullc.github.io/" title="https:&#x2F;&#x2F;MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io/" title="https:&#x2F;&#x2F;kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">124k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:46</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
