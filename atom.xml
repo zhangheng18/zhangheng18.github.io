@@ -6,7 +6,7 @@
   <link href="https://zhangheng18.github.io/atom.xml" rel="self"/>
   
   <link href="https://zhangheng18.github.io/"/>
-  <updated>2024-03-19T13:05:33.280Z</updated>
+  <updated>2024-07-12T08:07:36.459Z</updated>
   <id>https://zhangheng18.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://zhangheng18.github.io/2024/03/18/android-capture-https/"/>
     <id>https://zhangheng18.github.io/2024/03/18/android-capture-https/</id>
     <published>2024-03-18T09:18:13.000Z</published>
-    <updated>2024-03-19T13:05:33.280Z</updated>
+    <updated>2024-07-12T08:07:36.459Z</updated>
     
     
     <summary type="html">&lt;p&gt;前提是一台有root的安卓设备,我这里使用&lt;a href=&quot;https://www.ldmnq.com/&quot;&gt;雷电模拟器9&lt;/a&gt; ，整理记录了一份如何抓取安卓手机的Https请求。&lt;/p&gt;</summary>
@@ -32,6 +32,25 @@
     
     
     <category term="网络" scheme="https://zhangheng18.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何用Python 快速发送1000条网络请求</title>
+    <link href="https://zhangheng18.github.io/2024/01/18/python-send-req/"/>
+    <id>https://zhangheng18.github.io/2024/01/18/python-send-req/</id>
+    <published>2024-01-18T10:37:13.000Z</published>
+    <updated>2024-07-12T13:50:36.343Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;如何使用 Python 最快实现 1000 个 http 请求， 这里做个测试记录 。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Python" scheme="https://zhangheng18.github.io/categories/Python/"/>
+    
+    
+    <category term="Python" scheme="https://zhangheng18.github.io/tags/Python/"/>
     
   </entry>
   
@@ -58,7 +77,7 @@
     <link href="https://zhangheng18.github.io/2023/04/20/sqlalchemy/"/>
     <id>https://zhangheng18.github.io/2023/04/20/sqlalchemy/</id>
     <published>2023-04-20T13:41:41.000Z</published>
-    <updated>2023-05-06T08:12:32.141Z</updated>
+    <updated>2024-03-29T09:14:37.739Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;ul&gt;
@@ -77,7 +96,7 @@
     <link href="https://zhangheng18.github.io/2023/01/22/database/"/>
     <id>https://zhangheng18.github.io/2023/01/22/database/</id>
     <published>2023-01-22T11:41:41.000Z</published>
-    <updated>2023-02-24T02:39:34.673Z</updated>
+    <updated>2024-07-12T13:58:46.758Z</updated>
     
     
     <summary type="html">&lt;p&gt;PostgreSQL, SQLite, PostGIS Tips 操作备忘录&lt;/p&gt;</summary>
@@ -85,7 +104,7 @@
     
     
     
-    <category term="PostgreSQL, SQLite, PostGIS" scheme="https://zhangheng18.github.io/tags/PostgreSQL-SQLite-PostGIS/"/>
+    <category term="SQL" scheme="https://zhangheng18.github.io/tags/SQL/"/>
     
   </entry>
   
@@ -189,7 +208,7 @@
     <link href="https://zhangheng18.github.io/2021/11/20/Prometheus/"/>
     <id>https://zhangheng18.github.io/2021/11/20/Prometheus/</id>
     <published>2021-11-20T10:32:30.000Z</published>
-    <updated>2021-11-22T13:33:38.000Z</updated>
+    <updated>2024-07-12T14:01:17.195Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;ul&gt;
@@ -201,7 +220,7 @@
     <category term="DevOps" scheme="https://zhangheng18.github.io/categories/DevOps/"/>
     
     
-    <category term="Python Prometheus" scheme="https://zhangheng18.github.io/tags/Python-Prometheus/"/>
+    <category term="Python" scheme="https://zhangheng18.github.io/tags/Python/"/>
     
   </entry>
   
@@ -214,8 +233,9 @@
     
     
     <summary type="html">&lt;ul&gt;
-&lt;li&gt;要求导出excel文件，前端触发，后端直接返回文件，  记录一下遇到的问题与方法。&lt;h2 id=&quot;使用axios-blob-a标签&quot;&gt;&lt;a href=&quot;#使用axios-blob-a标签&quot; class=&quot;headerlink&quot; title=&quot;使用axios  + blob + a标签&quot;&gt;&lt;/a&gt;使用&lt;a href=&quot;https://axios-http.com/docs/intro&quot;&gt;axios&lt;/a&gt;  + &lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/API/Blob&quot;&gt;blob&lt;/a&gt; + a标签&lt;/h2&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary>
+&lt;li&gt;要求导出excel文件，前端触发，后端直接返回文件，  记录一下遇到的问题与方法。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;使用axios-blob-a标签&quot;&gt;&lt;a href=&quot;#使用axios-blob-a标签&quot; class=&quot;headerlink&quot; title=&quot;使用axios  + blob + a标签&quot;&gt;&lt;/a&gt;使用&lt;a href=&quot;https://axios-http.com/docs/intro&quot;&gt;axios&lt;/a&gt;  + &lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/API/Blob&quot;&gt;blob&lt;/a&gt; + a标签&lt;/h2&gt;</summary>
     
     
     
@@ -231,7 +251,7 @@
     <link href="https://zhangheng18.github.io/2021/04/19/python-records/"/>
     <id>https://zhangheng18.github.io/2021/04/19/python-records/</id>
     <published>2021-04-19T08:37:13.000Z</published>
-    <updated>2021-07-03T07:16:16.000Z</updated>
+    <updated>2024-07-12T14:01:33.514Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;ul&gt;
@@ -244,7 +264,7 @@
     <category term="Python" scheme="https://zhangheng18.github.io/categories/Python/"/>
     
     
-    <category term="Python SQL" scheme="https://zhangheng18.github.io/tags/Python-SQL/"/>
+    <category term="Python" scheme="https://zhangheng18.github.io/tags/Python/"/>
     
   </entry>
   
@@ -389,7 +409,7 @@
     <link href="https://zhangheng18.github.io/2018/08/07/leetcode-136/"/>
     <id>https://zhangheng18.github.io/2018/08/07/leetcode-136/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-09T04:15:16.000Z</updated>
+    <updated>2024-07-12T13:57:20.117Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
@@ -397,24 +417,7 @@
     
     
     
-    <category term="leetcode,python" scheme="https://zhangheng18.github.io/tags/leetcode-python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode 189：旋转数组[初级]</title>
-    <link href="https://zhangheng18.github.io/2018/08/07/leetcode-189/"/>
-    <id>https://zhangheng18.github.io/2018/08/07/leetcode-189/</id>
-    <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2018-08-07T12:48:19.000Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="leetcode,python" scheme="https://zhangheng18.github.io/tags/leetcode-python/"/>
+    <category term="LeetCode" scheme="https://zhangheng18.github.io/tags/LeetCode/"/>
     
   </entry>
   

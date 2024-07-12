@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -264,7 +264,7 @@
 <p>pip install pymysql</p>
 </blockquote>
 <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
-<li>目前Linux 的Mysql软件为MariaDB，它是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。以Arch Linux下安装MariaDB数据库为例：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S mariadb <span class="comment">#安装</span></span><br><span class="line">sudo  mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql <span class="comment">#初始化mysql库</span></span><br><span class="line">sudo systemctl start mariadb <span class="comment">#启动MariaDB数据库</span></span><br><span class="line">mysql -u root mysql <span class="comment">#用root用户登录到mysql数据库，默认密码为空。</span></span><br></pre></td></tr></table></figure>
+<li>目前Linux 的Mysql软件为MariaDB，它是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。以Arch Linux下安装MariaDB数据库为例：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S mariadb <span class="comment">#安装</span></span><br><span class="line"><span class="built_in">sudo</span>  mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql <span class="comment">#初始化mysql库</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl start mariadb <span class="comment">#启动MariaDB数据库</span></span><br><span class="line">mysql -u root mysql <span class="comment">#用root用户登录到mysql数据库，默认密码为空。</span></span><br></pre></td></tr></table></figure>
 关于Mysql的常用操作可<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/24afa0e637cc">参见</a></li>
 </ul>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成激活码的函数</span></span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Generate_Code</span>(<span class="params">counts,length=<span class="number">20</span></span>):</span><br><span class="line">    key_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(counts):</span><br><span class="line">        key = <span class="built_in">str</span>(uuid.uuid4())[:length]</span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> key_list:</span><br><span class="line">            key_list.append(key)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> key_list</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    </span><br><span class="line">    key = Generate_Code(<span class="number">200</span>,<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#创建数据库连接</span></span><br><span class="line">    conn = pymysql.connect( </span><br><span class="line">        host = <span class="string">&quot;127.0.0.1&quot;</span>, </span><br><span class="line">        user = <span class="string">&quot;root&quot;</span>, </span><br><span class="line">        password = <span class="string">&quot;&quot;</span>, </span><br><span class="line">        database = <span class="string">&quot;test&quot;</span>, </span><br><span class="line">        charset = <span class="string">&#x27;utf8&#x27;</span>,</span><br><span class="line">        cursorclass=pymysql.cursors.DictCursor)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment">#创建一个游标对象 cursor</span></span><br><span class="line">        <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">    </span><br><span class="line">            <span class="comment">#执行 SQL，如果code表存在则删除</span></span><br><span class="line">            cursor.execute(<span class="string">&quot;DROP TABLE IF EXISTS code&quot;</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">#创建code数据表</span></span><br><span class="line">            sql = <span class="string">&quot;&quot;&quot;CREATE TABLE code(</span></span><br><span class="line"><span class="string">                id INT UNSIGNED AUTO_INCREMENT,</span></span><br><span class="line"><span class="string">                code VARCHAR(32) NOT NULL,</span></span><br><span class="line"><span class="string">                PRIMARY KEY(id)</span></span><br><span class="line"><span class="string">            )ENGINE=InnoDB DEFAULT CHARSET=utf8;</span></span><br><span class="line"><span class="string">            &quot;&quot;&quot;</span></span><br><span class="line">            cursor.execute(sql)</span><br><span class="line"></span><br><span class="line">            <span class="comment">#批量插入数据</span></span><br><span class="line">            cursor.executemany(<span class="string">&quot;INSERT INTO code(code) VALUES(%s);&quot;</span>,key)</span><br><span class="line">        <span class="comment">#提交更改</span></span><br><span class="line">        conn.commit()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">            <span class="comment">#查询结果</span></span><br><span class="line">            cursor.execute(<span class="string">&quot;SELECT * FROM code;&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>( cursor.fetchall() )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        conn.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -396,7 +396,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -406,7 +406,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -416,7 +416,7 @@
         <a href="https://github.com/zhangheng18" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhangheng18" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:taoist@pm.me" title="E-Mail → mailto:taoist@pm.me" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <a href="mailto:zhangheng.18@outlook.com" title="E-Mail → mailto:zhangheng.18@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -463,12 +463,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">124k</span>
+    <span title="站点总字数">127k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:46</span>
+    <span title="站点阅读时长">3:51</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
