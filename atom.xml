@@ -405,11 +405,11 @@
   </entry>
   
   <entry>
-    <title>LeetCode 136：旋转数组[初级]</title>
-    <link href="https://zhangheng18.github.io/2018/08/07/leetcode-136/"/>
-    <id>https://zhangheng18.github.io/2018/08/07/leetcode-136/</id>
+    <title>LeetCode 189：旋转数组[初级]</title>
+    <link href="https://zhangheng18.github.io/2018/08/07/leetcode-189/"/>
+    <id>https://zhangheng18.github.io/2018/08/07/leetcode-189/</id>
     <published>2018-08-07T08:28:20.000Z</published>
-    <updated>2024-07-12T13:57:20.117Z</updated>
+    <updated>2024-07-12T13:57:14.790Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/rotate-array/description/&quot;&gt;189：旋转数组&lt;/a&gt;&lt;br&gt;        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。&lt;/p&gt;</summary>
