@@ -190,7 +190,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2019/10/07/python-min-max-and-nested-lists/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -257,23 +257,22 @@
         <p>本文用于练习英文阅读，如有侵权，联系删除</p>
 <p><a target="_blank" rel="noopener" href="https://dbader.org/blog/python-min-max-and-nested-lists">原文链接</a>是<strong>Dan Bader</strong>的 How to use Python’s min() and max() with nested lists</p>
 <span id="more"></span>
-<p><strong>以下为译文</strong><br>让我们谈谈在包含另一个列表的列表中使用Python的min()和max()函数。有时这被成为嵌套列表或列表索引。</p>
+<p><strong>以下为译文</strong><br>
+让我们谈谈在包含另一个列表的列表中使用Python的min()和max()函数。有时这被成为嵌套列表或列表索引。</p>
 <p>根据内部特定属性查找列表的最大或最小元素是一种常见情况，但对与Python新手来说可能是一个挑战。</p>
 <p>下面是一个具体实例，假设这样一个列表，包含权重部分。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nested_list = [[<span class="string">&#x27;cherry&#x27;</span>, <span class="number">7</span>], [<span class="string">&#x27;apple&#x27;</span>, <span class="number">100</span>], [<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]]</span><br></pre></td></tr></table></figure>
-
 <p>我们希望Python 根据储存在索引1上的权重选择最小和最大元素。我们预期min和max返回下面元素:</p>
 <ul>
-<li><code>min(nested_list) should be [&#39;cherry&#39;, 7]</code></li>
-<li><code>max(nested_list) should be [&#39;anaconda&#39;, 1360]</code></li>
+<li><code>min(nested_list) should be ['cherry', 7]</code></li>
+<li><code>max(nested_list) should be ['anaconda', 1360]</code></li>
 </ul>
 <p>但是仅在nested_list 上调用 min 和 max 我们不能得到预期结果。</p>
 <p>我们得到的排序似乎基于存储在索引0处的商品名称:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">min</span>(nested_list)</span><br><span class="line">[<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]  <span class="comment"># 非预期!</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">max</span>(nested_list)</span><br><span class="line">[<span class="string">&#x27;cherry&#x27;</span>, <span class="number">7</span>]  <span class="comment"># 非预期!</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="好吧，为什么选错了元素呢？"><a href="#好吧，为什么选错了元素呢？" class="headerlink" title="好吧，为什么选错了元素呢？"></a>好吧，为什么选错了元素呢？</h1><p>让我们停下来思考一下Python的max函数工作原理。算法看起来像这样</p>
+<h1>好吧，为什么选错了元素呢？</h1>
+<p>让我们停下来思考一下Python的max函数工作原理。算法看起来像这样</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_max</span>(<span class="params">sequence</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Return the maximum element of a sequence&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sequence:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&#x27;empty sequence&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    maximum = sequence[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> sequence:</span><br><span class="line">        <span class="keyword">if</span> item &gt; maximum:</span><br><span class="line">            maximum = item</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> maximum</span><br></pre></td></tr></table></figure>
-
 <p>选择最大值的条件下会发现这个有趣的行为: if item &gt; amximum:如果序列的类型只是int 或 float，它能很好的工作，因为比较他们很简单(它符合我们的直觉,例如 3 &gt; 2)。</p>
 <p>但是，如果序列包含其他序列，则情况会变得更加复杂。让我们看一下Python 文档去学习下 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/tutorial/datastructures.html#comparing-sequences-and-other-types">比较序列和其他类型</a></p>
 <blockquote>
@@ -281,45 +280,41 @@
 </blockquote>
 <p>当max需要比较两个序列并寻找最大的元素，默认可能不是我们想要的。</p>
 <p>现在我们了解了为什么会得到意外结果，我们就可以去思考怎样修复代码。</p>
-<h2 id="我们如何改变比较行为"><a href="#我们如何改变比较行为" class="headerlink" title="我们如何改变比较行为"></a>我们如何改变比较行为</h2><p>我们需要告诉max函数去比较不同的行为。</p>
+<h2 id="我们如何改变比较行为">我们如何改变比较行为</h2>
+<p>我们需要告诉max函数去比较不同的行为。</p>
 <p>在上个例子，Python的max函数查看每一个列表的第一个元素（字符串 cherry, apple, or anaconda）并与当前最大元素进行比较，这就是为什么我们仅调用max(nested_list) 它将cherry返回作为最大元素的原因。</p>
 <p>怎样告诉max 去比较每个列表的第二个元素呢？</p>
 <p>假设我们有一个名叫my_max_by_weight的my_max更新版，它使用第二个元素进行比较每个内嵌列表:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_max_by_weight</span>(<span class="params">sequence</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sequence:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&#x27;empty sequence&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    maximum = sequence[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> sequence:</span><br><span class="line">        <span class="comment"># Compare elements by their weight stored</span></span><br><span class="line">        <span class="comment"># in their second element.</span></span><br><span class="line">        <span class="keyword">if</span> item[<span class="number">1</span>] &gt; maximum[<span class="number">1</span>]:</span><br><span class="line">            maximum = item</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> maximum</span><br></pre></td></tr></table></figure>
-
 <p>这很成功，我们可以看到my_max_by_weight 选择了我们预期的最大元素:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_max_by_weight(nested_list)</span><br><span class="line">[<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]</span><br></pre></td></tr></table></figure>
-
 <p>现在假设我们需要在更多类型的list里寻找最大元素。</p>
 <p>也许索引(或键)不总是第二项。可能有时是第三，或第四项，或着其他方式查找。</p>
 <p>如果我们在my_max里可以复用大部分代码岂不更好?它的某些部分始终相同，例如 检查是否是空序列。</p>
-<h1 id="怎样让我们的max-更灵活"><a href="#怎样让我们的max-更灵活" class="headerlink" title="怎样让我们的max()更灵活?"></a>怎样让我们的max()更灵活?</h1><p>因为Python允许我们把函数当作数据用，所以我们可以吧比较键的代码提取到自己的函数里。我们称之关键函数。我们编写各种不同key 函数，并根据需要传递给my_max。</p>
+<h1>怎样让我们的max()更灵活?</h1>
+<p>因为Python允许我们把函数当作数据用，所以我们可以吧比较键的代码提取到自己的函数里。我们称之关键函数。我们编写各种不同key 函数，并根据需要传递给my_max。</p>
 <p>这让我们的完整的灵活性。不仅可以比较特定列表索引位置，像索引1活着索引2，我们还可以告诉函数比较其他内容，例如，项目名称长度。</p>
 <p>让我们看一下具体代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">identity</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_max</span>(<span class="params">sequence, key_func=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Return the maximum element of a sequence.</span></span><br><span class="line"><span class="string">    key_func is an optional one-argument ordering function.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sequence:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&#x27;empty sequence&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> key_func:</span><br><span class="line">        key_func = identity</span><br><span class="line"></span><br><span class="line">    maximum = sequence[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> sequence:</span><br><span class="line">        <span class="comment"># Ask the key func which property to compare</span></span><br><span class="line">        <span class="keyword">if</span> key_func(item) &gt; key_func(maximum):</span><br><span class="line">            maximum = item</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> maximum</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>在代码示例中，您可以看到在默认情况下，如何调用称为identity的键函数，该函数只使用未修改的项进行比较。<br>将identity 作为key 函数，我们预期my_max 和之前max 行为一样。</p>
+<p>在代码示例中，您可以看到在默认情况下，如何调用称为identity的键函数，该函数只使用未修改的项进行比较。<br>
+将identity 作为key 函数，我们预期my_max 和之前max 行为一样。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nested_list = [[<span class="string">&#x27;cherry&#x27;</span>, <span class="number">7</span>], [<span class="string">&#x27;apple&#x27;</span>, <span class="number">100</span>], [<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]]</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_max(nested_list)</span><br><span class="line">[<span class="string">&#x27;cherry&#x27;</span>, <span class="number">7</span>]</span><br></pre></td></tr></table></figure>
-
 <p>并且，我们仍然可以确定和之前（不正确的）结果一样，这很好的表明我们没有完全搞清实现机制。</p>
 <p>现在最酷的部分——_我们通过编写key_func 来覆盖比较行为，该key_func 返回第二个子元素而不是元素本身:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">weight</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_max(nested_list, key_func=weight)</span><br><span class="line">[<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]</span><br></pre></td></tr></table></figure>
-
 <p>瞧，这就是我们预期的最大元素！</p>
 <p>只是为了演示此重构带来的灵活性，这个key_func 根据每一项的名字的长度，返回最大元素:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">name_length</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(x[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_max(nested_list, key_func=name_length)</span><br><span class="line">[<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]</span><br></pre></td></tr></table></figure>
-
-<h1 id="这有简写么？"><a href="#这有简写么？" class="headerlink" title="这有简写么？"></a>这有简写么？</h1><p>除了用def显式定义key_func 函数外，也可以使用 Python lambda 表达式 去定义匿名函数。这大大缩短了代码（并不会创建命名函数）</p>
+<h1>这有简写么？</h1>
+<p>除了用def显式定义key_func 函数外，也可以使用 Python lambda 表达式 去定义匿名函数。这大大缩短了代码（并不会创建命名函数）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">my_max(nested_list, key_func=<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>[<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]</span><br></pre></td></tr></table></figure>
-
-<p>为了让命名更简短(尽管表达力有点差) 假设我们缩短 key_func 参数 key ，并且让我们得出了和Python 的max函数兼容的代码。<br>这以为这我们不在需要自己重新实现 Python的max函数来查找正确的最大元素:</p>
+<p>为了让命名更简短(尽管表达力有点差) 假设我们缩短 key_func 参数 key ，并且让我们得出了和Python 的max函数兼容的代码。<br>
+这以为这我们不在需要自己重新实现 Python的max函数来查找正确的最大元素:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is pure, vanilla Python:</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">max</span>(nested_list, key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line">[<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]</span><br></pre></td></tr></table></figure>
-
 <p>Python 内置函数min 同样可以正常工作:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">min</span>(nested_list, key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line">[<span class="string">&#x27;cherry&#x27;</span>, <span class="number">7</span>]</span><br></pre></td></tr></table></figure>
-
-<p>它甚至适用于Python的sorted功能，”关键函数”概念对在Python 开发中遇到的很多问题都有价值:</p>
+<p>它甚至适用于Python的sorted功能，&quot;关键函数&quot;概念对在Python 开发中遇到的很多问题都有价值:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">sorted</span>(nested_list, key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line">[[<span class="string">&#x27;cherry&#x27;</span>, <span class="number">7</span>], [<span class="string">&#x27;apple&#x27;</span>, <span class="number">100</span>], [<span class="string">&#x27;anaconda&#x27;</span>, <span class="number">1360</span>]]</span><br></pre></td></tr></table></figure>
-
 
     </div>
 
@@ -422,14 +417,14 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A5%BD%E5%90%A7%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E9%94%99%E4%BA%86%E5%85%83%E7%B4%A0%E5%91%A2%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">好吧，为什么选错了元素呢？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E5%A6%82%E4%BD%95%E6%94%B9%E5%8F%98%E6%AF%94%E8%BE%83%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.1.</span> <span class="nav-text">我们如何改变比较行为</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%8E%E6%A0%B7%E8%AE%A9%E6%88%91%E4%BB%AC%E7%9A%84max-%E6%9B%B4%E7%81%B5%E6%B4%BB"><span class="nav-number">2.</span> <span class="nav-text">怎样让我们的max()更灵活?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%99%E6%9C%89%E7%AE%80%E5%86%99%E4%B9%88%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">这有简写么？</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">好吧，为什么选错了元素呢？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E5%A6%82%E4%BD%95%E6%94%B9%E5%8F%98%E6%AF%94%E8%BE%83%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.1.</span> <span class="nav-text">我们如何改变比较行为</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">怎样让我们的max()更灵活?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">这有简写么？</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -438,7 +433,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -505,12 +500,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

@@ -195,7 +195,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2024/03/18/android-capture-https/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -261,49 +261,68 @@
       
         <p>前提是一台有root的安卓设备,我这里使用<a target="_blank" rel="noopener" href="https://www.ldmnq.com/">雷电模拟器9</a> ，整理记录了一份如何抓取安卓手机的Https请求。</p>
 <span id="more"></span>
-
-<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
-<li>安装Magisk,下载<a target="_blank" rel="noopener" href="https://huskydg.github.io/magisk-files/app-debug.apk">Magisk-debug</a>, 安完可能会卡死，重启一下<ul>
+<h1>准备</h1>
+<ul>
+<li>安装Magisk,下载<a target="_blank" rel="noopener" href="https://huskydg.github.io/magisk-files/app-debug.apk">Magisk-debug</a>, 安完可能会卡死，重启一下
+<ul>
 <li>模拟器参考见:<a target="_blank" rel="noopener" href="https://blog.csdn.net/Ruaki/article/details/135580772">各种安卓模拟器安装Magisk（Magisk-delta) 雷电、蓝叠、MuMu、逍遥、夜神</a></li>
 <li>手机参考见:<a target="_blank" rel="noopener" href="https://magiskcn.com/">Magisk安装教程</a></li>
 </ul>
 </li>
 <li><a target="_blank" rel="noopener" href="https://portswigger.net/burp/communitydownload">BurpSuite Community</a></li>
 </ul>
-<h1 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h1><h2 id="安装系统证书"><a href="#安装系统证书" class="headerlink" title="安装系统证书"></a>安装系统证书</h2><ul>
-<li><p>目前在Android 7.0或以上的系统有启用了对第三方证书的限制，所以需要将Burp生成的证书作为系统级别的信任证书安装。</p>
+<h1>抓包</h1>
+<h2 id="安装系统证书">安装系统证书</h2>
+<ul>
+<li>
+<p>目前在Android 7.0或以上的系统有启用了对第三方证书的限制，所以需要将Burp生成的证书作为系统级别的信任证书安装。</p>
 </li>
-<li><p>使用<a target="_blank" rel="noopener" href="https://github.com/SekiBetu/MagiskTrustUserCerts">Magisk Trust User Certs Magisk</a> 模块</p>
+<li>
+<p>使用<a target="_blank" rel="noopener" href="https://github.com/SekiBetu/MagiskTrustUserCerts">Magisk Trust User Certs Magisk</a> 模块</p>
 <ul>
 <li>Magisk -&gt; 模块 —&gt; 安装本地模块 -&gt; MagiskTrustUserCerts.zip</li>
 </ul>
 </li>
-<li><p>添加到用户凭证（ 点cer证书，cer证书安装参见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuqiyun/p/12488845.html">Burp Suite抓包-Android导入HTTPS</a>） ,重启生效</p>
+<li>
+<p>添加到用户凭证（ 点cer证书，cer证书安装参见<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuqiyun/p/12488845.html">Burp Suite抓包-Android导入HTTPS</a>） ,重启生效</p>
 </li>
-<li><p>此时就可以通过浏览器进行验证，<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a> 已经变成了 Burp 的自定义证书<br><img src="/img/android-https-image-3.png" alt="alt text"></p>
+<li>
+<p>此时就可以通过浏览器进行验证，<a target="_blank" rel="noopener" href="https://www.baidu.com">https://www.baidu.com</a> 已经变成了 Burp 的自定义证书<br>
+<img src="/img/android-https-image-3.png" alt="alt text"></p>
 </li>
 </ul>
-<h2 id="绕过代理检测"><a href="#绕过代理检测" class="headerlink" title="绕过代理检测"></a>绕过代理检测</h2><ul>
-<li>有些应用为了防止抓包会检测配置了代理，这里使用<a target="_blank" rel="noopener" href="https://github.com/jayluxferro/ProxyMe/releases/download/v1.0.0/ProxyMe_v1.0.0.apk">ProxyMe 1.0</a> 将 http 代理转化为 VPN 以绕过代理检测。<br><img src="/img/android-https-image.png" alt="ProxyMe"></li>
+<h2 id="绕过代理检测">绕过代理检测</h2>
+<ul>
+<li>有些应用为了防止抓包会检测配置了代理，这里使用<a target="_blank" rel="noopener" href="https://github.com/jayluxferro/ProxyMe/releases/download/v1.0.0/ProxyMe_v1.0.0.apk">ProxyMe 1.0</a> 将 http 代理转化为 VPN 以绕过代理检测。<br>
+<img src="/img/android-https-image.png" alt="ProxyMe"></li>
 </ul>
-<h2 id="绕过双向证书-SSL-PINNING"><a href="#绕过双向证书-SSL-PINNING" class="headerlink" title="绕过双向证书 SSL PINNING"></a>绕过双向证书 SSL PINNING</h2><ul>
-<li>有些应用会进一步启用证书双向认证，这里需要 LSPosed 框架 配合TrustMeAlready 注入Hook 以屏蔽双向认证认证<ul>
+<h2 id="绕过双向证书-SSL-PINNING">绕过双向证书 SSL PINNING</h2>
+<ul>
+<li>有些应用会进一步启用证书双向认证，这里需要 LSPosed 框架 配合TrustMeAlready 注入Hook 以屏蔽双向认证认证
+<ul>
 <li>下载<a target="_blank" rel="noopener" href="https://github.com/LSPosed/LSPosed/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">LSPosed 1.92</a> 安装</li>
 <li>下载<a target="_blank" rel="noopener" href="https://github.com/ViRb3/TrustMeAlready/releases/download/v1.11/TrustMeAlready-v1.11-release.apk">TrustMeAlready1.11</a> 安装</li>
-<li>重启后， 通过下拉通知选择LSPosed -&gt; 模块 -&gt; TrustMeAlready -&gt;选择应用<br><img src="/img/android-https-image-2.png" alt="alt text"></li>
+<li>重启后， 通过下拉通知选择LSPosed -&gt; 模块 -&gt; TrustMeAlready -&gt;选择应用<br>
+<img src="/img/android-https-image-2.png" alt="alt text"></li>
 </ul>
 </li>
 </ul>
-<h2 id="绕过Root检测"><a href="#绕过Root检测" class="headerlink" title="绕过Root检测"></a>绕过Root检测</h2><ul>
-<li><p>有些应用会检测Root权限，可以通过Magisk Hide 配置对指定应用隐藏。<br><img src="/img/android-https-image-1.png" alt="alt text"></p>
+<h2 id="绕过Root检测">绕过Root检测</h2>
+<ul>
+<li>
+<p>有些应用会检测Root权限，可以通过Magisk Hide 配置对指定应用隐藏。<br>
+<img src="/img/android-https-image-1.png" alt="alt text"></p>
 </li>
-<li><p>Magisk 设置-&gt; App -&gt; 隐藏Magisk应用 （改包名以绕过部分检测）</p>
+<li>
+<p>Magisk 设置-&gt; App -&gt; 隐藏Magisk应用 （改包名以绕过部分检测）</p>
 </li>
 </ul>
-<h2 id="绕过模拟器检测"><a href="#绕过模拟器检测" class="headerlink" title="绕过模拟器检测"></a>绕过模拟器检测</h2><ul>
-<li>如果使用了模拟器，一些应用可能会检测出来，可以在设置里尝试更换屏幕分辨率、机器型号、 定位，仍然无效的话可上物理机（云手机 &#x2F; 咸鱼解锁BL的手机）</li>
+<h2 id="绕过模拟器检测">绕过模拟器检测</h2>
+<ul>
+<li>如果使用了模拟器，一些应用可能会检测出来，可以在设置里尝试更换屏幕分辨率、机器型号、 定位，仍然无效的话可上物理机（云手机 / 咸鱼解锁BL的手机）</li>
 </ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1>参考</h1>
+<ul>
 <li>Android渗透-04：安卓抓包之绕过SSL Pinning : <a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/endpoint/341407.html">https://www.freebuf.com/articles/endpoint/341407.html</a></li>
 <li>安卓系列机型 框架LSP 安装步骤 支持多机型 LSP框架通用安装步骤【二】<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011283906/article/details/133038958">https://blog.csdn.net/u011283906/article/details/133038958</a></li>
 </ul>
@@ -347,7 +366,10 @@
     <a href="/2024/01/18/python-send-req/" rel="prev" title="如何用Python 快速发送1000条网络请求">
       <i class="fa fa-chevron-left"></i> 如何用Python 快速发送1000条网络请求
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2024/07/10/wsl2-use-tc/" rel="next" title="WSL2 自编译内核使用 tc qdisc">
+      WSL2 自编译内核使用 tc qdisc <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -406,14 +428,14 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%93%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">抓包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F%E8%AF%81%E4%B9%A6"><span class="nav-number">2.1.</span> <span class="nav-text">安装系统证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E4%BB%A3%E7%90%86%E6%A3%80%E6%B5%8B"><span class="nav-number">2.2.</span> <span class="nav-text">绕过代理检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E5%8F%8C%E5%90%91%E8%AF%81%E4%B9%A6-SSL-PINNING"><span class="nav-number">2.3.</span> <span class="nav-text">绕过双向证书 SSL PINNING</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87Root%E6%A3%80%E6%B5%8B"><span class="nav-number">2.4.</span> <span class="nav-text">绕过Root检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%A3%80%E6%B5%8B"><span class="nav-number">2.5.</span> <span class="nav-text">绕过模拟器检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">抓包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F%E8%AF%81%E4%B9%A6"><span class="nav-number">2.1.</span> <span class="nav-text">安装系统证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E4%BB%A3%E7%90%86%E6%A3%80%E6%B5%8B"><span class="nav-number">2.2.</span> <span class="nav-text">绕过代理检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E5%8F%8C%E5%90%91%E8%AF%81%E4%B9%A6-SSL-PINNING"><span class="nav-number">2.3.</span> <span class="nav-text">绕过双向证书 SSL PINNING</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87Root%E6%A3%80%E6%B5%8B"><span class="nav-number">2.4.</span> <span class="nav-text">绕过Root检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%A3%80%E6%B5%8B"><span class="nav-number">2.5.</span> <span class="nav-text">绕过模拟器检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -422,7 +444,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -489,12 +511,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"zhangheng18.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前言无意间发现了一个SS帐号分享站，但每次都需要手动获取帐号信息太麻烦了，这里用Python写一个爬虫来自动获取帐号信息。 分析先来看一下网站源码。站长做了防爬处理，数据并不保存在源代码中，并且针对爬虫常见的模拟浏览器手段进行检测。">
+  <meta name="description" content="前言 无意间发现了一个SS帐号分享站，但每次都需要手动获取帐号信息太麻烦了，这里用Python写一个爬虫来自动获取帐号信息。 分析 先来看一下网站源码。站长做了防爬处理，数据并不保存在源代码中，并且针对爬虫常见的模拟浏览器手段进行检测。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python爬取某站科学上网帐号(5.15更新)">
 <meta property="og:url" content="https://zhangheng18.github.io/2018/04/07/python-getss/index.html">
 <meta property="og:site_name" content="ZhangHeng&#39;s Blog">
-<meta property="og:description" content="前言无意间发现了一个SS帐号分享站，但每次都需要手动获取帐号信息太麻烦了，这里用Python写一个爬虫来自动获取帐号信息。 分析先来看一下网站源码。站长做了防爬处理，数据并不保存在源代码中，并且针对爬虫常见的模拟浏览器手段进行检测。">
+<meta property="og:description" content="前言 无意间发现了一个SS帐号分享站，但每次都需要手动获取帐号信息太麻烦了，这里用Python写一个爬虫来自动获取帐号信息。 分析 先来看一下网站源码。站长做了防爬处理，数据并不保存在源代码中，并且针对爬虫常见的模拟浏览器手段进行检测。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhangheng18.github.io/img/free-ss_1.png">
 <meta property="og:image" content="https://zhangheng18.github.io/img/free-ss_2.png">
@@ -194,7 +194,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/04/07/python-getss/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -249,13 +249,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>无意间发现了一个<a target="_blank" rel="noopener" href="https://free-ss.site/">SS帐号分享站</a>，但每次都需要手动获取帐号信息太麻烦了，这里用Python写一个爬虫来自动获取帐号信息。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>先来看一下网站源码。站长做了防爬处理，数据并不保存在源代码中，并且针对爬虫常见的模拟浏览器手段进行检测。</p>
+        <h2 id="前言">前言</h2>
+<p>无意间发现了一个<a target="_blank" rel="noopener" href="https://free-ss.site/">SS帐号分享站</a>，但每次都需要手动获取帐号信息太麻烦了，这里用Python写一个爬虫来自动获取帐号信息。</p>
+<h2 id="分析">分析</h2>
+<p>先来看一下网站源码。站长做了防爬处理，数据并不保存在源代码中，并且针对爬虫常见的模拟浏览器手段进行检测。</p>
 <span id="more"></span>
-
-<p><img src="/img/free-ss_1.png" alt="free-ss_view"><br>看一下网络连接，发现了一个ss.json的get请求，内容居然帐号信息。<br><img src="/img/free-ss_2.png" alt="free-ss_json"><br>本以为是站长特意留下的API接口，测试之后才发现里面的帐号信息都不能正常使用。现在只能老老实实的去分析源码了。<br>网站关键部分是用javascript写的。</p>
+<p><img src="/img/free-ss_1.png" alt="free-ss_view"><br>
+看一下网络连接，发现了一个ss.json的get请求，内容居然帐号信息。<br>
+<img src="/img/free-ss_2.png" alt="free-ss_json"><br>
+本以为是站长特意留下的API接口，测试之后才发现里面的帐号信息都不能正常使用。现在只能老老实实的去分析源码了。<br>
+网站关键部分是用javascript写的。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用a，b 分别初始化x（key）,y(iv)</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;1a52316b1ed72c8f&#x27;</span>;<span class="keyword">var</span> b = <span class="string">&#x27;cd3e6a7914085b2f&#x27;</span>;<span class="keyword">var</span> c = <span class="string">&#x27;327bd961633a77c4&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> x = <span class="title class_">CryptoJS</span>.<span class="property">enc</span>.<span class="property">Latin1</span>.<span class="title function_">parse</span>(a);</span><br><span class="line"><span class="keyword">var</span> y = <span class="title class_">CryptoJS</span>.<span class="property">enc</span>.<span class="property">Latin1</span>.<span class="title function_">parse</span>(b);</span><br><span class="line"></span><br><span class="line"><span class="comment">//post方法提交a,b,c,得到密文data</span></span><br><span class="line">$.<span class="title function_">post</span>(<span class="string">&quot;data.php&quot;</span>,&#123;<span class="attr">a</span>:a,<span class="attr">b</span>:b,<span class="attr">c</span>:c&#125;,<span class="keyword">function</span>(<span class="params">data</span>)&#123;</span><br><span class="line">    <span class="comment">//解密</span></span><br><span class="line">    <span class="keyword">var</span> dec = <span class="title class_">CryptoJS</span>.<span class="property">AES</span>.<span class="title function_">decrypt</span>(data,x,&#123;<span class="attr">iv</span>:y,<span class="attr">mode</span>:<span class="title class_">CryptoJS</span>.<span class="property">mode</span>.<span class="property">ECB</span>,<span class="attr">padding</span>:<span class="title class_">CryptoJS</span>.<span class="property">pad</span>.<span class="property">Pkcs7</span>&#125;);</span><br><span class="line">    <span class="comment">//格式化成json格式方便后面使用</span></span><br><span class="line">    <span class="keyword">var</span> tbdt = $.<span class="title function_">parseJSON</span>(dec.<span class="title function_">toString</span>(<span class="title class_">CryptoJS</span>.<span class="property">enc</span>.<span class="property">Utf8</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>可以看到流程如下</p>
 <blockquote>
 <ol>
@@ -266,16 +270,17 @@
 </blockquote>
 <p>这里我们用Python去模拟整个过程</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>:<span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0&#x27;</span>&#125;</span><br><span class="line">url= <span class="string">&quot;https://free-ss.site/&quot;</span></span><br><span class="line">url2=<span class="string">&quot;https://free-ss.site/data.php&quot;</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment">#获取正确的a,b,c参数</span></span><br><span class="line">s = requests.session()</span><br><span class="line">html = s.get(url,headers=headers,timeout=<span class="number">3</span>)</span><br><span class="line">a,b,c = re.findall(<span class="string">r&quot;\&#x27;(.*?)\&#x27;&quot;</span>,html.text)[<span class="number">6</span>:<span class="number">9</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#post提交a,b,c,得到密文</span></span><br><span class="line">p_data = &#123;<span class="string">&#x27;a&#x27;</span>:a,<span class="string">&#x27;b&#x27;</span>:b,<span class="string">&#x27;c&#x27;</span>:c&#125;</span><br><span class="line">msg = s.post(url2,headers=headers,data=p_data,timeout=<span class="number">3</span>)</span><br><span class="line">endata = base64.b64decode(msg.text) <span class="comment">#返回的是base64编码数据，先解码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#用正确的参数初始化AES，ECB模式不需要iv向量</span></span><br><span class="line">key = <span class="built_in">bytes</span>(a,encoding=<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"><span class="comment">#iv = bytes(b,encoding=&quot;utf-8&quot;)</span></span><br><span class="line">aes = AES.new(key,AES.MODE_ECB)</span><br><span class="line"><span class="comment">#解密得到数据</span></span><br><span class="line">data ＝ aes.decrypt(endata).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>我们可以看到数据末尾多了一些无用字符，因为AES加密需要原始数据块是16位的倍数，不足则用按照某些标准(诸如源码中的Pkcs7)进行填充补位。<br><img src="/img/free-ss_3.png" alt="ss_data"><br>我们继续处理解密后的数据，生成ss链接以方便直接导入</p>
+<p>我们可以看到数据末尾多了一些无用字符，因为AES加密需要原始数据块是16位的倍数，不足则用按照某些标准(诸如源码中的Pkcs7)进行填充补位。<br>
+<img src="/img/free-ss_3.png" alt="ss_data"><br>
+我们继续处理解密后的数据，生成ss链接以方便直接导入</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">ss_data = re.findall(<span class="string">r&#x27;&#123;.*&#125;&#x27;</span>,data)[<span class="number">0</span>] <span class="comment">#去掉多余的填充字符</span></span><br><span class="line">ss_json = json.loads(ss_data)[<span class="string">&#x27;data&#x27;</span>] <span class="comment">#json化数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ss_json:</span><br><span class="line">    <span class="comment">#ss://method:password@server:port</span></span><br><span class="line">    ss = <span class="string">&quot;&#123;&#125;:&#123;&#125;@&#123;&#125;:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(i[<span class="number">3</span>],i[<span class="number">4</span>],i[<span class="number">1</span>],i[<span class="number">2</span>])</span><br><span class="line">    ss_url = <span class="string">&quot;ss://&quot;</span>+ <span class="built_in">bytes</span>.decode( base64.b64encode(<span class="built_in">bytes</span>(ss,encoding=<span class="string">&quot;utf8&quot;</span>)) )</span><br><span class="line">    <span class="comment">#print(ss)</span></span><br><span class="line">    <span class="built_in">print</span>(ss_url)</span><br></pre></td></tr></table></figure>
 <p>后来发现网站每次使用的加密方法都是随机的，Crypto-js一共实现了AES的5种加密模式:CBC、CFB、CTR、ECB、OFB,每种都用Python实现太麻烦了，这里我们取个巧：判断加密模式，如果是ECB，则进行解密，否则重新请求网页信息。整个Demo如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>:<span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0&#x27;</span>&#125;</span><br><span class="line">    url= <span class="string">&quot;https://free-ss.site/&quot;</span></span><br><span class="line">    url2=<span class="string">&quot;https://free-ss.site/data.php&quot;</span> </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">        s = requests.session()</span><br><span class="line">        html = s.get(url,headers=headers,timeout=<span class="number">3</span>)</span><br><span class="line">        mode  = re.findall(<span class="string">r&quot;CryptoJS.mode.(\w&#123;3&#125;)&quot;</span>,html.text)</span><br><span class="line">        <span class="built_in">print</span>(mode)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;ECB&#x27;</span> <span class="keyword">in</span> mode:</span><br><span class="line">            a,b,c = re.findall(<span class="string">r&quot;\&#x27;(.*?)\&#x27;&quot;</span>,html.text)[<span class="number">6</span>:<span class="number">9</span>]</span><br><span class="line">            p_data = &#123;<span class="string">&#x27;a&#x27;</span>:a,<span class="string">&#x27;b&#x27;</span>:b,<span class="string">&#x27;c&#x27;</span>:c&#125;</span><br><span class="line">            msg = s.post(url2,headers=headers,data=p_data,timeout=<span class="number">3</span>)</span><br><span class="line">            endata = base64.b64decode(msg.text)</span><br><span class="line">            key = <span class="built_in">bytes</span>(a,encoding=<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">            aes = AES.new(key,AES.MODE_ECB)</span><br><span class="line">            data = aes.decrypt(endata).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">            ss_data = re.findall(<span class="string">r&#x27;&#123;.*&#125;&#x27;</span>,data)[<span class="number">0</span>]</span><br><span class="line">            ss_json = json.loads(ss_data)[<span class="string">&#x27;data&#x27;</span>] </span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> ss_json:</span><br><span class="line">                <span class="comment">#ss://method:password@server:port</span></span><br><span class="line">                ss = <span class="string">&quot;&#123;&#125;:&#123;&#125;@&#123;&#125;:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(i[<span class="number">3</span>],i[<span class="number">4</span>],i[<span class="number">1</span>],i[<span class="number">2</span>])</span><br><span class="line">                ss_url = <span class="string">&quot;ss://&quot;</span>+ <span class="built_in">bytes</span>.decode( base64.b64encode(<span class="built_in">bytes</span>(ss,encoding=<span class="string">&quot;utf8&quot;</span>)) )</span><br><span class="line">                <span class="comment">#print(ss)</span></span><br><span class="line">                <span class="built_in">print</span>(ss_url)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>完整脚本已经放在<a target="_blank" rel="noopener" href="https://github.com/xiaoTaoist/Auto-Shadowsocks">Github</a>上,<a target="_blank" rel="noopener" href="https://github.com/xiaoTaoist/Auto-Shadowsocks/releases/download/v1.0/freess.zip">一键版下载地址</a></p>
+<h2 id="后续">后续</h2>
+<p>完整脚本已经放在<a target="_blank" rel="noopener" href="https://github.com/xiaoTaoist/Auto-Shadowsocks">Github</a>上,<a target="_blank" rel="noopener" href="https://github.com/xiaoTaoist/Auto-Shadowsocks/releases/download/v1.0/freess.zip">一键版下载地址</a></p>
 <p><strong>本文仅供学习交流，如有冒犯之处，联系可删。</strong></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h2 id="参考">参考</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://blog.zhengxianjun.com/2015/05/javascript-crypto-js">https://blog.zhengxianjun.com/2015/05/javascript-crypto-js</a></li>
 <li><a target="_blank" rel="noopener" href="https://gist.github.com/marcoslin/8026990">https://gist.github.com/marcoslin/8026990</a></li>
 <li><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-224363.htm">https://bbs.pediy.com/thread-224363.htm</a></li>
@@ -389,7 +394,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -398,7 +403,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -465,12 +470,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

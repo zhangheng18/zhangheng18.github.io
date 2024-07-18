@@ -181,10 +181,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/04/07/python-getss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/about/user.jpg">
+      <meta itemprop="name" content="zhangheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangHeng's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/07/python-getss/" class="post-title-link" itemprop="url">Python爬取某站科学上网帐号(5.15更新)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-07 18:31:27" itemprop="dateCreated datePublished" datetime="2018-04-07T18:31:27+08:00">2018-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-05-15 16:38:37" itemprop="dateModified" datetime="2018-05-15T16:38:37+08:00">2018-05-15</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言">前言</h2>
+<p>无意间发现了一个<a target="_blank" rel="noopener" href="https://free-ss.site/">SS帐号分享站</a>，但每次都需要手动获取帐号信息太麻烦了，这里用Python写一个爬虫来自动获取帐号信息。</p>
+<h2 id="分析">分析</h2>
+<p>先来看一下网站源码。站长做了防爬处理，数据并不保存在源代码中，并且针对爬虫常见的模拟浏览器手段进行检测。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/07/python-getss/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/29/gpg/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -221,7 +310,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -240,7 +329,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。” </p>
+          <h2 id="前言">前言</h2>
+<p>谈到隐私保护的时候人们最常说的话就是“我没什么可藏，我光明磊落，政府监控就监控吧，我不在乎”，或者“不做亏心事，不怕鬼敲门”,更极端的想法是“反正他们知道一切，我做啥都没用。”</p>
 <blockquote>
 <p>爱德华·斯诺登表示：“我不在乎隐私权，因为我没什么好藏的”这样的观点，和“我不在乎言论自由，因为我没什么好说的”意思接近。当一个人说“我没什么好藏的”，实际上是在说“我不在乎自己的权利”，也就是“我不拥有权利，因为我无法为我的权利辩解”，而对权利的正确解读应该是“政府侵犯你的权利，政府才应该辩解”。[1]</p>
 </blockquote>
@@ -274,7 +364,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/19/Bumblebee/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -311,14 +401,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -330,18 +420,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Bumblebee"><a href="#Bumblebee" class="headerlink" title="Bumblebee"></a>Bumblebee</h2><p><a target="_blank" rel="noopener" href="https://github.com/Bumblebee-Project/Bumblebee">Bumblebee</a>是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Manjaro 提供了强大的硬件检测模块<code>mhwd</code>,可以很方便的安装各种驱动。</p>
+          <h2 id="Bumblebee">Bumblebee</h2>
+<p><a target="_blank" rel="noopener" href="https://github.com/Bumblebee-Project/Bumblebee">Bumblebee</a>是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。</p>
+<h2 id="安装">安装</h2>
+<p>Manjaro 提供了强大的硬件检测模块<code>mhwd</code>,可以很方便的安装各种驱动。</p>
 <ul>
-<li>安装依赖<blockquote>
+<li>安装依赖</li>
+</ul>
+<blockquote>
 <p>sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus</p>
 </blockquote>
-</li>
-<li>安装nvidia闭源驱动与intel驱动混合版bumblebee<blockquote>
+<ul>
+<li>安装nvidia闭源驱动与intel驱动混合版bumblebee</li>
+</ul>
+<blockquote>
 <p>sudo mhwd -f -i pci video-hybrid-intel-nvidia-bumblebee</p>
 </blockquote>
-</li>
-</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/03/19/Bumblebee/#more" rel="contents">
@@ -371,7 +465,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/15/aircrack-hashcat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -408,7 +502,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.4k</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -427,14 +521,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
-<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这里假定你用的是Manjaro Linux 系统，<a href="/2018/03/19/Bumblebee/">配置好独立显卡</a>，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
+          <p>====================</p>
+<h2 id="写在前面">写在前面</h2>
+<p>这里假定你用的是Manjaro Linux 系统，<a href="/2018/03/19/Bumblebee/">配置好独立显卡</a>，本文提到的软件可以直接用<code>sudo pacman -S aircrack-ng hashcat hashcat-utils</code>安装,Kali Linux默认集成，其他环境请自行安装。</p>
 <ul>
-<li>aircrack-ng:<br><a target="_blank" rel="noopener" href="https://www.aircrack-ng.org/doku.php">aircrack-ng</a>是目前最热门的WiFi破解领域的软件。Aircrack-ng 套件包含的工具能够捕捉数据包和握手包，生成通信数据，或进行暴力破解攻击以及字典攻击。</li>
-<li>hashcat:<br><a target="_blank" rel="noopener" href="https://hashcat.net/wiki/">hashcat</a>支持N多种算法，充分利用GPU性能，是目前最快的利用GPU破解Hash的软件。</li>
-<li>USB无线网卡:<br>推荐3070，8187，便宜好用（某宝十几块钱就能买到）,当然笔记本自带的无线网卡也可以。</li>
+<li>aircrack-ng:<br>
+<a target="_blank" rel="noopener" href="https://www.aircrack-ng.org/doku.php">aircrack-ng</a>是目前最热门的WiFi破解领域的软件。Aircrack-ng 套件包含的工具能够捕捉数据包和握手包，生成通信数据，或进行暴力破解攻击以及字典攻击。</li>
+<li>hashcat:<br>
+<a target="_blank" rel="noopener" href="https://hashcat.net/wiki/">hashcat</a>支持N多种算法，充分利用GPU性能，是目前最快的利用GPU破解Hash的软件。</li>
+<li>USB无线网卡:<br>
+推荐3070，8187，便宜好用（某宝十几块钱就能买到）,当然笔记本自带的无线网卡也可以。</li>
 </ul>
-<p>由于hashcat使用GPU破解，因此需要安装依赖，<code>sudo pacman -S ocl-icd opencl-nvidia</code>,执行<br><code>sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; ON</code>以让CUDA程序使用英伟达独立显卡。</p>
+<p>由于hashcat使用GPU破解，因此需要安装依赖，<code>sudo pacman -S ocl-icd opencl-nvidia</code>,执行<br>
+<code>sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; ON</code>以让CUDA程序使用英伟达独立显卡。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/03/15/aircrack-hashcat/#more" rel="contents">
@@ -464,7 +563,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/14/oh-my-zsh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -501,7 +600,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -520,10 +619,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
-<h2 id="终极-Shell-zsh"><a href="#终极-Shell-zsh" class="headerlink" title="终极 Shell(zsh)"></a>终极 Shell(zsh)</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
+          <p>==============</p>
+<h2 id="终极-Shell-zsh">终极 Shell(zsh)</h2>
+<h3 id="介绍">介绍</h3>
+<ul>
 <li>Z Shell(Zsh) 是一种Unix shell，它可以用作为交互式的登录shell，也是一种强大的shell脚本命令解释器。它在兼容 Bash 的同时 (默认不兼容，除非设置成 emulate sh) 还提供了很多改进。</li>
-<li>改进特性:<ul>
+<li>改进特性:
+<ul>
 <li>色彩高亮</li>
 <li>更强大的自动补全</li>
 <li>支持通配符搜索</li>
@@ -532,7 +634,8 @@
 </ul>
 </li>
 </ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><blockquote>
+<h3 id="安装">安装</h3>
+<blockquote>
 <p>sudo pacman -S zsh zsh-completions</p>
 </blockquote>
 <p>此处为Arch Linux，其他平台请使用自带的包管理器，为了使用更强大的补全功能建议同时安装 zsh-completions包</p>
@@ -565,7 +668,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/09/archlinuxcn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -602,7 +705,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -621,18 +724,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
-<h2 id="Manjaro简介"><a href="#Manjaro简介" class="headerlink" title="Manjaro简介"></a>Manjaro简介</h2><p><a target="_blank" rel="noopener" href="https://manjaro.org/">Manjaro Linux</a>是一款基于Arch Linux、对用户友好、全球排名第2的Linux发行版。（数据来自<a target="_blank" rel="noopener" href="https://distrowatch.com/">DistroWatch</a>），它的一些显著特性包括：简化、用户友好的安装过程，自动检测计算机的硬件（例如显卡），为系统自动安装必要的软件（例如显卡驱动程序），它有自己的专用软件仓库和更稳定的软件包、可以轻松安装和使用多个内核。</p>
-<h2 id="无法进入安装程序"><a href="#无法进入安装程序" class="headerlink" title="无法进入安装程序"></a>无法进入安装程序</h2><ul>
-<li>如果自动图形界面启动不了，卡在以下位置：<ol>
-<li>Started TLP system startup&#x2F;shutdown</li>
-<li>A start job is running for livemedia mhwd scripe(xx s&#x2F;no limit)</li>
+          <p>====================</p>
+<h2 id="Manjaro简介">Manjaro简介</h2>
+<p><a target="_blank" rel="noopener" href="https://manjaro.org/">Manjaro Linux</a>是一款基于Arch Linux、对用户友好、全球排名第2的Linux发行版。（数据来自<a target="_blank" rel="noopener" href="https://distrowatch.com/">DistroWatch</a>），它的一些显著特性包括：简化、用户友好的安装过程，自动检测计算机的硬件（例如显卡），为系统自动安装必要的软件（例如显卡驱动程序），它有自己的专用软件仓库和更稳定的软件包、可以轻松安装和使用多个内核。</p>
+<h2 id="无法进入安装程序">无法进入安装程序</h2>
+<ul>
+<li>如果自动图形界面启动不了，卡在以下位置：
+<ol>
+<li>Started TLP system startup/shutdown</li>
+<li>A start job is running for livemedia mhwd scripe(xx s/no limit)</li>
 </ol>
 </li>
-<li>可尝试添加内核参数<br>  看到启动菜单,用方向键移动选中boot项，按[E]键编辑<br>  把driver&#x3D;free改为driver&#x3D;intel，并在后面添加acpi_osi参数，最后效果如下:<blockquote>
-<p>driver&#x3D;intel xdriver&#x3D;mesa acpi_osi&#x3D;! acpi_osi&#x3D;’Windows 2009’  </p>
+<li>可尝试添加内核参数<br>
+看到启动菜单,用方向键移动选中boot项，按[E]键编辑<br>
+把driver=free改为driver=intel，并在后面添加acpi_osi参数，最后效果如下:</li>
+</ul>
+<blockquote>
+<p>driver=intel xdriver=mesa acpi_osi=! acpi_osi=‘Windows 2009’</p>
 </blockquote>
-</li>
+<ul>
 <li>修改完成后按[F10]启动，并完成安装。</li>
 </ul>
           <!--noindex-->
@@ -664,7 +774,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/07/ssh-keygen/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -701,7 +811,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -720,23 +830,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+          <p>========================</p>
 <hr>
-<h2 id="SSH单密钥配置"><a href="#SSH单密钥配置" class="headerlink" title="SSH单密钥配置"></a>SSH单密钥配置</h2><ul>
-<li><p>生成ssh密钥文件</p>
+<h2 id="SSH单密钥配置">SSH单密钥配置</h2>
+<ul>
+<li>生成ssh密钥文件</li>
+</ul>
 <blockquote>
 <p>ssh-keygen -t ecdsa -b 521</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t 为指定加密算法类型，支持rsa，dsa，ecdsa</span><br><span class="line">-b 指定密钥大小，ecdsa算法默认大小为256位</span><br><span class="line"></span><br><span class="line">ECDSA (椭圆曲线数字签名算法) 生成的密钥更小，安全性更高</span><br></pre></td></tr></table></figure>
-<p>如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车<br>ssh-keygen默认会在 $HOME&#x2F;.ssh&#x2F;目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。</p>
-</li>
-<li><p>将公钥上传到远程服务器</p>
+<p>如果不需要更改密钥存储位置并为私钥设置密码，可以一路回车<br>
+ssh-keygen默认会在 $HOME/.ssh/目录下生成2个文件：id_ecdsa.pub（公钥）和id_ecdsa（私钥）。</p>
+<ul>
+<li>将公钥上传到远程服务器</li>
+</ul>
 <blockquote>
 <p>ssh-copy-id  username@remote_ip</p>
 </blockquote>
-</li>
-</ul>
-<p>ssh-copy-id会将你刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME&#x2F;.ssh&#x2F;authorized_keys文件中</p>
+<p>ssh-copy-id会将你刚刚生成的公钥(id_ecdsa.pub)自动写入到远程主机的$HOME/.ssh/authorized_keys文件中</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/03/07/ssh-keygen/#more" rel="contents">
@@ -766,7 +878,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/02/backdoor-apk/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -803,7 +915,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -822,14 +934,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+          <p>========================</p>
 <hr>
-<h2 id="实验环境："><a href="#实验环境：" class="headerlink" title="实验环境："></a>实验环境：</h2><ul>
+<h2 id="实验环境：">实验环境：</h2>
+<ul>
 <li>Kali Linux</li>
 <li>android</li>
 <li>同一局域网</li>
 </ul>
-<h2 id="生成后门"><a href="#生成后门" class="headerlink" title="生成后门"></a>生成后门</h2><p>安装依赖环境</p>
+<h2 id="生成后门">生成后门</h2>
+<p>安装依赖环境</p>
 <blockquote>
 <p>apt-get install lib32z1 lib32ncurses5  lib32stdc++6</p>
 </blockquote>
@@ -866,7 +980,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/02/28/vimium/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -903,7 +1017,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>687</span>
+              <span>537</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -922,10 +1036,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
-<h3 id="vimium-介绍"><a href="#vimium-介绍" class="headerlink" title="vimium 介绍"></a>vimium 介绍</h3><p>Vimium  是一款可以只用键盘就控制浏览器的「神器」，如果你喜欢鼠标手势所带来的效率提升,一定要试试这个插件。</p>
-<p>下载地址：<br><a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb">Chrome</a><br><a target="_blank" rel="noopener" href="https://addons.mozilla.org/zh-CN/firefox/addon/vimium-ff/?src=userprofile">Firefox</a></p>
-<h3 id="Vimium使用总结"><a href="#Vimium使用总结" class="headerlink" title="Vimium使用总结"></a>Vimium使用总结</h3>
+          <p>========================</p>
+<h3 id="vimium-介绍">vimium 介绍</h3>
+<p>Vimium  是一款可以只用键盘就控制浏览器的「神器」，如果你喜欢鼠标手势所带来的效率提升,一定要试试这个插件。</p>
+<p>下载地址：<br>
+<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb">Chrome</a><br>
+<a target="_blank" rel="noopener" href="https://addons.mozilla.org/zh-CN/firefox/addon/vimium-ff/?src=userprofile">Firefox</a></p>
+<h3 id="Vimium使用总结">Vimium使用总结</h3>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/02/28/vimium/#more" rel="contents">
@@ -955,7 +1072,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/02/16/poetry/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -992,7 +1109,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>482</span>
+              <span>267</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1011,7 +1128,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+          <p>===========================</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/02/16/poetry/#more" rel="contents">
@@ -1096,7 +1213,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -1105,7 +1222,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1172,12 +1289,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

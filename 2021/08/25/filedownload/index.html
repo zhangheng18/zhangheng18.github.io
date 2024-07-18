@@ -190,7 +190,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2021/08/25/filedownload/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -257,36 +257,37 @@
         <ul>
 <li>要求导出excel文件，前端触发，后端直接返回文件，  记录一下遇到的问题与方法。</li>
 </ul>
-<h2 id="使用axios-blob-a标签"><a href="#使用axios-blob-a标签" class="headerlink" title="使用axios  + blob + a标签"></a>使用<a target="_blank" rel="noopener" href="https://axios-http.com/docs/intro">axios</a>  + <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob">blob</a> + a标签</h2><span id="more"></span>
-
+<h2 id="使用axios-blob-a标签">使用<a target="_blank" rel="noopener" href="https://axios-http.com/docs/intro">axios</a>  + <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob">blob</a> + a标签</h2>
+<span id="more"></span>
 <ul>
-<li><p>方法</p>
+<li>方法
 <ul>
 <li>前端使用axios 拿到二进制文件流</li>
 <li>从headers里的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Disposition">Content-Disposition</a> 提取文件名</li>
 <li>创建一个<a target="_blank" rel="noopener" href="https://www.w3school.com.cn/tags/att_a_download.asp">a</a> 标签 触发下载行为</li>
 </ul>
 </li>
-<li><p>前端代码</p>
+<li>前端代码</li>
+</ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> params = &#123;<span class="string">&quot;file&quot;</span>: <span class="string">&#x27;a.xlsx&#x27;</span>&#125;</span><br><span class="line">axios.<span class="title function_">get</span>(url,&#123;<span class="attr">params</span>:params, <span class="attr">responseType</span>: <span class="string">&quot;blob&quot;</span>,&#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; data, headers &#125; = res;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提取文件名</span></span><br><span class="line">    <span class="keyword">let</span> fileName = headers[<span class="string">&quot;content-disposition&quot;</span>].<span class="title function_">replace</span>(<span class="regexp">/\w+;filename=(.*)/</span>,<span class="string">&quot;$1&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    fileName = <span class="built_in">decodeURI</span>(fileName);  <span class="comment">// url解码，防止中文乱码</span></span><br><span class="line">		</span><br><span class="line"> 		<span class="comment">// 构建a标签</span></span><br><span class="line">    <span class="keyword">const</span> blob = <span class="keyword">new</span> <span class="title class_">Blob</span>([data], &#123; <span class="attr">type</span>: headers[<span class="string">&quot;content-type&quot;</span>] &#125;);</span><br><span class="line">    <span class="keyword">const</span> a = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">    a.<span class="property">download</span> = fileName;</span><br><span class="line">    a.<span class="property">href</span> = <span class="variable language_">window</span>.<span class="property">URL</span>.<span class="title function_">createObjectURL</span>(blob);</span><br><span class="line">    a.<span class="title function_">click</span>();</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>问题</p>
 <ul>
-<li><p>网上基本都是这么写的，但是问题来了， 我从headers里拿不到content-disposition ，检索了一下,可以用<code>getResponseHeader</code>方法试试</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res.<span class="property">request</span>.<span class="title function_">getResponseHeader</span>(<span class="string">&quot;Content-Disposition&quot;</span>));</span><br><span class="line"><span class="comment">//得到了一个报错</span></span><br><span class="line"><span class="title class_">Refused</span> to get unsafe header <span class="string">&quot;Content-Disposition&quot;</span></span><br></pre></td></tr></table></figure>
-
-</li>
-<li><p>知道了问题，就可以再次检索，原来受限于<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS">CORS保护</a>，被屏蔽了，可以在服务端添加<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Access-Control-Expose-Headers">header</a>解决</p>
-</li>
+<li>问题
+<ul>
+<li>网上基本都是这么写的，但是问题来了， 我从headers里拿不到content-disposition ，检索了一下,可以用<code>getResponseHeader</code>方法试试</li>
 </ul>
 </li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res.<span class="property">request</span>.<span class="title function_">getResponseHeader</span>(<span class="string">&quot;Content-Disposition&quot;</span>));</span><br><span class="line"><span class="comment">//得到了一个报错</span></span><br><span class="line"><span class="title class_">Refused</span> to get unsafe header <span class="string">&quot;Content-Disposition&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>知道了问题，就可以再次检索，原来受限于<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS">CORS保护</a>，被屏蔽了，可以在服务端添加<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Access-Control-Expose-Headers">header</a>解决</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以Djnago 为例</span></span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    filename = urllib.parse.quote(filename) <span class="comment">#中文需要url编码</span></span><br><span class="line">    response = HttpResponse(f.read())</span><br><span class="line">    response[<span class="string">&quot;Content-Type&quot;</span>] = <span class="string">&quot;application/vnd.ms-excel&quot;</span>  <span class="comment">#文件类型</span></span><br><span class="line">    response[<span class="string">&quot;Content-Disposition&quot;</span>] =<span class="string">f&quot;attachment;filename=<span class="subst">&#123;filename&#125;</span>&quot;</span> <span class="comment">#文件名</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 允许Content Disposition 暴露</span></span><br><span class="line">    response[<span class="string">&quot;Access-Control-Expose-Headers&quot;</span>] = <span class="string">&quot;Content-Disposition&quot;</span></span><br><span class="line">    <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li><p>正确添加Header后，axios 就可以正常工作了。</p>
+<li>
+<p>正确添加Header后，axios 就可以正常工作了。</p>
 </li>
-<li><p>总结：</p>
+<li>
+<p>总结：</p>
 <ul>
 <li>提出正确的问题，问题就解决了一半了</li>
 <li>google + stackoverflow 是程序员的第一生产力。如果不是，就是提问的关键词不对＼(￣▽￣)／.</li>
@@ -294,11 +295,13 @@
 </li>
 </ul>
 <p>​</p>
-<h2 id="通过URL-直接下载"><a href="#通过URL-直接下载" class="headerlink" title="通过URL 直接下载"></a>通过URL 直接下载</h2><ul>
+<h2 id="通过URL-直接下载">通过URL 直接下载</h2>
+<ul>
 <li>使用 <code>window.open(url)</code> 触发浏览器的下载行为 (在<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/open">新窗口打开</a>链接)</li>
 </ul>
 <p>​</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h2 id="参考">参考</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022423204">https://segmentfault.com/a/1190000022423204</a></li>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40939380/how-to-get-file-name-from-content-disposition">https://stackoverflow.com/questions/40939380/how-to-get-file-name-from-content-disposition</a></li>
 <li><a target="_blank" rel="noopener" href="https://dicksonkho.com/software-road/refused-to-get-unsafe-header-content-disposition/">https://dicksonkho.com/software-road/refused-to-get-unsafe-header-content-disposition/</a></li>
@@ -412,7 +415,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -421,7 +424,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -488,12 +491,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

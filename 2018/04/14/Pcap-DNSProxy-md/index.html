@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"zhangheng18.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以">
+  <meta name="description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Pcap_DNS搭建本地防污染DNS服务器">
 <meta property="og:url" content="https://zhangheng18.github.io/2018/04/14/Pcap-DNSProxy-md/index.html">
 <meta property="og:site_name" content="ZhangHeng&#39;s Blog">
-<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以">
+<meta property="og:description" content="&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; DNS介绍 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhangheng18.github.io/img/dns_dig.png">
 <meta property="og:image" content="https://zhangheng18.github.io/img/dns_fake.png">
@@ -194,7 +194,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/04/14/Pcap-DNSProxy-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -230,7 +230,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -249,56 +249,72 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
-<h2 id="DNS介绍"><a href="#DNS介绍" class="headerlink" title="DNS介绍"></a>DNS介绍</h2><p> 我们使用的互联网是基于TCP&#x2F;IP协议的，而TCP&#x2F;IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：”嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p>
+        <p>========================</p>
+<h2 id="DNS介绍">DNS介绍</h2>
+<p>我们使用的互联网是基于TCP/IP协议的，而TCP/IP的基石是IP地址，所以在网络上进行通讯时只能识别如“202.96.134.133”之类的IP地址，但对于人类来说，记住很多IP地址是件很困难的事情，于是发明了DNS（Domain Name System，域名系统），现在我们访问网站时，只需要输入相应的域名，就能看到所需要的页面。这是因为互联网上有一种叫“DNS服务器”的计算机会自动把我们的域名“翻译”成了相应的IP地址，并告诉我们。以访问百度为例<code>www.baidu.com</code>，系统会向DNS服务器（如<code>8.8.8.8</code>）发送请求：“嘿，我要用度娘，赶紧告诉我它的IP地址”，DNS服务器收到请求后，就会回复我们：”这是百度的ip地址，请查收“，系统收到IP地址后，便会和百度的服务器进行通信，最后得到我们看到的网页。</p>
  <span id="more"></span>
-
-<p> <img src="/img/dns_dig.png" alt="dig"></p>
-<h2 id="DNS的问题"><a href="#DNS的问题" class="headerlink" title="DNS的问题"></a>DNS的问题</h2><p>一般运营商（联通，电信，移动）都会搭建自己的DNS服务器，以提高响应速度，但是运营商会为了为了某些目的，会对DNS做一些手脚，导致我们无法通过域名解析出正确的IP地址。常用的手段有：DNS劫持和DNS污染。网上很多文章建议将DNS设为公共DNS（如阿里的<code>223.5.5.5</code>,谷歌的<code>8.8.8.8</code>,腾讯的<code>119.29.29.29</code>），但是你们也太小看运营商了，以移动为例：他们会对UDP53（DNS默认向53端口用UDP包发送查询请求）进行抢答。随便输入一个IP地址（8.1.2.3不是任何公共DNS服务器地址），都能给你返回查询结果。<br><img src="/img/dns_fake.png" alt="dns_fake"></p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里介绍使用<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win&#x2F;MacOS都有编译好的二进制文件，可以直接<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/releases">下载</a>使用。</p>
+<p><img src="/img/dns_dig.png" alt="dig"></p>
+<h2 id="DNS的问题">DNS的问题</h2>
+<p>一般运营商（联通，电信，移动）都会搭建自己的DNS服务器，以提高响应速度，但是运营商会为了为了某些目的，会对DNS做一些手脚，导致我们无法通过域名解析出正确的IP地址。常用的手段有：DNS劫持和DNS污染。网上很多文章建议将DNS设为公共DNS（如阿里的<code>223.5.5.5</code>,谷歌的<code>8.8.8.8</code>,腾讯的<code>119.29.29.29</code>），但是你们也太小看运营商了，以移动为例：他们会对UDP53（DNS默认向53端口用UDP包发送查询请求）进行抢答。随便输入一个IP地址（8.1.2.3不是任何公共DNS服务器地址），都能给你返回查询结果。<br>
+<img src="/img/dns_fake.png" alt="dns_fake"></p>
+<h2 id="解决方案">解决方案</h2>
+<p>这里介绍使用<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy">Pcap_DNSProxy</a>搭建防污染防劫持的DNS服务器。Win/MacOS都有编译好的二进制文件，可以直接<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/releases">下载</a>使用。</p>
 <p>下文介绍Arch Linux下的Pcap_DNSProxy的编译与使用，其他环境请参考chengr28的<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/tree/master/Documents">官方文档</a></p>
 <ul>
-<li><p>安装编译环境</p>
+<li>安装编译环境</li>
+</ul>
 <blockquote>
 <p>sudo pacman -S gcc cmake libpcap libsodium openssl git bind-tools</p>
 </blockquote>
-</li>
-<li><p>下载源码</p>
+<ul>
+<li>下载源码</li>
+</ul>
 <blockquote>
 <p>git clone <a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy.git">https://github.com/chengr28/Pcap_DNSProxy.git</a></p>
 </blockquote>
-</li>
-<li><p>编译生成可执行文件</p>
-<blockquote>
-<p>cd Pcap_DNSProxy&#x2F;Source&#x2F;Auxiliary&#x2F;Scripts #进入指定目录<br>chmod 755 CMake_Build.sh #赋予脚本执行权限<br>.&#x2F;CMake_Build.sh         #执行编译程序</p>
-</blockquote>
-</li>
-<li><p>编译成功后，<code>Pcap_DNSProxy/Source/Release</code> 目录下的文件即目标程序和配置文件，我们先来测试一下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line"><span class="built_in">sudo</span> ./Pcap_DNSProxy --disable-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure></li>
+<ul>
+<li>编译生成可执行文件</li>
 </ul>
-<h2 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h2><ul>
+<blockquote>
+<p>cd Pcap_DNSProxy/Source/Auxiliary/Scripts #进入指定目录<br>
+chmod 755 CMake_Build.sh #赋予脚本执行权限<br>
+./CMake_Build.sh         #执行编译程序</p>
+</blockquote>
+<ul>
+<li>编译成功后，<code>Pcap_DNSProxy/Source/Release</code> 目录下的文件即目标程序和配置文件，我们先来测试一下。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ../../Release                      <span class="comment">#切换到Relese目录</span></span><br><span class="line"><span class="built_in">sudo</span> ./Pcap_DNSProxy --disable-daemon <span class="comment">#调试运行</span></span><br><span class="line">dig @127.0.0.1 github.com         <span class="comment">#若能正常返回查询结果，即正常工作</span></span><br></pre></td></tr></table></figure>
+<h2 id="设置开机自启">设置开机自启</h2>
+<ul>
 <li>进入<code>Release</code>目录并编辑 Pcap_DNSProxy.service 文件，编辑完成后保存：</li>
 </ul>
 <blockquote>
-<p>WorkingDirectory&#x3D; 项为程序所在目录的绝对路径(例如:&#x2F;home&#x2F;my&#x2F;Pcap_DNSProxy&#x2F;Source&#x2F;Release)<br>ExecStart&#x3D; 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：&#x2F;home&#x2F;my&#x2F;Pcap_DNSProxy&#x2F;Source&#x2F;Release&#x2F;Pcap_DNSProxy)</p>
+<p>WorkingDirectory= 项为程序所在目录的绝对路径(例如:/home/my/Pcap_DNSProxy/Source/Release)<br>
+ExecStart= 项为程序所在目录的绝对路径，并在最后加上程序的名称(例如：/home/my/Pcap_DNSProxy/Source/Release/Pcap_DNSProxy)</p>
 </blockquote>
 <ul>
-<li><p>自动安装到系统，并设为开机自启</p>
+<li>自动安装到系统，并设为开机自启</li>
+</ul>
 <blockquote>
-<p>sudo .&#x2F;Linux_Install.Systemd.sh</p>
+<p>sudo ./Linux_Install.Systemd.sh</p>
 </blockquote>
-</li>
-<li><p>修改系统DNS设置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">&quot;nameserver 127.0.0.1\nnameserver 8.8.8.8&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;<span class="built_in">sudo</span> chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure></li>
-<li><p>再来测试一下,类似的结果即配置成功<br><img src="/img/dns_suc.png" alt="dns_success"></p>
-</li>
+<ul>
+<li>修改系统DNS设置</li>
 </ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4  + UDP + TCP <span class="comment">#优先使用UDP，提高解析速度</span></span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#允许使用Sock5代理，以远程解析DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">echo</span> <span class="string">&quot;nameserver 127.0.0.1\nnameserver 8.8.8.8&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/resolv.conf <span class="comment">#修改系统DNS为127.0.0.1</span></span><br><span class="line">&gt;<span class="built_in">sudo</span> chattr +i /etc/resolv.conf <span class="comment">#其他网络管理程序可能会修改这个文件,设置特殊权限以避免被其他程序改动</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>再来测试一下,类似的结果即配置成功<br>
+<img src="/img/dns_suc.png" alt="dns_success"></li>
 </ul>
+<h2 id="其他">其他</h2>
+<ul>
+<li>正常情况，Pcap_DNSProxy 可以做到开箱即用，你想做一些调整的话，可以修改配置文件<code>Config.conf</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Outgoing Protocol = IPv4  + UDP + TCP <span class="comment">#优先使用UDP，提高解析速度</span></span><br><span class="line">EDNS Label = 1 <span class="comment">#EDNS 标签支持</span></span><br><span class="line">SOCKS Proxy = 1 <span class="comment">#允许使用Sock5代理，以远程解析DNS请求</span></span><br><span class="line">SOCKS IPv4 Address = 127.0.0.1:1080</span><br></pre></td></tr></table></figure>
 <p>更详细配置请阅读<a target="_blank" rel="noopener" href="https://github.com/chengr28/Pcap_DNSProxy/blob/master/Documents/ReadMe.zh-Hans.txt">文档</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F">https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F</a></li>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F">https://zh.wikipedia.org/wiki/域名系统</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.v2ex.com/t/442340#reply15">https://www.v2ex.com/t/442340#reply15</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.v2ex.com/t/360775">https://www.v2ex.com/t/360775</a></li>
 <li><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Resolv.conf">https://wiki.archlinux.org/index.php/Resolv.conf</a></li>
@@ -412,7 +428,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -421,7 +437,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -488,12 +504,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

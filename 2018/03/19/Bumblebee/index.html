@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"zhangheng18.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="BumblebeeBumblebee是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。 安装Manjaro 提供了强大的硬件检测模块mhwd,可以很方便的安装各种驱动。  安装依赖 sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus   安装nvidia闭源驱动与intel驱动混合">
+  <meta name="description" content="Bumblebee Bumblebee是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。 安装 Manjaro 提供了强大的硬件检测模块mhwd,可以很方便的安装各种驱动。  安装依赖   sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus   安装nvidia闭源驱动与intel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manjaro Linux 配置Intel与Nvidia双显卡切换">
 <meta property="og:url" content="https://zhangheng18.github.io/2018/03/19/Bumblebee/index.html">
 <meta property="og:site_name" content="ZhangHeng&#39;s Blog">
-<meta property="og:description" content="BumblebeeBumblebee是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。 安装Manjaro 提供了强大的硬件检测模块mhwd,可以很方便的安装各种驱动。  安装依赖 sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus   安装nvidia闭源驱动与intel驱动混合">
+<meta property="og:description" content="Bumblebee Bumblebee是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。 安装 Manjaro 提供了强大的硬件检测模块mhwd,可以很方便的安装各种驱动。  安装依赖   sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus   安装nvidia闭源驱动与intel">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhangheng18.github.io/img/manjaro_grub.png">
 <meta property="article:published_time" content="2018-03-19T10:09:03.000Z">
@@ -192,7 +192,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/03/19/Bumblebee/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -228,14 +228,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -247,77 +247,100 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Bumblebee"><a href="#Bumblebee" class="headerlink" title="Bumblebee"></a>Bumblebee</h2><p><a target="_blank" rel="noopener" href="https://github.com/Bumblebee-Project/Bumblebee">Bumblebee</a>是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Manjaro 提供了强大的硬件检测模块<code>mhwd</code>,可以很方便的安装各种驱动。</p>
+        <h2 id="Bumblebee">Bumblebee</h2>
+<p><a target="_blank" rel="noopener" href="https://github.com/Bumblebee-Project/Bumblebee">Bumblebee</a>是一套Linux下双显卡切换的解决方案，通过它可以自由的切换集显与独立显卡，做到续航与性能的平衡。</p>
+<h2 id="安装">安装</h2>
+<p>Manjaro 提供了强大的硬件检测模块<code>mhwd</code>,可以很方便的安装各种驱动。</p>
 <ul>
-<li>安装依赖<blockquote>
+<li>安装依赖</li>
+</ul>
+<blockquote>
 <p>sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus</p>
 </blockquote>
-</li>
-<li>安装nvidia闭源驱动与intel驱动混合版bumblebee<blockquote>
+<ul>
+<li>安装nvidia闭源驱动与intel驱动混合版bumblebee</li>
+</ul>
+<blockquote>
 <p>sudo mhwd -f -i pci video-hybrid-intel-nvidia-bumblebee</p>
 </blockquote>
-</li>
-</ul>
 <span id="more"></span>
 <ul>
-<li>开启自动启动bumblebeed服务<blockquote>
+<li>开启自动启动bumblebeed服务</li>
+</ul>
+<blockquote>
 <p>sudo systemctl enable bumblebeed</p>
 </blockquote>
-</li>
-<li>将用户添加到bumblee组<blockquote>
+<ul>
+<li>将用户添加到bumblee组</li>
+</ul>
+<blockquote>
 <p>sudo gpasswd -a $USER bumblebee</p>
 </blockquote>
-</li>
-</ul>
 <p>如果一切顺利的话，重启后就可以在你想运行的程序名前面加<code>optirun</code>,好使用独立显卡驱动你的应用程序。</p>
 <ul>
-<li>但很大可能是重启后发现无法进入图形化界面,你可以尝试在Grub菜单启动界面按[E]编辑，找到<code>quite</code>并在后面加入(注意空格):<blockquote>
-<p>acpi_osi&#x3D;! acpi_osi&#x3D;’Windows 2009’<br>或者<br>acpi_osi&#x3D;! acpi_osi&#x3D;Linux acpi_osi&#x3D;’Windows 2015’ pcie_port_pm&#x3D;off<br><strong>(很多硬件厂商的BIOS驱动都对Linux不友好，无法顺利加载ACPI模块，而导致无法驱动独立显卡,acpi_osi&#x3D;’Windows 2009’的意思是告诉ACPI模块，我是‘Windows 7’，别闹情绪了，赶紧工作吧。)</strong><br>接着按[Ctrl]+[x]或[F10]保存更改并启动系统。</p>
+<li>但很大可能是重启后发现无法进入图形化界面,你可以尝试在Grub菜单启动界面按[E]编辑，找到<code>quite</code>并在后面加入(注意空格):</li>
+</ul>
+<blockquote>
+<p>acpi_osi=! acpi_osi=‘Windows 2009’<br>
+或者<br>
+acpi_osi=! acpi_osi=Linux acpi_osi=‘Windows 2015’ pcie_port_pm=off<br>
+<strong>(很多硬件厂商的BIOS驱动都对Linux不友好，无法顺利加载ACPI模块，而导致无法驱动独立显卡,acpi_osi='Windows 2009’的意思是告诉ACPI模块，我是‘Windows 7’，别闹情绪了，赶紧工作吧。)</strong><br>
+接着按[Ctrl]+[x]或[F10]保存更改并启动系统。</p>
 </blockquote>
-</li>
-<li>顺利进入系统后打开终端更改配置文件<blockquote>
-<p>sudo vim &#x2F;etc&#x2F;default&#x2F;grub</p>
+<ul>
+<li>顺利进入系统后打开终端更改配置文件</li>
+</ul>
+<blockquote>
+<p>sudo vim /etc/default/grub</p>
 </blockquote>
-</li>
-<li>给 “GRUB_CMLINE_LINUX_DEFAULT”添加你可以正常启动Linux的‘acpi_osi’参数，如图我用的是’Windows 2009’。<br><img src="/img/manjaro_grub.png" alt="Grub"></li>
-<li>更新Grub文件,即可永久解决不能启动图形界面的问题<blockquote>
+<ul>
+<li>给 “GRUB_CMLINE_LINUX_DEFAULT”添加你可以正常启动Linux的‘acpi_osi’参数，如图我用的是’Windows 2009’。<br>
+<img src="/img/manjaro_grub.png" alt="Grub"></li>
+<li>更新Grub文件,即可永久解决不能启动图形界面的问题</li>
+</ul>
+<blockquote>
 <p>sudo update-grub</p>
 </blockquote>
-</li>
+<h2 id="测试性能">测试性能</h2>
+<ul>
+<li>安装测试软件</li>
 </ul>
-<h2 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h2><ul>
-<li>安装测试软件<blockquote>
+<blockquote>
 <p>sudo pacman -S mesa-demos</p>
 </blockquote>
-</li>
-<li>集显性能<blockquote>
+<ul>
+<li>集显性能</li>
+</ul>
+<blockquote>
 <p>glxgears -info</p>
 </blockquote>
-</li>
-<li>独显性能<blockquote>
+<ul>
+<li>独显性能</li>
+</ul>
+<blockquote>
 <p>optirun glxgears -info</p>
 </blockquote>
-</li>
+<h2 id="其他问题">其他问题</h2>
+<ul>
+<li>NVIDIA面板无信息</li>
 </ul>
-<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><ul>
-<li><p>NVIDIA面板无信息</p>
 <blockquote>
 <p>optirun -b none nvidia-settings -c :8</p>
 </blockquote>
-</li>
-<li><p>不依赖Bumblebee来使用CUDA</p>
-<blockquote>
-<p>sudo tee &#x2F;proc&#x2F;acpi&#x2F;bbswitch &lt;&lt;&lt; ‘ON’</p>
-</blockquote>
-</li>
-<li><p>使用完CUDA 停止NVIDIA显卡</p>
-<blockquote>
-<p>sudo rmmod nvidia_uvm nvidia &amp;&amp; sudo tee &#x2F;proc&#x2F;acpi&#x2F;bbswitch &lt;&lt;&lt; OFF</p>
-</blockquote>
-</li>
+<ul>
+<li>不依赖Bumblebee来使用CUDA</li>
 </ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<blockquote>
+<p>sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; ‘ON’</p>
+</blockquote>
+<ul>
+<li>使用完CUDA 停止NVIDIA显卡</li>
+</ul>
+<blockquote>
+<p>sudo rmmod nvidia_uvm nvidia &amp;&amp; sudo tee /proc/acpi/bbswitch &lt;&lt;&lt; OFF</p>
+</blockquote>
+<h2 id="参考">参考</h2>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://gist.github.com/Misairu-G/616f7b2756c488148b7309addc940b28">https://gist.github.com/Misairu-G/616f7b2756c488148b7309addc940b28</a></li>
 <li><a target="_blank" rel="noopener" href="https://wiki.manjaro.org/index.php?title=Configure_NVIDIA_(non-free)_settings_and_load_them_on_Startup">https://wiki.manjaro.org/index.php?title=Configure_NVIDIA_(non-free)_settings_and_load_them_on_Startup</a></li>
 <li><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Bumblebee#Primusrun">https://wiki.archlinux.org/index.php/Bumblebee#Primusrun</a></li>
@@ -431,7 +454,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -440,7 +463,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,12 +530,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"zhangheng18.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目189：旋转数组        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。">
+  <meta name="description" content="题目 189：旋转数组 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode 136：旋转数组[初级]">
 <meta property="og:url" content="https://zhangheng18.github.io/2018/08/07/leetcode-136/index.html">
 <meta property="og:site_name" content="ZhangHeng&#39;s Blog">
-<meta property="og:description" content="题目189：旋转数组        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。">
+<meta property="og:description" content="题目 189：旋转数组 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-08-07T08:28:20.000Z">
 <meta property="article:modified_time" content="2024-07-12T13:57:20.117Z">
@@ -190,7 +190,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/08/07/leetcode-136/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -245,9 +245,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/rotate-array/description/">189：旋转数组</a><br>        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</p>
+        <h2 id="题目">题目</h2>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/rotate-array/description/">189：旋转数组</a><br>
+给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</p>
 <span id="more"></span>
-
 <p>示例1:</p>
 <blockquote>
 <pre><code>   输入: [1,2,3,4,5,6,7] 和 k = 3
@@ -267,25 +268,30 @@
    向右旋转 2 步: [3,99,-1,-100]
 </code></pre>
 </blockquote>
-<p>说明:<br>    * 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。<br>    * 要求使用空间复杂度为 O(1) 的原地算法。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ul>
-<li>方法一:空间复杂度O(n)<br>首先想到的就是切片，以[-1,-100,3,99]，k&#x3D;2 为例： 先用[-2:]拿到 [3,99]，再用[:-2]得到剩下的[-1,-100]</li>
+<p>说明:<br>
+* 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。<br>
+* 要求使用空间复杂度为 O(1) 的原地算法。</p>
+<h2 id="分析">分析</h2>
+<ul>
+<li>方法一:空间复杂度O(n)<br>
+首先想到的就是切片，以[-1,-100,3,99]，k=2 为例： 先用[-2:]拿到 [3,99]，再用[:-2]得到剩下的[-1,-100]</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rotate</span>(<span class="params">self, nums, k</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :type nums: List[int]</span></span><br><span class="line"><span class="string">    :type k: int</span></span><br><span class="line"><span class="string">    :rtype: void Do not return anything, modify nums in-place instead.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    nums = nums[-k:] + nums[:-k]</span><br></pre></td></tr></table></figure>
 <p>提交以后才发现结果不对，这才想起nums此时其实是一个新建的局部变量，不影响原来的List，修改如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rotate</span>(<span class="params">self, nums, k</span>):</span><br><span class="line">    new_nums = nums[-k:] + nums[:-k]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">        nums[i] = new_nums[i]</span><br></pre></td></tr></table></figure>
-<p>还是没有考虑全，还有nums&#x3D;[1,2,3],k&#x3D;5这种k&gt;len(nums)的情况，我们进行取模运算，最终代码：</p>
+<p>还是没有考虑全，还有nums=[1,2,3],k=5这种k&gt;len(nums)的情况，我们进行取模运算，最终代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rotate</span>(<span class="params">self, nums, k</span>):</span><br><span class="line">    length = <span class="built_in">len</span>(nums)</span><br><span class="line">    i = k%length</span><br><span class="line">    new_nums = nums[-i:] + nums[:-i]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">        nums[i] = new_nums[i]</span><br></pre></td></tr></table></figure>
 <p>看了别的提交的代码后发现可以用Python浅拷贝的魔法糖list[:],它等价于<code>list.copy()</code>：只复制对象地址，而非完整对象资源。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rotate</span>(<span class="params">self, nums, k</span>):</span><br><span class="line">    </span><br><span class="line">    i = <span class="built_in">len</span>(nums) - k </span><br><span class="line">    nums[:] = nums[i:] + nums[:i]</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li><p>方法2:空间复杂度O(1)<br>按题目要求，我们可以用这个思路：删除最后一个元素，把最后一个元素的内容插入到List的开头位置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rotate</span>(<span class="params">self,nums,k</span>):</span><br><span class="line">    <span class="keyword">while</span> k:</span><br><span class="line">        tail = nums.pop()</span><br><span class="line">        nums.insert(<span class="number">0</span>,tail)</span><br><span class="line">        k -=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>日常使用的话,标准集合库<code>collections</code>里deque(双向列表)提供了旋转数组的方法:rotate</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line">d = deque([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>])</span><br><span class="line">d.rotate(<span class="number">3</span>)</span><br></pre></td></tr></table></figure></li>
+<li>方法2:空间复杂度O(1)<br>
+按题目要求，我们可以用这个思路：删除最后一个元素，把最后一个元素的内容插入到List的开头位置</li>
 </ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rotate</span>(<span class="params">self,nums,k</span>):</span><br><span class="line">    <span class="keyword">while</span> k:</span><br><span class="line">        tail = nums.pop()</span><br><span class="line">        nums.insert(<span class="number">0</span>,tail)</span><br><span class="line">        k -=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>日常使用的话,标准集合库<code>collections</code>里deque(双向列表)提供了旋转数组的方法:rotate</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line">d = deque([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>])</span><br><span class="line">d.rotate(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -323,12 +329,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2018/07/26/pipenv/" rel="prev" title="终极 Python Project 管理方案：pipenv + autoenv">
-      <i class="fa fa-chevron-left"></i> 终极 Python Project 管理方案：pipenv + autoenv
+    <a href="/2018/08/07/leetcode-189/" rel="prev" title="LeetCode 189：旋转数组[初级]">
+      <i class="fa fa-chevron-left"></i> LeetCode 189：旋转数组[初级]
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/08/07/leetcode-189/" rel="next" title="LeetCode 189：旋转数组[初级]">
-      LeetCode 189：旋转数组[初级] <i class="fa fa-chevron-right"></i>
+    <a href="/2019/07/06/mysql8/" rel="next" title="MySQL 8.0.16 安装配置(Arch Linux)">
+      MySQL 8.0.16 安装配置(Arch Linux) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -395,7 +401,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -404,7 +410,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -471,12 +477,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

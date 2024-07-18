@@ -181,10 +181,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2021/11/20/Prometheus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/about/user.jpg">
+      <meta itemprop="name" content="zhangheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangHeng's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/20/Prometheus/" class="post-title-link" itemprop="url">Prometheus + Pushgateway + Grafana 监控 Python 内存占用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-20 18:32:30" itemprop="dateCreated datePublished" datetime="2021-11-20T18:32:30+08:00">2021-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-07-12 22:01:17" itemprop="dateModified" datetime="2024-07-12T22:01:17+08:00">2024-07-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1>前言</h1>
+<ul>
+<li>工作中需要了解一些历史遗留的Python程序的内存占用和CPU使用情况。经过调研选择目前主流的监控方案Prometheus,记录一些配置，接入问题。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/20/Prometheus/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2021/08/25/filedownload/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -252,7 +350,7 @@
           <ul>
 <li>要求导出excel文件，前端触发，后端直接返回文件，  记录一下遇到的问题与方法。</li>
 </ul>
-<h2 id="使用axios-blob-a标签"><a href="#使用axios-blob-a标签" class="headerlink" title="使用axios  + blob + a标签"></a>使用<a target="_blank" rel="noopener" href="https://axios-http.com/docs/intro">axios</a>  + <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob">blob</a> + a标签</h2>
+<h2 id="使用axios-blob-a标签">使用<a target="_blank" rel="noopener" href="https://axios-http.com/docs/intro">axios</a>  + <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob">blob</a> + a标签</h2>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/25/filedownload/#more" rel="contents">
@@ -282,7 +380,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2021/04/19/python-records/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -347,8 +445,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>records 是由<a target="_blank" rel="noopener" href="https://kenreitz.org/">Ken Reitz</a> 大神(requests,pipenv,tablib,maya,request-html ) 开发的，一个符合人类习惯的，简单强大的用来<strong>执行原生SQL</strong>的库</li>
+          <h1>简介</h1>
+<ul>
+<li>records 是由<a target="_blank" rel="noopener" href="https://kenreitz.org">Ken Reitz</a> 大神(requests,pipenv,tablib,maya,request-html ) 开发的，一个符合人类习惯的，简单强大的用来<strong>执行原生SQL</strong>的库</li>
 <li>执行SQL ，并获取字典 列表结果</li>
 </ul>
           <!--noindex-->
@@ -380,7 +479,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2020/08/11/django-admin-optimization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -469,7 +568,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2020/08/01/write-cleaner-python-use-exceptions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -515,7 +614,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -565,7 +664,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2019/10/07/python-min-max-and-nested-lists/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -661,7 +760,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2019/09/21/python-lambda-functions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -757,7 +856,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2019/09/15/python-kwargs-and-args/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -853,7 +952,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2019/09/07/custom-python-profiler/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -943,7 +1042,7 @@
     <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2019/07/06/mysql8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
+      <meta itemprop="image" content="/about/user.jpg">
       <meta itemprop="name" content="zhangheng">
       <meta itemprop="description" content="">
     </span>
@@ -980,14 +1079,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.5k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -999,96 +1098,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL与MariaDB"><a href="#MySQL与MariaDB" class="headerlink" title="MySQL与MariaDB"></a>MySQL与MariaDB</h2><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/MariaDB">MariaDB</a> 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至<a target="_blank" rel="noopener" href="https://aur.archlinux.org/packages/mysql/">AUR</a> 中。</p>
+          <h2 id="MySQL与MariaDB">MySQL与MariaDB</h2>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/MariaDB">MariaDB</a> 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至<a target="_blank" rel="noopener" href="https://aur.archlinux.org/packages/mysql/">AUR</a> 中。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/07/06/mysql8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2018/08/07/leetcode-189/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/about/logo.jpg">
-      <meta itemprop="name" content="zhangheng">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangHeng's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/08/07/leetcode-189/" class="post-title-link" itemprop="url">LeetCode 189：旋转数组[初级]</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-08-07 16:28:20" itemprop="dateCreated datePublished" datetime="2018-08-07T16:28:20+08:00">2018-08-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-07-12 21:57:14" itemprop="dateModified" datetime="2024-07-12T21:57:14+08:00">2024-07-12</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/rotate-array/description/">189：旋转数组</a><br>        给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/08/07/leetcode-189/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1170,7 +1184,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="zhangheng"
-      src="/about/logo.jpg">
+      src="/about/user.jpg">
   <p class="site-author-name" itemprop="name">zhangheng</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -1179,7 +1193,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1246,12 +1260,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">127k</span>
+    <span title="站点总字数">126k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:51</span>
+    <span title="站点阅读时长">3:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="j66bPE4N7x6Qx1E96dSbI_JrLZSV3RFZ-MvR5ozwkx4">
+  <meta name="msvalidate.01" content="7B9A9CDD89DE64B056126B4C5C9F837D">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhangheng18.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="WSL2 极大的提升了在Windows上的Linux的使用体验，tc 是Linux自带的流量控制器，能控制延迟、丢包、带宽等网络配置。但在当前 5.15 内核版本的WSL中缺少所需模块，需要手动编译内核开启tc。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WSL2 自编译内核使用 tc qdisc">
+<meta property="og:url" content="https://zhangheng18.github.io/2024/07/10/wsl2-use-tc/index.html">
+<meta property="og:site_name" content="ZhangHeng&#39;s Blog">
+<meta property="og:description" content="WSL2 极大的提升了在Windows上的Linux的使用体验，tc 是Linux自带的流量控制器，能控制延迟、丢包、带宽等网络配置。但在当前 5.15 内核版本的WSL中缺少所需模块，需要手动编译内核开启tc。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-10T12:17:00.000Z">
+<meta property="article:modified_time" content="2024-07-18T09:15:59.476Z">
+<meta property="article:author" content="zhangheng">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://zhangheng18.github.io/2024/07/10/wsl2-use-tc/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WSL2 自编译内核使用 tc qdisc | ZhangHeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="ZhangHeng's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ZhangHeng's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2024/07/10/wsl2-use-tc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/about/user.jpg">
+      <meta itemprop="name" content="zhangheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangHeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WSL2 自编译内核使用 tc qdisc
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-07-10 20:17:00" itemprop="dateCreated datePublished" datetime="2024-07-10T20:17:00+08:00">2024-07-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-07-18 17:15:59" itemprop="dateModified" datetime="2024-07-18T17:15:59+08:00">2024-07-18</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>WSL2 极大的提升了在Windows上的Linux的使用体验，tc 是Linux自带的流量控制器，能控制延迟、丢包、带宽等网络配置。但在当前 5.15 内核版本的WSL中缺少所需模块，需要手动编译内核开启tc。</p>
+<span id="more"></span>
+<h2 id="编译内核">编译内核</h2>
+<ul>
+<li>下载内核源码</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/microsoft/WSL2-Linux-Kernel.git --depth=1 -b linux-msft-wsl-6.1.y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装编译所需依赖</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update &amp;&amp;  <span class="built_in">sudo</span> apt install build-essential flex bison dwarves libssl-dev libelf-dev</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改 <code>Microsoft/config-wsl</code> 配置文件，添加tc支持</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim Microsoft/config-wsl</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.1.Kernel requirements https://tldp.org/HOWTO/html_single/Traffic-Control-HOWTO/</span></span><br><span class="line"><span class="comment"># QoS and/or fair queueing</span></span><br><span class="line">CONFIG_NET_SCHED=y</span><br><span class="line">CONFIG_NET_SCH_CBQ=m</span><br><span class="line">CONFIG_NET_SCH_HTB=m</span><br><span class="line">CONFIG_NET_SCH_CSZ=m</span><br><span class="line">CONFIG_NET_SCH_PRIO=m</span><br><span class="line">CONFIG_NET_SCH_RED=m</span><br><span class="line">CONFIG_NET_SCH_SFQ=m</span><br><span class="line">CONFIG_NET_SCH_TEQL=m</span><br><span class="line">CONFIG_NET_SCH_TBF=m</span><br><span class="line">CONFIG_NET_SCH_GRED=m</span><br><span class="line">CONFIG_NET_SCH_DSMARK=m</span><br><span class="line">CONFIG_NET_SCH_INGRESS=m</span><br><span class="line">CONFIG_NET_QOS=y</span><br><span class="line">CONFIG_NET_ESTIMATOR=y</span><br><span class="line">CONFIG_NET_CLS=y</span><br><span class="line">CONFIG_NET_CLS_TCINDEX=m</span><br><span class="line">CONFIG_NET_CLS_ROUTE4=m</span><br><span class="line">CONFIG_NET_CLS_ROUTE=y</span><br><span class="line">CONFIG_NET_CLS_FW=m</span><br><span class="line">CONFIG_NET_CLS_U32=m</span><br><span class="line">CONFIG_NET_CLS_RSVP=m</span><br><span class="line">CONFIG_NET_CLS_RSVP6=m</span><br><span class="line">CONFIG_NET_CLS_POLICE=y</span><br><span class="line"></span><br><span class="line"><span class="comment"># Network emulator (NETEM) </span></span><br><span class="line">CONFIG_NET_SCH_NETEM=y </span><br></pre></td></tr></table></figure>
+<ul>
+<li>构建内核</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j$(<span class="built_in">nproc</span>) KCONFIG_CONFIG=Microsoft/config-wsl</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装内核模块和头文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> make modules_install headers_installs</span><br></pre></td></tr></table></figure>
+<ul>
+<li>复制编译好的内核到Windows C盘</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> <span class="built_in">arch</span>/x86/boot/bzImage /mnt/c/</span><br></pre></td></tr></table></figure>
+<h2 id="启用内核">启用内核</h2>
+<ul>
+<li>用户目录下创建或编辑WSL配置文件 <code>%USERPROFILE%\.wslconfig</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">kernel = C:\\bzImage</span><br></pre></td></tr></table></figure>
+<ul>
+<li>管理员运行PowerShell 终端窗口， 停止WSL</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重启验证内核版本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -r </span><br><span class="line"></span><br><span class="line"><span class="comment"># 类似输出</span></span><br><span class="line">6.1.21.2-microsoft-standard-WSL2+</span><br></pre></td></tr></table></figure>
+<h2 id="tc-使用">tc 使用</h2>
+<ul>
+<li>模拟100ms延迟</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tc qdisc add dev eth0 root delay 100ms</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显示配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tc qdisc show dev eth0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除配置</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tc qdisc del dev eth0 root</span><br></pre></td></tr></table></figure>
+<ul>
+<li>模拟10%丢包</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tc qdisc add dev eth0 root netem loss 10%</span><br></pre></td></tr></table></figure>
+<ul>
+<li>控制网速为100kbps</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tc qdisc add dev eth0 root tbf rate 100kbps burst 10kb <span class="built_in">limit</span> 10kb</span><br></pre></td></tr></table></figure>
+<h2 id="其他问题">其他问题</h2>
+<ul>
+<li>
+<p>make 报错 Killed …</p>
+<ul>
+<li>内存不足
+<ul>
+<li>需要增加内存 （8g+）参见<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config">WSL 中的高级设置配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>tc 报错: Error: Specified qdisc not found</p>
+<ul>
+<li>所需依赖模块没有加载：
+<ul>
+<li>tbf ：<code>sudo modprobe sch_tbf</code></li>
+<li>prio：<code>sudo modprobe sch_prio</code></li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Docker Desktop 无法启动</p>
+<ul>
+<li>最新的 WSL 6.6版本 内核移除了一些默认启动的docker所需的依赖, 目前建议使用 6.1版本</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/community/content/wsl-user-msft-kernel-v6">How to use the Microsoft Linux kernel v6 on Windows Subsystem for Linux version 2 (WSL2)</a></li>
+<li><a target="_blank" rel="noopener" href="https://tldp.org/HOWTO/html_single/Traffic-Control-HOWTO/">Traffic-Control-HOWTO</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/WSL/issues/6065">WSL2 seems not support traffic control by tc qdisc</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/WSL/issues/11742">docker cannot start after installing linux-msft-wsl-6.6.y</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config">WSL 中的高级设置配置</a></li>
+<li><a target="_blank" rel="noopener" href="https://plantegg.github.io/2016/08/24/Linux%20tc%20qdisc%E7%9A%84%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B/?spm=wolai.workspace.0.0.7c00767bUToeUp">Linux tc qdisc的使用案例</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/18/android-capture-https/" rel="prev" title="如何抓取安卓手机的Https包 (Magisk + Android 9)">
+      <i class="fa fa-chevron-left"></i> 如何抓取安卓手机的Https包 (Magisk + Android 9)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%86%85%E6%A0%B8"><span class="nav-number">1.</span> <span class="nav-text">编译内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E5%86%85%E6%A0%B8"><span class="nav-number">2.</span> <span class="nav-text">启用内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tc-%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">tc 使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">其他问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhangheng"
+      src="/about/user.jpg">
+  <p class="site-author-name" itemprop="name">zhangheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhangheng18" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhangheng18" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhangheng.18@outlook.com" title="E-Mail → mailto:zhangheng.18@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://minifullc.github.io/" title="https:&#x2F;&#x2F;MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io/" title="https:&#x2F;&#x2F;kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">126k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
