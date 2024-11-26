@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="j66bPE4N7x6Qx1E96dSbI_JrLZSV3RFZ-MvR5ozwkx4">
+  <meta name="msvalidate.01" content="7B9A9CDD89DE64B056126B4C5C9F837D">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhangheng18.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="PostgreSQL 是一个功能强大的开源关系型数据库系统，基于16.0版本和docker 环境做一个主从架构配置。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostgresSQL 16 主从架构">
+<meta property="og:url" content="https://zhangheng18.github.io/2024/11/16/pg-master-slave/index.html">
+<meta property="og:site_name" content="ZhangHeng&#39;s Blog">
+<meta property="og:description" content="PostgreSQL 是一个功能强大的开源关系型数据库系统，基于16.0版本和docker 环境做一个主从架构配置。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-16T11:37:06.000Z">
+<meta property="article:modified_time" content="2024-11-26T13:14:27.426Z">
+<meta property="article:author" content="zhangheng">
+<meta property="article:tag" content="PostgreSQL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://zhangheng18.github.io/2024/11/16/pg-master-slave/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PostgresSQL 16 主从架构 | ZhangHeng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="ZhangHeng's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">ZhangHeng's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhangheng18.github.io/2024/11/16/pg-master-slave/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/about/user.jpg">
+      <meta itemprop="name" content="zhangheng">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangHeng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PostgresSQL 16 主从架构
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-16 19:37:06" itemprop="dateCreated datePublished" datetime="2024-11-16T19:37:06+08:00">2024-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-26 21:14:27" itemprop="dateModified" datetime="2024-11-26T21:14:27+08:00">2024-11-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index"><span itemprop="name">PostgreSQL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>PostgreSQL 是一个功能强大的开源关系型数据库系统，基于16.0版本和docker 环境做一个主从架构配置。</p>
+<span id="more"></span>
+<h2 id="环境">环境</h2>
+<ul>
+<li>
+<p>postgres_master:</p>
+<ul>
+<li>ip: 172.19.0.3</li>
+<li>pgdata: ./pgdata_master</li>
+</ul>
+</li>
+<li>
+<p>postgres_slave:</p>
+<ul>
+<li>ip: 172.19.0.2</li>
+<li>pgdata: ./pgdata_slave</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li></li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pg-test.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.8&quot;</span></span><br><span class="line"><span class="attr">x-restart-policy:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">    <span class="attr">postgres_master:</span></span><br><span class="line">        <span class="attr">container_name:</span> <span class="string">postgres_master</span></span><br><span class="line">        <span class="attr">environment:</span></span><br><span class="line">            <span class="attr">POSTGRES_USER:</span> <span class="string">postgres</span></span><br><span class="line">            <span class="attr">POSTGRES_PASSWORD:</span> <span class="string">postgres</span></span><br><span class="line">            <span class="attr">POSTGRES_DB:</span> <span class="string">test</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">&quot;postgres:16&quot;</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">&quot;6432:5432&quot;</span></span><br><span class="line">        <span class="attr">user:</span> <span class="string">&quot;1000:999&quot;</span></span><br><span class="line">        <span class="attr">volumes:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">./pgdata_master:/var/lib/postgresql/data</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">postgres_slave:</span></span><br><span class="line">        <span class="attr">container_name:</span> <span class="string">postgres_slave</span></span><br><span class="line">        <span class="attr">environment:</span></span><br><span class="line">            <span class="attr">POSTGRES_USER:</span> <span class="string">postgres</span></span><br><span class="line">            <span class="attr">POSTGRES_PASSWORD:</span> <span class="string">postgres</span></span><br><span class="line">            <span class="attr">POSTGRES_DB:</span> <span class="string">test</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">&quot;postgres:16&quot;</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">&quot;7432:5432&quot;</span></span><br><span class="line">        <span class="attr">user:</span> <span class="string">&quot;1000:999&quot;</span> <span class="comment"># id -u  查看当前用户id</span></span><br><span class="line">        <span class="attr">volumes:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">./pgdata_slave:/var/lib/postgresql/data</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># rm -rf pgdata_master pgdata_slave  &amp;&amp;  mkdir pgdata_master pgdata_slave </span></span><br><span class="line"><span class="comment"># docker-compose -f pg-test.yml -p pg_test up -d</span></span><br><span class="line"><span class="comment"># docker-compose -f pg-test.yml -p pg_test down</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>FAQ:
+<ul>
+<li>需要手动建立文件夹，docker 自动建立的有权限问题： mkdir pgdata_master pgdata_slave</li>
+<li>以当前用户身份启动docker：  user: “1000:999” ： id -u  （查看当前用户id为1000 postgresql 容器默认用户id为999 ）</li>
+<li>查看启动状态：<code>docker ps</code></li>
+<li>查看docker容器ip： <code>docker inspect -f '&#123;&#123;range.NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;' postgres_master </code></li>
+<li>执行sh: <code>docker exec -it postgres_master /bin/bash </code>
+<ul>
+<li>执行sql：<code>psql -U  postgres</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="配置主库-Master">配置主库 Master</h2>
+<ul>
+<li>添加流复制专用角色、增强安全性</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 新建用户: copy 密码： replica</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="keyword">copy</span> replication encrypted password <span class="string">&#x27;replica&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改身份认证(<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/current/auth-pg-hba-conf.html">pg_hba.conf</a>) 以允许从库访问主库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查看配置所在目录 </span></span><br><span class="line"><span class="keyword">SHOW</span> data_directory</span><br><span class="line"><span class="comment">-- /var/lib/postgresql/data</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 已经映射出来可在主机直接编辑sudo vim ./pgdata_master/pg_hba.conf</span><br><span class="line"># vim /var/lib/postgresql/data/pg_hba.conf</span><br><span class="line"></span><br><span class="line">#允许 172.19.0.2 访问</span><br><span class="line">host    all         copy     172.19.0.2/24            md5</span><br><span class="line">host    replication copy     172.19.0.2/24            md5</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改主库设置</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#已经将/var/lib/postgresql/data映射出来可在主机直接编辑： sudo  vim ./pgdata_master/postgresql.conf</span><br><span class="line"># vim /var/lib/postgresql/data/postgresql.conf</span><br><span class="line"></span><br><span class="line">listen_addresses =&#x27;*&#x27;    # 允许远程访问</span><br><span class="line">wal_level = replica      # 记录足够的wal信息以支持流复制</span><br><span class="line">max_wal_senders = 10     # 同步最大的进程数量</span><br><span class="line">wal_sender_timeout = 60s # 流复制主机发送数据的超时时间</span><br><span class="line"></span><br><span class="line"># 在docker的bash 里没有文本编辑器 可以使用echo 追加</span><br><span class="line"># echo &quot;wal_level = replica&quot; &gt;&gt; /var/lib/postgresql/data/postgresql.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行sql重新加载配置</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> pg_reload_conf();</span><br><span class="line"></span><br><span class="line"><span class="comment">-- t 成功 </span></span><br></pre></td></tr></table></figure>
+<h2 id="配置从库">配置从库</h2>
+<ul>
+<li>备份初始主库信息到从库</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker exec -it postgres_slave /bin/bash  </span></span><br><span class="line">pg_basebackup -D /var/lib/postgresql/data/main -h postgres_master -p 5432 -U copy -Xs -P -R</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提示failed: FATAL:  no pg_hba.conf entry for replication connection from host 则为主库pg_hba.conf 配置不正确</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提示 &quot;/var/lib/postgresql/data&quot; exists but is not empty 可以换个目录或删除这个目录</span></span><br><span class="line"><span class="comment"># docker 启动的 应该没法删除， 可以改为 /var/lib/postgresql/data/main 停止docker 服务后在主机./pgdata_slave 目录把其他文件删除，把main里的移动到外面 </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>检查是否有特殊文件<code>standby.signal</code>，如果没有 可手动创建</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> standby.signal</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置从库配置</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#sudo  vim ./postgres_slave/postgresql.conf</span><br><span class="line">#  /var/lib/postgresql/data/postgresql.conf</span><br><span class="line"></span><br><span class="line">primary_conninfo = &#x27;host=postgres_master port=5432 user=copy password=replica&#x27;	 #host 为主机ip地址</span><br><span class="line">recovery_target_timeline = &#x27;latest&#x27; # 流复制同步到最新的数据</span><br><span class="line">hot_standby = on                    # 开启热备 (从库支持select )</span><br><span class="line">max_standby_streaming_delay = 30s   # 数据流备份的最大延迟时间</span><br><span class="line">wal_receiver_status_interval = 1s   # 从节点向主节点报告自身状态的最长间隔时间</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>重新启动从库: <code>docker start postgres_slave</code></p>
+</li>
+<li>
+<p>检查是否成功：</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 在主库查看 是否有从库接入</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> pg_stat_replication;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- client_addr 有从库ip即为成功</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 在从库 查看 接收状态</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pg_stat_wal_receiver;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在主库建表，插入数据，可以查看从库是否同步</li>
+</ul>
+<h2 id="从库切换为主库">从库切换为主库</h2>
+<ul>
+<li>验证主从配置状态: 查看同步状态 ，为0则没有延迟</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">CASE</span> </span><br><span class="line">    <span class="keyword">WHEN</span> pg_last_wal_receive_lsn() <span class="operator">=</span> pg_last_wal_replay_lsn() </span><br><span class="line">    <span class="keyword">THEN</span> <span class="number">0</span> </span><br><span class="line">    <span class="keyword">ELSE</span> <span class="built_in">EXTRACT</span>(EPOCH <span class="keyword">FROM</span> now() <span class="operator">-</span> pg_last_xact_replay_timestamp()) </span><br><span class="line"><span class="keyword">END</span> <span class="keyword">AS</span> log_delay;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>切换从数库为主库</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> pg_promote();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>检查是否切换成功</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> pg_is_in_recovery();</span><br><span class="line"><span class="comment">-- t 仍是从库  f是主库</span></span><br></pre></td></tr></table></figure>
+<h2 id="扩展">扩展</h2>
+<ul>
+<li>更完整的高可用方案可使用<a target="_blank" rel="noopener" href="http://v0.pigsty.cc/zh/docs/">Pigsty</a></li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/current/warm-standby.html">PostgreSQL：文档：17：26.2。日志传送备用服务器 — PostgreSQL: Documentation: 17: 26.2. Log-Shipping Standby Servers</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/ecs/use-cases/build-a-primary-or-secondary-postgresql-architecture">搭建PostgreSQL主从架构_云服务器 ECS(ECS)-阿里云帮助中心</a></li>
+<li><a target="_blank" rel="noopener" href="https://hub.docker.com/_/postgres">postgres - Official Image | Docker Hub</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PostgreSQL/" rel="tag"># PostgreSQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/07/10/wsl2-use-tc/" rel="prev" title="WSL2 自编译内核使用 tc qdisc">
+      <i class="fa fa-chevron-left"></i> WSL2 自编译内核使用 tc qdisc
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%BB%E5%BA%93-Master"><span class="nav-number">2.</span> <span class="nav-text">配置主库 Master</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%BB%8E%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">配置从库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E5%BA%93%E5%88%87%E6%8D%A2%E4%B8%BA%E4%B8%BB%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">从库切换为主库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">5.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhangheng"
+      src="/about/user.jpg">
+  <p class="site-author-name" itemprop="name">zhangheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhangheng18" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhangheng18" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhangheng.18@outlook.com" title="E-Mail → mailto:zhangheng.18@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://minifullc.github.io/" title="https:&#x2F;&#x2F;MiniFullC.github.io" rel="noopener" target="_blank">Musuc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://kexuecat.github.io/" title="https:&#x2F;&#x2F;kexuecat.github.io" rel="noopener" target="_blank">SkyMirror</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">130k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

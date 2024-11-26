@@ -6,7 +6,7 @@
   <link href="https://zhangheng18.github.io/atom.xml" rel="self"/>
   
   <link href="https://zhangheng18.github.io/"/>
-  <updated>2024-07-18T09:15:59.476Z</updated>
+  <updated>2024-11-26T13:14:27.426Z</updated>
   <id>https://zhangheng18.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PostgresSQL 16 主从架构</title>
+    <link href="https://zhangheng18.github.io/2024/11/16/pg-master-slave/"/>
+    <id>https://zhangheng18.github.io/2024/11/16/pg-master-slave/</id>
+    <published>2024-11-16T11:37:06.000Z</published>
+    <updated>2024-11-26T13:14:27.426Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;PostgreSQL 是一个功能强大的开源关系型数据库系统，基于16.0版本和docker 环境做一个主从架构配置。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="PostgreSQL" scheme="https://zhangheng18.github.io/categories/PostgreSQL/"/>
+    
+    
+    <category term="PostgreSQL" scheme="https://zhangheng18.github.io/tags/PostgreSQL/"/>
+    
+  </entry>
   
   <entry>
     <title>WSL2 自编译内核使用 tc qdisc</title>
@@ -413,24 +432,6 @@
     
     
     <category term="English" scheme="https://zhangheng18.github.io/tags/English/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL 8.0.16 安装配置(Arch Linux)</title>
-    <link href="https://zhangheng18.github.io/2019/07/06/mysql8/"/>
-    <id>https://zhangheng18.github.io/2019/07/06/mysql8/</id>
-    <published>2019-07-06T06:58:42.000Z</published>
-    <updated>2019-07-07T02:45:36.000Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;MySQL与MariaDB&quot;&gt;MySQL与MariaDB&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/zh-hans/MariaDB&quot;&gt;MariaDB&lt;/a&gt; 是 MySQL 的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。所以现在主流的 Linux 发行版基本都默认使用 MariaDB 作为默认的 MySQL 实现。ArchLinux 已经将Oracle的MySQL移至&lt;a href=&quot;https://aur.archlinux.org/packages/mysql/&quot;&gt;AUR&lt;/a&gt; 中。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="MySQL" scheme="https://zhangheng18.github.io/tags/MySQL/"/>
     
   </entry>
   
